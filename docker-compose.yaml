@@ -1,0 +1,10 @@
+services:
+  trade-exportscore-trp:
+    build:
+      context: .
+      target: production
+    image: trade-exportscore-trp
+    container_name: trade-exportscore-trp
+    environment:
+      APPINSIGHTS_CLOUDROLE: trade-exportscore-trp-local
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}

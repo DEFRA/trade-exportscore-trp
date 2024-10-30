@@ -1,0 +1,22 @@
+# This override file should be used when running this service in isolation
+# to provide dependencies and expose ports for local testing
+
+services:
+  trade-exportscore-trp:
+    build:
+      target: development
+    image: trade-exportscore-trp-development
+    container_name: trade-exportscore-trp-development
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    volumes:
+      - ./app:/home/node/app
+      - ./package.json:/home/node/package.json
+    networks:
+      - trade-exportscore-trp
+
+networks:
+  trade-exportscore-trp:
+    name: trade-exportscore-trp
+    driver: bridge
