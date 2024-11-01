@@ -1,4 +1,4 @@
-//const { sequelize } = require("../services/database-service");
+const { sequelize } = require("../services/database-service");
 const { StatusCodes } = require("http-status-codes");
 const logger = require("./../utilities/logger");
 const path = require("path");
@@ -10,7 +10,7 @@ module.exports = {
   options: {
     handler: async (_request, h) => {
       try {
-        //await sequelize.authenticate();
+        await sequelize.authenticate();
         return h.response("ok").code(StatusCodes.OK);
       } catch (err) {
         logger.logError(

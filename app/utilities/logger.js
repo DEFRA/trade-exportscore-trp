@@ -6,7 +6,7 @@
  */
 function logError(file_name, method, error) {
   console.error(
-    `Whilst running the '${method}' method in '${file_name}', the PLP application encounterd: ${error}`,
+    `Whilst running the '${method}' method in '${file_name}', the TRP application encounterd: ${error}`,
   );
 }
 
@@ -18,7 +18,7 @@ function logError(file_name, method, error) {
  */
 function logInfo(file_name, method, info_message) {
   console.info(
-    `Whilst running the '${method}' method in '${file_name}', the PLP application logged info: ${info_message}`,
+    `Whilst running the '${method}' method in '${file_name}', the TRP application logged info: ${info_message}`,
   );
 }
 

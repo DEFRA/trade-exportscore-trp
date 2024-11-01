@@ -1,0 +1,46 @@
+x-common-migration: &common-migration
+  SQL_HOST: ${SQL_HOST:-trade-exportscore-trp-sql}
+  SCHEMA_ROLE: ${SQL_SCHEMA_ROLE:-sa}
+  SCHEMA_USERNAME: ${SQL_SCHEMA_USERNAME:-sa}
+  SCHEMA_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
+  SCHEMA_NAME: ${SQL_SCHEMA_NAME:-public}
+
+x-common-sql: &common-sql
+  SQL_PORT: 1433
+  SQL_DB: ${SQL_DB:-eutd-trade-exports-core-trade-exportscore-trp}
+  SQL_PASSWORD: ${SQL_ADMIN_PASSWORD:-HiaNEA1V}
+  SQL_USERNAME: ${SQL_ADMIN_USERNAME:-sa}
+
+services:
+  database-up:
+    image: liquibase/liquibase:4.29.2
+    environment:
+      <<: [*common-sql, *common-migration]
+    entrypoint: >
+      sh -c "/scripts/migration/database-up $${SCHEMA_PASSWORD}"
+    depends_on:
+      - trade-exportscore-trp-sql
+    volumes:
+      - ./changelog:/liquibase/changelog
+      - ./scripts:/scripts
+
+  database-down:
+    image: liquibase/liquibase:4.29.2
+    environment:
+      <<: [*common-sql, *common-migration]
+    entrypoint: >
+      sh -c "/scripts/migration/database-down"
+    depends_on:
+      - trade-exportscore-trp-sql
+    volumes:
+      - ./changelog:/liquibase/changelog
+      - ./scripts:/scripts
+
+  trade-exportscore-trp-sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment: *common-sql
+    volumes:
+      - sql_data:/var/lib/sql/data
+
+volumes:
+  sql_data: {}

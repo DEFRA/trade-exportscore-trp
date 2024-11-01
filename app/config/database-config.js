@@ -32,19 +32,19 @@ const retry = {
 
 const dbConfig = {
   database:
-    process.env.POSTGRES_DB || "eutd-trade-exports-core-trade-exportscore-trp",
-  dialect: "postgres",
+    process.env.SQL_DB || "eutd-trade-exports-core-trade-exportscore-trp",
+  dialect: "mssql",
   dialectOptions: {
     ssl: isProd(),
   },
   hooks,
-  host: process.env.POSTGRES_HOST || "trade-exportscore-trp",
-  password: process.env.POSTGRES_PASSWORD,
-  port: process.env.POSTGRES_PORT,
-  logging: process.env.POSTGRES_LOGGING || false,
+  //host: process.env.SQL_HOST || "trade-exportscore-trp-sql",
+  password: process.env.SQL_PASSWORD,
+  port: process.env.SQL_PORT,
+  logging: process.env.SQL_LOGGING || false,
   retry,
-  schema: process.env.POSTGRES_SCHEMA_NAME || "public",
-  username: process.env.POSTGRES_USERNAME,
+  schema: process.env.SQL_SCHEMA_NAME || "public",
+  username: process.env.SQL_USERNAME,
 };
 
 const config = {};

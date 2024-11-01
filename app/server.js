@@ -1,20 +1,20 @@
 const hapi = require("@hapi/hapi");
 const config = require("./config");
-//const { sequelize } = require("./services/database-service");
+const { sequelize } = require("./services/database-service");
 const logger = require("./utilities/logger");
 const path = require("path");
 const filenameForLogging = path.join("app", __filename.split("app")[1]);
 
 async function createServer() {
-  // try {
-  //   await sequelize.authenticate();
-  // } catch (err) {
-  //   logger.logError(
-  //     filenameForLogging,
-  //     "createServer > sequelize.authenticate()",
-  //     err,
-  //   );
-  // }
+  try {
+    await sequelize.authenticate();
+  } catch (err) {
+    logger.logError(
+      filenameForLogging,
+      "createServer > sequelize.authenticate()",
+      err,
+    );
+  }
 
   let server;
   try {
