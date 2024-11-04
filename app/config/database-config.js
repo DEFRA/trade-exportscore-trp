@@ -32,13 +32,13 @@ const retry = {
 
 const dbConfig = {
   database:
-    process.env.SQL_DB || "eutd-trade-exports-core-trade-exportscore-trp",
+    "master",
   dialect: "mssql",
   dialectOptions: {
     ssl: isProd(),
   },
   hooks,
-  //host: process.env.SQL_HOST || "trade-exportscore-trp-sql",
+  host: process.env.SQL_HOST || "trade-exportscore-trp-sql",
   password: process.env.SQL_PASSWORD,
   port: process.env.SQL_PORT,
   logging: process.env.SQL_LOGGING || false,

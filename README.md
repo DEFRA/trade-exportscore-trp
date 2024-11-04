@@ -80,7 +80,6 @@ This service uses the [ADP Common Pipelines](https://github.com/DEFRA/adp-pipeli
 
 ### AppConfig - KeyVault References TODO: change
 
-
 ## Licence
 
 THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:

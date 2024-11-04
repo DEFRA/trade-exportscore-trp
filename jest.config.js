@@ -1,39 +1,31 @@
 const config = {
   collectCoverage: true,
-  collectCoverageFrom: [
-    '**/*.js',
-    '!**/*.test.js'
-  ],
-  coverageDirectory: 'test-output',
-  coverageReporters: [
-    'text-summary',
-    'lcov'
-  ],
+  collectCoverageFrom: ["**/*.js", "!**/*.test.js"],
+  coverageDirectory: "test-output",
+  coverageReporters: ["text-summary", "lcov"],
   coveragePathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-    '<rootDir>/test-output/',
-    '<rootDir>/test/',
-    '<rootDir>/rename.js',
-    '<rootDir>/jest.config.js'
+    "<rootDir>/node_modules/",
+    "<rootDir>/test-output/",
+    "<rootDir>/test/",
+    "<rootDir>/rename.js",
+    "<rootDir>/jest.config.js",
   ],
-  modulePathIgnorePatterns: [
-    'node_modules'
-  ],
+  modulePathIgnorePatterns: ["node_modules"],
   reporters: [
-    'default',
+    "default",
     [
-      'jest-junit',
+      "jest-junit",
       {
-        suiteName: 'jest tests',
-        outputDirectory: 'test-output',
-        outputName: 'junit.xml'
-      }
-    ]
+        suiteName: "jest tests",
+        outputDirectory: "test-output",
+        outputName: "junit.xml",
+      },
+    ],
   ],
-  testEnvironment: 'node',
+  testEnvironment: "node",
   testPathIgnorePatterns: [],
   verbose: true,
-  transform: {}
-}
+  transform: {},
+};
 
-export default config
+export default config;

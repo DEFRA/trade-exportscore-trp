@@ -13,10 +13,12 @@ services:
     volumes:
       - ./app:/home/node/app
       - ./package.json:/home/node/package.json
-    networks:
-      - trade-exportscore-trp
 
-networks:
-  trade-exportscore-trp:
-    name: trade-exportscore-trp
-    driver: bridge
+  trade-exportscore-trp-sql:
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/lib/sql/data
+
+volumes:
+  sql_data:

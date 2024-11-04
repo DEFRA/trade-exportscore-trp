@@ -16,3 +16,10 @@ services:
       - ./package.json:/home/node/package.json
     environment:
       NODE_OPTIONS: "$NODE_OPTIONS --experimental-vm-modules"
+
+  trade-exportscore-trp-sql:
+    volumes:
+      - sql_data:/var/lib/sql/data
+
+volumes:
+  sql_data:

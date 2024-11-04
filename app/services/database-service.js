@@ -17,7 +17,6 @@ function associateModels(sequelize) {
 
 module.exports = (() => {
   try {
-    console.log(dbConfig)
     const sequelize = new Sequelize(
       dbConfig.database,
       dbConfig.username,
