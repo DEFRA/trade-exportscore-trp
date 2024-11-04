@@ -3,6 +3,6 @@ echo "db update on $SQL_HOST $SCHEMA_NAME as $SCHEMA_USERNAME"
 /scripts/db-wait && /liquibase/liquibase \
 --driver=com.microsoft.sqlserver.jdbc.SQLServerDriver \
 --changeLogFile=/changelog/db.changelog.xml \
---url=jdbc:sqlserver://$SQL_HOST:$SQL_PORT/$SQL_DB \
+--url="jdbc:sqlserver://$SQL_HOST;encrypt=true;trustServerCertificate=true" \
 --username="$SCHEMA_USERNAME" --password="$SCHEMA_PASSWORD" --defaultSchemaName="$SCHEMA_NAME" \
 rollback v0.0.0

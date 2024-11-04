@@ -3,7 +3,7 @@ x-common-migration: &common-migration
   SCHEMA_ROLE: ${SQL_SCHEMA_ROLE:-sa}
   SCHEMA_USERNAME: ${SQL_SCHEMA_USERNAME:-sa}
   SCHEMA_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
-  SCHEMA_NAME: ${SQL_SCHEMA_NAME:-public}
+  SCHEMA_NAME: ${SQL_SCHEMA_NAME:-dbo}
 
 x-common-sql: &common-sql
   SQL_PORT: 1433
@@ -38,7 +38,10 @@ services:
 
   trade-exportscore-trp-sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    environment: *common-sql
+    environment:
+      <<: *common-sql
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${SQL_ADMIN_PASSWORD:-HiaNEA1V}"
     volumes:
       - sql_data:/var/lib/sql/data
 

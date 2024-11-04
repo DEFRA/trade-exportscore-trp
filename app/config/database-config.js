@@ -31,8 +31,7 @@ const retry = {
 };
 
 const dbConfig = {
-  database:
-    "master",
+  database: "master",
   dialect: "mssql",
   dialectOptions: {
     ssl: isProd(),
