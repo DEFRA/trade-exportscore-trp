@@ -10,7 +10,7 @@ services:
     environment:
       APPINSIGHTS_CLOUDROLE: trade-exportscore-trp-local
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
-      SQL_DB: eutd-trade-exports-core-trade-exportscore-trp
+      SQL_DB: master
       SQL_HOST: ${SQL_HOST:-trade-exportscore-trp-sql}
       SQL_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
       SQL_PORT: 1433

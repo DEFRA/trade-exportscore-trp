@@ -7,7 +7,7 @@ x-common-migration: &common-migration
 
 x-common-sql: &common-sql
   SQL_PORT: 1433
-  SQL_DB: ${SQL_DB:-eutd-trade-exports-core-trade-exportscore-trp}
+  SQL_DB: ${SQL_DB:-master}
   SQL_PASSWORD: ${SQL_ADMIN_PASSWORD:-HiaNEA1V}
   SQL_USERNAME: ${SQL_ADMIN_USERNAME:-sa}
 
