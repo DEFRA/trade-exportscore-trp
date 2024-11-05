@@ -1,14 +1,16 @@
-const config = {
+module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ["**/*.js", "!**/*.test.js"],
   coverageDirectory: "test-output",
-  coverageReporters: ["text-summary", "lcov"],
+  coverageReporters: ["text-summary", "cobertura", "lcov"],
   coveragePathIgnorePatterns: [
     "<rootDir>/node_modules/",
     "<rootDir>/test-output/",
     "<rootDir>/test/",
-    "<rootDir>/rename.js",
+    ".*/__mocks__/.*",
     "<rootDir>/jest.config.js",
+    "<rootDir>/jest.setup.js",
+    "<rootDir>/rename.js",
   ],
   modulePathIgnorePatterns: ["node_modules"],
   reporters: [
@@ -25,7 +27,4 @@ const config = {
   testEnvironment: "node",
   testPathIgnorePatterns: [],
   verbose: true,
-  transform: {},
 };
-
-export default config;
