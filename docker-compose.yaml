@@ -15,7 +15,7 @@ services:
       SQL_HOST: ${SQL_HOST:-trade-exportscore-trp-sql}
       SQL_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
       SQL_PORT: 1433
-      SQL_SCHEMA_NAME: ${SQL_SCHEMA_NAME:-public}
+      SQL_SCHEMA_NAME: ${SQL_SCHEMA_NAME:-dbo}
       SQL_USERNAME: ${SQL_SCHEMA_USERNAME:-sa}
 
   trade-exportscore-trp-sql:
