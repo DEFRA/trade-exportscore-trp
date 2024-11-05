@@ -1,0 +1,10 @@
+#!/bin/bash
+# Get the Password as parameter. This allows the script to be used when running db migration job in cluster.
+SCHEMA_PASSWORD=$1
+echo "db update on $SQL_HOST $SCHEMA_NAME as $SCHEMA_USERNAME"
+/scripts/db-wait && /liquibase/liquibase \
+--driver=com.microsoft.sqlserver.jdbc.SQLServerDriver \
+--changeLogFile=/changelog/db.changelog.xml \
+--url="jdbc:sqlserver://$SQL_HOST;encrypt=true;trustServerCertificate=true" \
+--username="$SCHEMA_USERNAME" --password="$SCHEMA_PASSWORD" --defaultSchemaName="$SCHEMA_NAME" \
+update

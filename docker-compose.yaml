@@ -1,0 +1,27 @@
+services:
+  trade-exportscore-trp:
+    build:
+      context: .
+      target: production
+    image: trade-exportscore-trp
+    restart: always
+    container_name: trade-exportscore-trp
+    depends_on:
+      - trade-exportscore-trp-sql
+    environment:
+      APPINSIGHTS_CLOUDROLE: trade-exportscore-trp-local
+      APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
+      SQL_DB: master
+      SQL_HOST: ${SQL_HOST:-trade-exportscore-trp-sql}
+      SQL_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
+      SQL_PORT: 1433
+      SQL_SCHEMA_NAME: ${SQL_SCHEMA_NAME:-dbo}
+      SQL_USERNAME: ${SQL_SCHEMA_USERNAME:-sa}
+
+  trade-exportscore-trp-sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
