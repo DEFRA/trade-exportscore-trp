@@ -9,11 +9,9 @@
 
 The application is designed to run in containerised environments, using Docker Compose in development and ACA in production.
 
-- A Helm chart is provided for production deployments to Kubernetes. TODO: replace
-
 ### Build container image
 
-Container images are built using Docker Compose, with the same images used to run the service with either Docker Compose or Kubernetes TODO: change.
+Container images are built using Docker Compose.
 
 When using the Docker Compose files in development the local `app` folder will
 be mounted on top of the `app` folder within the Docker container, hiding the CSS files that were generated during the Docker build. For the site to render correctly locally `npm run build` must be run on the host system.
@@ -78,9 +76,7 @@ After much _fun_, please refer to the [Debugging](./debugging.md) file for infor
 
 ## CI & CD Pipeline
 
-This service uses the [ADP Common Pipelines](https://github.com/DEFRA/adp-pipeline-common) for Builds and Deployments. TODO: change
-
-### AppConfig - KeyVault References TODO: change
+This service uses the DEFRA/ado-pipeline-common for Builds and Deployments.
 
 ## Licence
 
