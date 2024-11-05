@@ -18,8 +18,9 @@ services:
       NODE_OPTIONS: "$NODE_OPTIONS --experimental-vm-modules"
 
   trade-exportscore-trp-sql:
+    user: root
     volumes:
-      - sql_data:/var/lib/sql/data
+      - sql_data:/var/opt/mssql/data
 
 volumes:
   sql_data:

@@ -4,6 +4,7 @@ services:
       context: .
       target: production
     image: trade-exportscore-trp
+    restart: always
     container_name: trade-exportscore-trp
     depends_on:
       - trade-exportscore-trp-sql

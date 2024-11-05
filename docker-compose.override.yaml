@@ -6,6 +6,7 @@ services:
     build:
       target: development
     image: trade-exportscore-trp-development
+    restart: always
     container_name: trade-exportscore-trp-development
     ports:
       - "3000:3000"
@@ -15,10 +16,11 @@ services:
       - ./package.json:/home/node/package.json
 
   trade-exportscore-trp-sql:
+    user: root
     ports:
       - "1433:1433"
     volumes:
-      - sql_data:/var/lib/sql/data
+      - sql_data:/var/opt/mssql/data
 
 volumes:
   sql_data:

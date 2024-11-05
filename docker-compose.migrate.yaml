@@ -38,12 +38,13 @@ services:
 
   trade-exportscore-trp-sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
     environment:
       <<: *common-sql
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "${SQL_ADMIN_PASSWORD:-HiaNEA1V}"
+      MSSQL_SA_PASSWORD: "${SQL_ADMIN_PASSWORD:-HiaNEA1V}"
     volumes:
-      - sql_data:/var/lib/sql/data
+      - sql_data:/var/opt/mssql/data
 
 volumes:
   sql_data: {}
