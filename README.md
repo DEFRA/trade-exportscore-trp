@@ -32,12 +32,14 @@ docker-compose build
 
 Use Docker Compose to run service locally.
 
-- run migrations
-  - `docker-compose -f docker-compose.migrate.yaml run --rm database-up`
+- run db migrations up
+  - `make db-up`
+- run db migrations down
+  - `make db-down`
 - start
-  - `docker-compose up`
+  - `make app-up`
 - stop
-  - `docker-compose down` or CTRL-C
+  - `make app-down` or CTRL-C
 
 ## Test structure
 
