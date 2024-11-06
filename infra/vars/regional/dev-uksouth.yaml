@@ -1,6 +1,0 @@
-variables:
-  regionNumber: 4
-  location: uksouth
-
-# KEYVAULT
-  keyVaultName: $(secEnvironment)$(project)$(environment)$(nc-resource-keyvault)$(subscriptionNumber)$(regionNumber)01

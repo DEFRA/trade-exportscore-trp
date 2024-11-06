@@ -1,20 +1,16 @@
 variables:
-  # TAGS TODO: check these
-  serviceCodeTag: TRP
-  serviceNameTag: Trader Risk Profile
-  serviceTypeTag: LOB
-  createdDateTag: 20240611
-  secEnvironment: SEC
+  # TAGS
+  serviceCodeTag: EXP
+  serviceNameTag: EUX Exports
+  serviceTypeTag: LOB # TODO
+  createdDateTag: 20241106
+
+  # SERVICE NAME
+  service: EXP
 
   # RESOURCE NAMING CONVENTIONS
-  nc-function-network: NET
-  nc-function-infrastructure: INF
-
-  nc-resource-appgateway: AG
-  nc-resource-publicip: PU
-  nc-resource-subnet: SU
-  nc-resource-virtualnetwork: VN
-  nc-resource-nsg: NS
   nc-resource-resourcegroup: RG
   nc-resource-keyvault: KV
-  nc-resource-loganalytics: WS
+
+  # ROLE COLE
+  nc-role-infra: INF

@@ -1,0 +1,9 @@
+variables:
+  regionNumber: 4
+  environment: SND
+  subscriptionNumber: 1
+
+  # KEYVAULT
+  keyVaultName: $(environment)$(service)$(nc-role-infra)$(nc-resource-keyvault)$(subscriptionNumber)$(regionNumber)01
+
+  infraResourceGroup: $(environment)$(service)$(nc-role-infra)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01

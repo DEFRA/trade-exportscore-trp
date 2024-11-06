@@ -1,0 +1,53 @@
+name: $(BuildID)
+
+parameters:
+  - name: deployFromFeature
+    displayName: "Deploy from Feature Branch"
+    type: boolean
+    default: false
+
+trigger: none
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA/ado-pipeline-common
+      endpoint: DEFRA
+      type: github
+      ref: refs/tags/1.0.0-latest
+
+extends:
+  template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
+  parameters:
+    deployFromFeature: ${{ parameters.deployFromFeature }}
+    privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+    variableFiles:
+      - /vars/common.yaml@self
+      - /vars/{environment}.yaml@self
+    regionalVariableFiles:
+      - /vars/regional/{environment}-{region}.yaml@self
+    groupedDeployments:
+      - name: TRP
+        deployments:
+          - name: key-vault
+            path: infra\key-vault
+            type: bicep
+            scope: "Resource Group"
+            resourceGroupName: $(infraResourceGroup)
+    environments:
+      - name: DEV1
+        serviceConnection: AZD-EXP-DEV1
+        deploymentBranches:
+          - "refs/heads/main"
+        developmentEnvironment: true
+        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+        azureRegions:
+          primary: "UKSouth"
+      - name: SND1
+        serviceConnection: AZD-EXP-SND1
+        deploymentBranches:
+          - "refs/heads/main"
+        developmentEnvironment: true
+        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+        azureRegions:
+          primary: "UKSouth"

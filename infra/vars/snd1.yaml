@@ -1,0 +1,14 @@
+variables:
+  regionNumber: 4
+  environment: SND
+  subscriptionNumber: 1
+
+  # KEYVAULT
+  vaultSku: Standard
+  servicePrincipalObjectId: 5e20d307-083f-4455-9e53-4909cf763110 # TODO
+
+  # SERVICE CONNECTION
+  azureResourceManagerConnection: AZR-EXP-SND1
+  azureSubscription: AZR-EXP-DEV1
+  subscriptionId: c90161c2-e11d-4a5e-9033-827da188b2ad
+  tenantId: 770a2450-0227-4c62-90c7-4e38537f1102 # TODO
