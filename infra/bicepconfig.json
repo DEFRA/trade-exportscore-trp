@@ -1,0 +1,10 @@
+{
+  "moduleAliases": {
+    "br": {
+      "avm": {
+        "registry": "mcr.microsoft.com",
+        "modulePath": "bicep/avm/res"
+      }
+    }
+  }
+}
