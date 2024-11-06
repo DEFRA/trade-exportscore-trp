@@ -7,8 +7,8 @@ jest.mock("@azure/identity");
 describe("database config", () => {
   beforeEach(() => {
     process.env.NODE_ENV = production;
-    process.env.POSTGRES_PASSWORD = "test";
-    process.env.POSTGRES_USERNAME = "test";
+    process.env.SQL_PASSWORD = "test";
+    process.env.SQL_USERNAME = "test";
     process.env.AZURE_CLIENT_ID = "test-client-id";
 
     const mockToken = { token: "test" };
