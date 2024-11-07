@@ -2,7 +2,7 @@ variables:
   # TAGS
   serviceCodeTag: EXP
   serviceNameTag: EUX Exports
-  serviceTypeTag: LOB # TODO
+  serviceTypeTag: LOB
   createdDateTag: 20241106
 
   # SERVICE NAME

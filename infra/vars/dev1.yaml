@@ -5,7 +5,7 @@ variables:
 
   # KEYVAULT
   vaultSku: Standard
-  servicePrincipalObjectId: 5e20d307-083f-4455-9e53-4909cf763110 # TODO
+  servicePrincipalObjectId: xxx # TODO
 
   # SERVICE CONNECTION
   azureResourceManagerConnection: AZR-EXP-DEV1
