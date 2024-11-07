@@ -50,12 +50,6 @@ param accessPolicies = [
   }
 ]
 
-param enabledForDeployment = false
-
-param enabledForTemplateDeployment = true
-
-param enabledForDiskEncryption = false
-
 param environmentTag = '#{{ environment }}'
 
 param serviceCodeTag = '#{{ serviceCodeTag }}'

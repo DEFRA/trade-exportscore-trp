@@ -10,9 +10,6 @@ param location string = resourceGroup().location
 ])
 param vaultSku string
 param accessPolicies array = []
-param enabledForDeployment bool
-param enabledForTemplateDeployment bool
-param enabledForDiskEncryption bool
 param environmentTag string
 param serviceCodeTag string
 param serviceNameTag string
@@ -33,11 +30,6 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
       ServiceType: serviceTypeTag
       CreatedDate: createdDateTag
     }
-    enablePurgeProtection: false
-    enableRbacAuthorization: false
-    enableVaultForDiskEncryption: enabledForDiskEncryption
-    enableVaultForDeployment: enabledForDeployment
-    enableVaultForTemplateDeployment: enabledForTemplateDeployment
     sku: vaultSku
     location: location
     accessPolicies: accessPolicies
