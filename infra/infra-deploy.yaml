@@ -43,11 +43,11 @@ extends:
         privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
         azureRegions:
           primary: "UKSouth"
-      - name: SND1
-        serviceConnection: AZD-EXP-SND1
-        deploymentBranches:
-          - "refs/heads/main"
-        developmentEnvironment: true
-        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
-        azureRegions:
-          primary: "UKSouth"
+      # - name: SND1
+      #   serviceConnection: AZD-EXP-SND1
+      #   deploymentBranches:
+      #     - "refs/heads/main"
+      #   developmentEnvironment: true
+      #   privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+      #   azureRegions:
+      #     primary: "UKSouth"
