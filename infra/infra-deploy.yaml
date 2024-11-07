@@ -36,7 +36,7 @@ extends:
             resourceGroupName: $(infraResourceGroup)
     environments:
       - name: DEV1
-        serviceConnection: AZD-EXP-DEV1
+        serviceConnection: AZR-EXP-DEV1
         deploymentBranches:
           - "refs/heads/main"
         developmentEnvironment: true
@@ -44,7 +44,7 @@ extends:
         azureRegions:
           primary: "UKSouth"
       # - name: SND1
-      #   serviceConnection: AZD-EXP-SND1
+      #   serviceConnection: AZR-EXP-SND1
       #   deploymentBranches:
       #     - "refs/heads/main"
       #   developmentEnvironment: true
