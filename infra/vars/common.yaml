@@ -11,6 +11,15 @@ variables:
   # RESOURCE NAMING CONVENTIONS
   nc-resource-resourcegroup: RG
   nc-resource-keyvault: KV
+  nc-resource-virtualnetwork: VN
+  nc-resource-database: SQ
+  nc-resource-privateendpoint: PE
+  nc-resource-subnet: SU
 
-  # ROLE COLE
+  # ROLE CODE
   nc-role-infra: INF
+  nc-role-network: NET
+  nc-role-database: DBS
+
+  # DATABASE
+  databaseName: 'trade-exportscore-trp'

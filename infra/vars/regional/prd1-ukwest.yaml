@@ -5,5 +5,14 @@ variables:
 
   # KEYVAULT
   keyVaultName: $(environment)$(service)$(nc-role-infra)$(nc-resource-keyvault)$(subscriptionNumber)$(regionNumber)01
+  keyVaultPrivateEndpointName: $(environment)$(service)$(nc-role-infra)$(nc-resource-privateendpoint)$(subscriptionNumber)$(regionNumber)01
+
+  # DATABASE
+  serverName: $(environment)$(service)$(nc-role-database)$(nc-resource-database)$(subscriptionNumber)$(regionNumber)01
+
+  # NETWORK
+  vnetResourceGroup: $(environment)$(service)$(nc-role-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01
+  vnetName: $(environment)$(service)$(nc-role-network)$(nc-resource-virtualnetwork)$(subscriptionNumber)$(regionNumber)01
+  subnetPrivateEndpoints: $(environment)$(service)$(nc-role-network)$(nc-resource-subnet)$(subscriptionNumber)$(regionNumber)XX #TODO: replace XX
 
   infraResourceGroup: $(environment)$(service)$(nc-role-infra)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01

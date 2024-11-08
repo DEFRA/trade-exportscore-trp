@@ -4,7 +4,7 @@ variables:
   subscriptionNumber: 1
 
   # KEYVAULT
-  vaultSku: Standard
+  keyVaultSku: Standard
   servicePrincipalObjectId: a4edf622-b4a6-4f58-80ea-44b05b0f05b0
 
   # SERVICE CONNECTION

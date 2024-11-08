@@ -1,8 +1,16 @@
 using './key-vault.bicep'
 
-param keyVaultName = '#{{ keyVaultName }}'
+param keyVault = {
+  name: '#{{ keyVaultName }}'
+  sku: '#{{ keyVaultSku }}'
+  privateEndpointName: '#{{ keyVaultPrivateEndpointName }}'
+}
 
-param vaultSku = '#{{ vaultSku }}'
+param vnet = {
+  name: '#{{ vnetName }}'
+  resourceGroup: '#{{ vnetResourceGroup }}'
+  subnetPrivateEndpoints: '#{{ subnetPrivateEndpoints }}'
+}
 
 param accessPolicies = [
   {
