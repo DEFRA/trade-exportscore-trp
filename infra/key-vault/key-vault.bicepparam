@@ -9,8 +9,10 @@ param keyVault = {
 param vnet = {
   name: '#{{ vnetName }}'
   resourceGroup: '#{{ vnetResourceGroup }}'
-  subnetPrivateEndpoints: '#{{ subnetPrivateEndpoints }}'
+  peSubnet: '#{{ subnetPrivateEndpoints }}'
 }
+
+param databaseAdmin = '#{{ databaseAdmin }}'
 
 param accessPolicies = [
   {

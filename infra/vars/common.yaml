@@ -23,3 +23,4 @@ variables:
 
   # DATABASE
   databaseName: 'trade-exportscore-trp'
+  databaseAdmin: 'database-admin-password'

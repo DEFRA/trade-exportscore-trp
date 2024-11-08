@@ -1,6 +1,7 @@
 param keyVault object
 param vnet object
 param location string = resourceGroup().location
+param databaseAdmin string
 
 param accessPolicies array = []
 param environmentTag string
@@ -8,6 +9,13 @@ param serviceCodeTag string
 param serviceNameTag string
 param serviceTypeTag string
 param createdDateTag string
+
+resource network 'Microsoft.Network/virtualNetworks@2024-01-01' existing = {
+  name: vnet.name
+  resource privateEndpointsSubnet 'subnets' existing = {
+    name: vnet.peSubnet
+  }
+}
 
 module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
   name: 'vaultDeployment'
@@ -29,7 +37,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
     privateEndpoints: [{
       name: keyVault.privateEndpointName
       service: 'vault'
-      subnetResourceId: resourceId(vnet.resourceGroup, 'Microsoft.Network/virtualNetworks/subnets', vnet.name, vnet.subnetPrivateEndpoints)
+      subnetResourceId: network::privateEndpointsSubnet.id
       privateLinkServiceConnectionName: keyVault.privateEndpointName
       tags: {
         Name: keyVault.privateEndpointName
@@ -42,5 +50,11 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
         CreatedDate: createdDateTag
       }
     }]
+    secrets: [
+      {
+        name: databaseAdmin
+        value: uniqueString(resourceGroup().id)
+      }
+    ]
   }
 }

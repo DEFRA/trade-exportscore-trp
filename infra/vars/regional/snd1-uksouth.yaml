@@ -9,6 +9,7 @@ variables:
 
   # DATABASE
   serverName: $(environment)$(service)$(nc-role-database)$(nc-resource-database)$(subscriptionNumber)$(regionNumber)01
+  serverPrivateEndpointName: $(environment)$(service)$(nc-role-database)$(nc-resource-privateendpoint)$(subscriptionNumber)$(regionNumber)01
 
   # NETWORK
   vnetResourceGroup: $(environment)$(service)$(nc-role-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01
