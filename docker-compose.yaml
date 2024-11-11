@@ -7,21 +7,20 @@ services:
     restart: always
     container_name: trade-exportscore-trp
     depends_on:
-      - trade-exportscore-trp-sql
+      - trade-exportscore-trp-postgres
     environment:
       APPINSIGHTS_CLOUDROLE: trade-exportscore-trp-local
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
-      SQL_DB: master
-      SQL_HOST: ${SQL_HOST:-trade-exportscore-trp-sql}
-      SQL_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
-      SQL_PORT: 1433
-      SQL_SCHEMA_NAME: ${SQL_SCHEMA_NAME:-dbo}
-      SQL_USERNAME: ${SQL_SCHEMA_USERNAME:-sa}
+      POSTGRES_DB: eutd-trade-exports-core-trade-exportscore-trp
+      POSTGRES_HOST: ${POSTGRES_HOST:-trade-exportscore-trp-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-HiaNEA1V}
+      POSTGRES_PORT: 5432
+      POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
+      POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
 
-  trade-exportscore-trp-sql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    ports:
-      - 1433:1433
+  trade-exportscore-trp-postgres:
+    image: postgres:11.4-alpine
     environment:
-      ACCEPT_EULA: Y
-      MSSQL_SA_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
+      POSTGRES_DB: eutd-trade-exports-core-trade-exportscore-trp
+      POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-HiaNEA1V}
+      POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}

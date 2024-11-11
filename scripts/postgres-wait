@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "waiting for db $SQL_HOST:$SQL_PORT"
+echo "waiting for postgres $POSTGRES_HOST:$POSTGRES_PORT"
 response=''
 max_tries=15
 count=0
@@ -10,12 +10,12 @@ do
     echo "db did not respond in time"
     exit 1
   fi
-  response=$(wget -SO- -T 1 -t 1 http://$SQL_HOST:$SQL_PORT 2>&1 | grep 'No data received')
+  response=$(wget -SO- -T 1 -t 1 http://$POSTGRES_HOST:$POSTGRES_PORT 2>&1 | grep 'No data received')
   if [ "$response" ]; then
-    echo "db server available"
+    echo "postgres server available"
     break
   fi
   printf '.'
   sleep 2
 done
-echo db started
+echo postgres started
