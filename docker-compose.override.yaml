@@ -15,12 +15,11 @@ services:
       - ./app:/home/node/app
       - ./package.json:/home/node/package.json
 
-  trade-exportscore-trp-sql:
-    user: root
+  trade-exportscore-trp-postgres:
     ports:
-      - "1433:1433"
+      - "5432:5432"
     volumes:
-      - sql_data:/var/opt/mssql/data
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  sql_data:
+  postgres_data:

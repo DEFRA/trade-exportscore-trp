@@ -7,7 +7,7 @@ jest.mock("../../../app/config", () => {
         username: "sa",
         password: "<PASSWORD>",
         host: "localhost",
-        dialect: "mssql",
+        dialect: "postgres",
         hooks: {
           beforeConnect: jest.fn(),
         },
@@ -25,10 +25,10 @@ jest.mock("../../../app/config", () => {
       },
       production: {
         database: "production",
-        username: "sql",
+        username: "postgres",
         password: "<PASSWORD>",
         host: "localhost",
-        dialect: "mssql",
+        dialect: "postgres",
         hooks: {
           beforeConnect: jest.fn(),
         },
@@ -46,10 +46,10 @@ jest.mock("../../../app/config", () => {
       },
       test: {
         database: "test",
-        username: "sql",
+        username: "postgres",
         password: "<PASSWORD>",
         host: "localhost",
-        dialect: "mssql",
+        dialect: "postgres",
         hooks: {
           beforeConnect: jest.fn(),
         },
