@@ -8,6 +8,8 @@ services:
     image: trade-exportscore-trp-development
     container_name: trade-exportscore-trp-test
     command: npm run test
+    depends_on:
+      - trade-exportscore-trp-postgres
     volumes:
       - ./app:/home/node/app
       - ./test:/home/node/test
@@ -17,10 +19,9 @@ services:
     environment:
       NODE_OPTIONS: "$NODE_OPTIONS --experimental-vm-modules"
 
-  trade-exportscore-trp-sql:
-    user: root
+  trade-exportscore-trp-postgres:
     volumes:
-      - sql_data:/var/opt/mssql/data
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  sql_data:
+  postgres_data:

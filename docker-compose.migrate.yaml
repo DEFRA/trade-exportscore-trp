@@ -1,25 +1,25 @@
 x-common-migration: &common-migration
-  SQL_HOST: ${SQL_HOST:-trade-exportscore-trp-sql}
-  SCHEMA_ROLE: ${SQL_SCHEMA_ROLE:-sa}
-  SCHEMA_USERNAME: ${SQL_SCHEMA_USERNAME:-sa}
-  SCHEMA_PASSWORD: ${SQL_SCHEMA_PASSWORD:-HiaNEA1V}
-  SCHEMA_NAME: ${SQL_SCHEMA_NAME:-dbo}
+  POSTGRES_HOST: ${POSTGRES_HOST:-trade-exportscore-trp-postgres}
+  SCHEMA_ROLE: ${POSTGRES_SCHEMA_ROLE:-postgres}
+  SCHEMA_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
+  SCHEMA_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-HiaNEA1V}
+  SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
 
-x-common-sql: &common-sql
-  SQL_PORT: 1433
-  SQL_DB: ${SQL_DB:-master}
-  SQL_PASSWORD: ${SQL_ADMIN_PASSWORD:-HiaNEA1V}
-  SQL_USERNAME: ${SQL_ADMIN_USERNAME:-sa}
+x-common-postgres: &common-postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: ${POSTGRES_DB:-eutd-trade-exports-core-trade-exportscore-trp}
+  POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:-HiaNEA1V}
+  POSTGRES_USERNAME: ${POSTGRES_ADMIN_USERNAME:-postgres}
 
 services:
   database-up:
     image: liquibase/liquibase:4.29.2
     environment:
-      <<: [*common-sql, *common-migration]
+      <<: [*common-postgres, *common-migration]
     entrypoint: >
       sh -c "/scripts/migration/database-up $${SCHEMA_PASSWORD}"
     depends_on:
-      - trade-exportscore-trp-sql
+      - trade-exportscore-trp-postgres
     volumes:
       - ./changelog:/liquibase/changelog
       - ./scripts:/scripts
@@ -27,24 +27,20 @@ services:
   database-down:
     image: liquibase/liquibase:4.29.2
     environment:
-      <<: [*common-sql, *common-migration]
+      <<: [*common-postgres, *common-migration]
     entrypoint: >
       sh -c "/scripts/migration/database-down"
     depends_on:
-      - trade-exportscore-trp-sql
+      - trade-exportscore-trp-postgres
     volumes:
       - ./changelog:/liquibase/changelog
       - ./scripts:/scripts
 
-  trade-exportscore-trp-sql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    user: root
-    environment:
-      <<: *common-sql
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "${SQL_ADMIN_PASSWORD:-HiaNEA1V}"
+  trade-exportscore-trp-postgres:
+    image: postgres:11.4-alpine
+    environment: *common-postgres
     volumes:
-      - sql_data:/var/opt/mssql/data
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  sql_data: {}
+  postgres_data: {}
