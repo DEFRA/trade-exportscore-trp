@@ -25,7 +25,7 @@ trigger:
     - test/*
 
 extends:
-  template: /container-app-build.yaml@self
+  template: container-app-build.yaml@self
   parameters:
     forceDevDeploy: ${{ parameters.forceDevDeploy }}
     deployToSecondary: ${{ parameters.deployToSecondary }}
