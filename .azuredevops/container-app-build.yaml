@@ -48,13 +48,13 @@ stages:
             displayName: Install pngquant-bin
             inputs:
               script: npm install pngquant-bin
-          - ${{ if eq(parameters.runSonarScan, true) }}:
-              - task: SonarCloudPrepare@2
-                displayName: "Prepare analysis on SonarCloud"
-                inputs:
-                  SonarCloud: "DEFRA SonarCloud"
-                  organization: defra
-                  scannerMode: "CLI"
+          # - ${{ if eq(parameters.runSonarScan, true) }}:
+          #     - task: SonarCloudPrepare@2
+          #       displayName: "Prepare analysis on SonarCloud"
+          #       inputs:
+          #         SonarCloud: "DEFRA SonarCloud"
+          #         organization: defra
+          #         scannerMode: "CLI"
 
           - task: Npm@1
             displayName: NPM Install
