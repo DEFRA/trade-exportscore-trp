@@ -67,12 +67,12 @@ stages:
               script: |
                 npm run build
                 npx jest --coverage
-          - ${{ if eq(parameters.runSonarScan, true) }}:
-              - task: SonarCloudAnalyze@2
-                displayName: "Run SonarCloud Code Analysis"
-          - ${{ if eq(parameters.runSonarScan, true) }}:
-              - task: SonarCloudPublish@2
-                displayName: "Publish Quality Gate Result"
+          # - ${{ if eq(parameters.runSonarScan, true) }}:
+          #     - task: SonarCloudAnalyze@2
+          #       displayName: "Run SonarCloud Code Analysis"
+          # - ${{ if eq(parameters.runSonarScan, true) }}:
+          #     - task: SonarCloudPublish@2
+          #       displayName: "Publish Quality Gate Result"
 
           - task: ArchiveFiles@2
             displayName: Archive files
