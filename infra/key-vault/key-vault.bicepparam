@@ -12,8 +12,6 @@ param vnet = {
   peSubnet: '#{{ subnetPrivateEndpoints }}'
 }
 
-param databaseAdmin = '#{{ databaseAdmin }}'
-
 param accessPolicies = [
   {
     tenantId: '#{{ tenantId }}'

@@ -1,7 +1,6 @@
 param keyVault object
 param vnet object
 param location string = resourceGroup().location
-param databaseAdmin string
 
 param accessPolicies array = []
 param environmentTag string
@@ -50,11 +49,5 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
         CreatedDate: createdDateTag
       }
     }]
-    secrets: [
-      {
-        name: databaseAdmin
-        value: uniqueString(resourceGroup().id)
-      }
-    ]
   }
 }
