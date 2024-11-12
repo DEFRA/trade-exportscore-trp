@@ -30,11 +30,6 @@ parameters:
 
 stages:
   - stage: Validate
-    variables:
-      - template: ./infra/vars/dev1.yaml
-      - template: ./infra/vars/common.yaml
-      - name: Environment.Name
-        value: DEV
     pool:
       name: DEFRA-COMMON-ubuntu2004-SSV3
     jobs:
