@@ -1,89 +1,31 @@
 parameters:
   - name: forceDevDeploy
-    displayName: Force deployment to DEV
+    displayName: "Force deployment to DEV"
     type: boolean
     default: false
-  - name: environments
-    type: object
-    default:
-      - 'dev'
-      - 'snd'
-      - 'pre'
-      - 'prd'
   - name: deployToSecondary
+    displayName: "Select Secondary Region"
     type: string
-    default: ''
-  - name: azureRegions
-    type: object
-    default:
-    - 'UKSouth'
-    - 'UKWest'
-  - name: appSettingsEnv
-    type: object
-    default: []
-  - name: runSonarScan
-    type: boolean
-    default: true
-  - name: sonarExclusionPaths
-    type: string
-    default: ''
-  - name: appName
-    type: string
-stages:
-- stage: Validate
-  variables:
-    - template: ./infra/vars/dev1.yaml
-    - template: ./infra/vars/common.yaml
-    - name: Environment.Name
-      value: DEV
-  pool:
-    name: DEFRA-COMMON-ubuntu2004-SSV3
-  jobs:
-  - job: Build
-    steps:
-    - checkout: self
-      clean: true
-      fetchTags: false
+    default: PRD
+    values:
+      - None
+      - DEV
+      - SND
+      - PRE
+      - PRD
 
-    - task: CmdLine@2
-      displayName: Install libimagequant-dev
-      inputs:
-        script: sudo apt install libimagequant-dev  
+trigger:
+  batch: true
+  branches:
+    include:
+    - 'main'
+  paths:
+    include:
+    - app/*
+    - test/*
 
-    - task: CmdLine@2
-      displayName: Install pngquant-bin
-      inputs:
-        script: npm install pngquant-bin
-    - ${{ if eq(parameters.runSonarScan, true) }}:
-      - task: SonarCloudPrepare@2
-        displayName: 'Prepare analysis on SonarCloud'
-        inputs:
-          SonarCloud: 'DEFRA SonarCloud'
-          organization: defra
-          scannerMode: 'CLI'
-
-    - task: Npm@1
-      displayName: NPM Install
-      inputs:
-        verbose: false
-
-    - task: CmdLine@2
-      displayName: NPM Build
-      inputs:
-        script: |
-          npm run build
-          npx jest --coverage
-    - ${{ if eq(parameters.runSonarScan, true) }}:
-      - task: SonarCloudAnalyze@2
-        displayName: 'Run SonarCloud Code Analysis'
-    - ${{ if eq(parameters.runSonarScan, true) }}:
-      - task: SonarCloudPublish@2
-        displayName: 'Publish Quality Gate Result'
-
-    - task: ArchiveFiles@2
-      displayName: Archive files
-      inputs:
-        rootFolderOrFile: $(System.DefaultWorkingDirectory)
-        includeRootFolder: false
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
+extends:
+  template: /container-app-build.yaml@self
+  parameters:
+    forceDevDeploy: ${{ parameters.forceDevDeploy }}
+    deployToSecondary: ${{ parameters.deployToSecondary }}
