@@ -1,6 +1,6 @@
 {
   "name": "trade-exportscore-trp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "app/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "pretest": "npm run test:lint",
     "test": "jest --runInBand --forceExit",
     "test:watch": "jest --coverage=false --onlyChanged --watch --runInBand",
-    "test:lint": "prettier . --write",
+    "test:lint": "prettier . --check .",
     "test:debug": "node --inspect-brk=0.0.0.0 ./node_modules/jest/bin/jest.js --coverage=false --onlyChanged --watch --runInBand --no-cache",
     "test:unit": "jest --testPathPattern=test/unit --runInBand",
     "test:unit-watch": "jest --testPathPattern=test/unit --coverage=false --onlyChanged --watch",
@@ -27,6 +27,7 @@
     "http-status-codes": "^2.3.0",
     "import-local": "^3.1.0",
     "joi": "^17.13.1",
+    "pg": "^8.13.1",
     "sequelize": "^6.37.3",
     "tedious": "^19.0.0"
   },
