@@ -44,6 +44,7 @@ extends:
         azureRegions:
           primary: "UKSouth"
       - name: SND1
+        dependsOn: DEV1
         serviceConnection: AZR-EXP-SND1
         deploymentBranches:
           - "refs/heads/main"
@@ -51,16 +52,22 @@ extends:
         azureRegions:
           primary: "UKSouth"
       - name: PRE1
+        dependsOn: SND1
         serviceConnection: AZR-EXP-PRE1
         deploymentBranches:
           - "refs/heads/main"
         privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV5"
         azureRegions:
           primary: "UKSouth"
+          secondary:
+            - 'UKWest'
       - name: PRD1
+        dependsOn: PRE1
         serviceConnection: AZR-EXP-PRD1
         deploymentBranches:
           - "refs/heads/main"
         privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV5"
         azureRegions:
           primary: "UKSouth"
+          secondary:
+            - 'UKWest'
