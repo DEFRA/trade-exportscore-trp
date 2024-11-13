@@ -56,8 +56,6 @@ stages:
               command: custom
               customCommand: 'ci --legacy-peer-deps'
               verbose: false
-              customRegistry: useFeed
-              customFeed: defra-devops-common
                     
           - task: Npm@1
             displayName: 'npm audit'
