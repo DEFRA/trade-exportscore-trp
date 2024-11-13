@@ -39,15 +39,6 @@ stages:
             clean: true
             fetchTags: false
 
-          - task: NodeTool@1
-            displayName: 'Use Node 10.x '
-            inputs:
-              version: 10.x
-
-          - bash: |
-              echo "##vso[task.setvariable variable=COOKIE_PASSWORD;]$RANDOM"
-            displayName: 'Generate Random COOKIE_PASSWORD for test'
-
           - task: Npm@1
             displayName: NPM Install
             inputs:
