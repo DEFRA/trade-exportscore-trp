@@ -44,15 +44,9 @@ resources:
       type: github
       ref: refs/heads/main
 
-stages:
-  - stage: Validate
-    pool:
-      name: DEFRA-COMMON-ubuntu2004-SSV3
-    jobs:
-      - job: Build
-        steps:
-          - template: /templates/steps/nodejs-build.yaml@DEFRA-ADPPipelineCommon
-            parameters:
-              frameworkVersion: 6.x
-              failOnThreshold: high
-              packageFeedName: defra-devops-common
+extends:
+  - template: /templates/steps/nodejs-build.yaml@DEFRA-ADPPipelineCommon
+    parameters:
+      frameworkVersion: 6.x
+      failOnThreshold: high
+      packageFeedName: defra-devops-common
