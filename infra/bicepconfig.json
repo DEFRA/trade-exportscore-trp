@@ -5,6 +5,10 @@
         "registry": "ssvcdoinfcr3401.azurecr.io",
         "modulePath": "bicep/modules"
       },
+      "commonRegistry": {
+        "registry": "ssvcdoinfcr3401.azurecr.io",
+        "modulePath": "bicep/common"
+      },
       "avm": {
         "registry": "mcr.microsoft.com",
         "modulePath": "bicep/avm/res"

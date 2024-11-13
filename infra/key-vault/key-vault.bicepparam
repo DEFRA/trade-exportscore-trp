@@ -1,16 +1,25 @@
 using './key-vault.bicep'
 
-param keyVault = {
-  name: '#{{ keyVaultName }}'
-  sku: '#{{ keyVaultSku }}'
-  privateEndpointName: '#{{ keyVaultPrivateEndpointName }}'
+param location = '#{{ location }}'
+param tags = {
+  Tier: 'Key Vault'
+  Location: '#{{ location }}'
+  Environment: '#{{ environmentTag }}'
+  ServiceCode: '#{{ serviceCodeTag }}'
+  ServiceName: '#{{ serviceNameTag }}'
+  ServiceType: '#{{ serviceTypeTag }}'
+  Repo: '#{{ Build.Repository.Uri }}'
 }
-
-param vnet = {
-  name: '#{{ vnetName }}'
-  resourceGroup: '#{{ vnetResourceGroup }}'
-  peSubnet: '#{{ subnetPrivateEndpoints }}'
-}
+param name = '#{{ keyVaultName }}'
+param vnetResourceGroup = '#{{ vnetResourceGroup }}'
+param vnetName = '#{{ vnetName }}'
+param peSubnetName = '#{{ subnetPrivateEndpoints }}'
+param peArray = [
+  {
+    groupId: 'vault'
+    staticIpAddress: '#{{ lower(peStaticIp) }}' == 'true' ? '#{{ keyvaultPeStaticIp }}' : null // this is optional and the whole line can be removed if you don't require static IP
+  }
+]
 
 param accessPolicies = [
   {
@@ -57,13 +66,3 @@ param accessPolicies = [
     }
   }
 ]
-
-param environmentTag = '#{{ environment }}'
-
-param serviceCodeTag = '#{{ serviceCodeTag }}'
-
-param serviceNameTag = '#{{ serviceNameTag }}'
-
-param serviceTypeTag = '#{{ serviceTypeTag }}'
-
-param createdDateTag = '#{{ createdDateTag }}'
