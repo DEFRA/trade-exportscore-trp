@@ -33,7 +33,7 @@ extends:
             path: infra\key-vault
             type: bicep
             scope: "Resource Group"
-            resourceGroupName: '$(infraResourceGroup)'
+            resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
     environments:
       - name: DEV1
         serviceConnection: AZR-EXP-DEV1
