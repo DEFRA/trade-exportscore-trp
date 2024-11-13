@@ -14,15 +14,27 @@ parameters:
       - PRE
       - PRD
 
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - test-output/*
+      - bin/*
+      - obj/*
+  drafts: false
+
 trigger:
   batch: true
   branches:
     include:
-    - 'main'
+      - "*"
   paths:
-    include:
-    - app/*
-    - test/*
+    exclude:
+      - test-output/*
+      - bin/*
+      - obj/*
 
 extends:
   template: container-app-build.yaml@self
