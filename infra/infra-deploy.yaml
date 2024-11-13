@@ -23,9 +23,9 @@ extends:
     privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
     variableFiles:
       - infra/vars/common.yaml@self
-      - infra/vars/{environment}1.yaml@self
+      - infra/vars/{environment}.yaml@self
     regionalVariableFiles:
-      - infra/vars/regional/{environment}1-{region}.yaml@self
+      - infra/vars/regional/{environment}-{region}.yaml@self
     groupedDeployments:
       - name: TRP
         deployments:
