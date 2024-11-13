@@ -40,9 +40,9 @@ stages:
             fetchTags: false
 
           - task: NodeTool@0
-            displayName: 'Use Node ${{ parameters.frameworkVersion }} '
+            displayName: 'Use Node 6.x '
             inputs:
-              versionSpec: ${{ parameters.frameworkVersion }}
+              versionSpec: 6.x
               checkLatest: true 
             enabled: true #this step takes long time to download nodejs file  
 
@@ -56,9 +56,8 @@ stages:
               command: custom
               customCommand: 'ci --legacy-peer-deps'
               verbose: false
-              ${{ if ne(parameters.packageFeedName, '') }}:
-                customRegistry: useFeed
-                customFeed: defra-devops-common
+              customRegistry: useFeed
+              customFeed: defra-devops-common
                     
           - task: Npm@1
             displayName: 'npm audit'
