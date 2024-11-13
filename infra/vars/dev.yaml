@@ -1,15 +1,14 @@
 variables:
-  environment: SND
-  subscriptionNumber: 1
+  environment: DEV
 
   # KEYVAULT
   keyVaultSku: Standard
-  servicePrincipalObjectId: 15f55f6e-a7ec-4efa-919b-673666a0a65b
+  servicePrincipalObjectId: a4edf622-b4a6-4f58-80ea-44b05b0f05b0
 
   # SERVICE CONNECTION
-  azureResourceManagerConnection: AZR-EXP-SND1
-  azureSubscription: AZR-EXP-SND1
-  subscriptionId: 9f93a159-97af-42db-9041-6426ae76c837
+  azureResourceManagerConnection: AZR-EXP-DEV1
+  azureSubscription: AZR-EXP-DEV1
+  subscriptionId: c90161c2-e11d-4a5e-9033-827da188b2ad
   tenantId: 770a2450-0227-4c62-90c7-4e38537f1102
 
   # DATABASE
@@ -18,7 +17,7 @@ variables:
   postgreSqlStorageSizeGB: 128
   postgreSqlHighAvailability: "Disabled"
   postgreSqlAvailabilityZone: ""
-  postgreSqlAdministratorUserName: "m667gln3w55z0lu35r649ov3z"
+  postgreSqlAdministratorUserName: "pi0zgdto4jvww4rtm9tnnyxda"
 
   # LOG ANALYICS
   logAnalyticsSku: 'PerGB2018'
