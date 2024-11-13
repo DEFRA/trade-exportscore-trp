@@ -6,7 +6,11 @@ parameters:
     type: boolean
     default: false
 
-trigger: none
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
 
 pr:
   branches:
@@ -48,11 +52,11 @@ extends:
         privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
         azureRegions:
           primary: "UKSouth"
-      - name: SND1
-        dependsOn: DEV1
-        serviceConnection: AZR-EXP-SND1
-        deploymentBranches:
-          - "refs/heads/main"
-        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
-        azureRegions:
-          primary: "UKSouth"
+      # - name: SND1
+      #   dependsOn: DEV1
+      #   serviceConnection: AZR-EXP-SND1
+      #   deploymentBranches:
+      #     - "refs/heads/main"
+      #   privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+      #   azureRegions:
+      #     primary: "UKSouth"
