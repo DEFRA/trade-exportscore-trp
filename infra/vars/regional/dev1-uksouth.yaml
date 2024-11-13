@@ -5,7 +5,7 @@ variables:
   location: uksouth
 
   # KEYVAULT
-  keyVaultName: $(environment)$(project)$(nc-function-infrastructure)$(nc_keyvault)$(subscriptionNumber)$(regionNumber)01
+  keyVaultName: $(environment)$(project)$(nc-function-infrastructure)$(nc_keyvault)$(subscriptionNumber)$(regionNumber)02
 
   # DATABASE
   postgreSqlName: $(environment)$(project)$(nc-role-database)$(nc-resource-database)$(subscriptionNumber)$(regionNumber)01
