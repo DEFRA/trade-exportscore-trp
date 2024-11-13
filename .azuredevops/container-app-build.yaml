@@ -49,10 +49,8 @@ stages:
             displayName: 'Generate Random COOKIE_PASSWORD for test'
 
           - task: Npm@1
-            displayName: 'npm ci'
+            displayName: NPM Install
             inputs:
-              command: custom
-              customCommand: 'ci --legacy-peer-deps'
               verbose: false
                     
           - task: Npm@1
