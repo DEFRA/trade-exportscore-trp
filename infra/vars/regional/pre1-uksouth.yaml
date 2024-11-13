@@ -2,9 +2,10 @@ variables:
   regionNumber: 4
   environment: PRE
   subscriptionNumber: 1
+  location: uksouth
 
   # KEYVAULT
-  keyVaultName: $(environment)$(project)$(nc-function-infrastructure)$(nc_keyvault)$(subscriptionNumber)$(regionNumber)01
+  keyVaultName: $(environment)$(project)$(nc-function-infrastructure)$(nc_keyvault)$(subscriptionNumber)$(regionNumber)02
   keyVaultPrivateEndpointName: $(environment)$(project)$(nc-function-infrastructure)$(nc-resource-pe)$(subscriptionNumber)$(regionNumber)01
 
   # DATABASE
