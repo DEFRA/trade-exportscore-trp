@@ -14,39 +14,18 @@ parameters:
       - PRE
       - PRD
 
-pr:
-  branches:
-    include:
-      - main
-  paths:
-    exclude:
-      - test-output/*
-      - bin/*
-      - obj/*
-  drafts: false
-
 trigger:
   batch: true
   branches:
     include:
-      - "*"
+      - "main"
   paths:
-    exclude:
-      - test-output/*
-      - bin/*
-      - obj/*
-
-resources:
-  repositories:
-    - repository: DEFRA-ADPPipelineCommon
-      name: DEFRA/adp-pipeline-common
-      endpoint: DEFRA
-      type: github
-      ref: refs/heads/main
+    include:
+      - app/*
+      - test/*
 
 extends:
-  - template: /templates/steps/nodejs-build.yaml@DEFRA-ADPPipelineCommon
-    parameters:
-      frameworkVersion: 6.x
-      failOnThreshold: high
-      packageFeedName: defra-devops-common
+  template: container-app-build.yaml@self
+  parameters:
+    forceDevDeploy: ${{ parameters.forceDevDeploy }}
+    deployToSecondary: ${{ parameters.deployToSecondary }}
