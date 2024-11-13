@@ -51,9 +51,8 @@ stages:
     jobs:
       - job: Build
         steps:
-        extends:
-          template: /templates/steps/nodejs-build.yaml@DEFRA-ADPPipelineCommon
-          parameters:
-            frameworkVersion: 6.x
-            failOnThreshold: high
-            packageFeedName: defra-devops-common
+          - template: /templates/steps/nodejs-build.yaml@DEFRA-ADPPipelineCommon
+            parameters:
+              frameworkVersion: 6.x
+              failOnThreshold: high
+              packageFeedName: defra-devops-common
