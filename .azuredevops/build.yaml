@@ -36,8 +36,28 @@ trigger:
       - bin/*
       - obj/*
 
-extends:
-  template: container-app-build.yaml@self
-  parameters:
-    forceDevDeploy: ${{ parameters.forceDevDeploy }}
-    deployToSecondary: ${{ parameters.deployToSecondary }}
+resources:
+  repositories:
+    - repository: DEFRA-ADPPipelineCommon
+      name: DEFRA/adp-pipeline-common
+      endpoint: DEFRA
+      type: github
+      ref: refs/heads/main
+
+stages:
+  - stage: Validate
+    pool:
+      name: DEFRA-COMMON-ubuntu2004-SSV3
+    jobs:
+      - job: Build
+        steps:
+          - checkout: self
+            path: s/
+          - checkout: DEFRA-ADPPipelineCommon
+            path: s/DEFRA-ADPPipelineCommon
+            extends:
+              - template: /templates/steps/nodejs-build.yaml@DEFRA-ADPPipelineCommon
+                parameters:
+                  frameworkVersion: 6.x
+                  failOnThreshold: high
+                  packageFeedName: defra-devops-common
