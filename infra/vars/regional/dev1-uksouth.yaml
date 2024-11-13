@@ -13,9 +13,9 @@ variables:
   aadDbManagedIdentityName: $(environment)$(project)$(nc-function-infrastructure)$(nc-resource-managedidentity)$(subscriptionNumber)$(regionNumber)01-trp-db-aad-admin'
 
   # NETWORK
-  vnetResourceGroup: $(environment)$(project)$(nc-role-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01
-  vnetName: $(environment)$(project)$(nc-role-network)$(nc-resource-virtualnetwork)$(subscriptionNumber)$(regionNumber)01
-  subnetPrivateEndpoints: $(environment)$(project)$(nc-role-network)$(nc-resource-subnet)$(subscriptionNumber)$(regionNumber)01
+  vnetResourceGroup: $(environment)$(project)$(nc-function-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01
+  vnetName: $(environment)$(project)$(nc-function-network)$(nc-resource-virtualnetwork)$(subscriptionNumber)$(regionNumber)01
+  subnetPrivateEndpoints: $(environment)$(project)$(nc-function-network)$(nc-resource-subnet)$(subscriptionNumber)$(regionNumber)01
 
   # LOG ANALYTICS
   logAnalyicsName: $(environment)$(project)$(nc-function-infrastructure)$(nc-resource-loganalytics)$(subscriptionNumber)$(regionNumber)01
