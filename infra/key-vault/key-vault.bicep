@@ -6,7 +6,7 @@ import * as comFuncs from 'br/commonRegistry:commonfunctions:0-latest'
 param location string
 param tags comTypes.tagsObject
 param date string = utcNow('yyyyMMdd')
-param accessPolicies object
+param accessPolicies array
 
 //Keyvault Params
 param name string
@@ -30,7 +30,7 @@ resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existin
 
 // Resources
 
-module vault 'br/public:avm/res/key-vault/vault:0.7.0' = {
+module vault 'br/public:avm/res/key-vault/vault:0.10.2' = {
   name: name
   params: {
     name: name
