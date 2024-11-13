@@ -10,10 +10,10 @@ param tags = {
   ServiceType: '#{{ serviceTypeTag }}'
   Repo: '#{{ Build.Repository.Uri }}'
 }
-param name = '#{{ keyVaultName }}'
-param vnetResourceGroup = '#{{ vnetResourceGroup }}'
-param vnetName = '#{{ vnetName }}'
-param peSubnetName = '#{{ subnetPrivateEndpoints }}'
+param name = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_keyvault }}#{{ subscriptionNumber }}#{{ regionNumber }}02'
+param vnetResourceGroup = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+param vnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-virtualnetwork }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+param peSubnetName = '#{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-subnet }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param peArray = [
   {
     groupId: 'vault'
