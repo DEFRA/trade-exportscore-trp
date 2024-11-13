@@ -39,7 +39,7 @@ extends:
         serviceConnection: AZR-EXP-DEV1
         deploymentBranches:
           - "refs/heads/main"
-          - "Feature/*"
+          - "refs/heads/*"
         developmentEnvironment: true
         privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
         azureRegions:
