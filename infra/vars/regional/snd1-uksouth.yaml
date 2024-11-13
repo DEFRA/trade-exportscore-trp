@@ -3,18 +3,3 @@ variables:
   environment: SND
   subscriptionNumber: 1
   location: uksouth
-
-  # KEYVAULT
-  keyVaultName: $(environment)$(project)$(nc-function-infrastructure)$(nc_keyvault)$(subscriptionNumber)$(regionNumber)02
-  keyVaultPrivateEndpointName: $(environment)$(project)$(nc-function-infrastructure)$(nc-resource-pe)$(subscriptionNumber)$(regionNumber)01
-
-  # DATABASE
-  serverName: $(environment)$(project)$(nc-role-database)$(nc-resource-database)$(subscriptionNumber)$(regionNumber)01
-  serverPrivateEndpointName: $(environment)$(project)$(nc-role-database)$(nc-resource-pe)$(subscriptionNumber)$(regionNumber)01
-
-  # NETWORK
-  vnetResourceGroup: $(environment)$(project)$(nc-function-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01
-  vnetName: $(environment)$(project)$(nc-function-network)$(nc-resource-virtualnetwork)$(subscriptionNumber)$(regionNumber)01
-  subnetPrivateEndpoints: $(environment)$(project)$(nc-function-network)$(nc-resource-subnet)$(subscriptionNumber)$(regionNumber)XX #TODO: replace XX
-
-  infraResourceGroup: $(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01

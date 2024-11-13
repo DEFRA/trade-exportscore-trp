@@ -3,12 +3,3 @@ variables:
   environment: DEV
   subscriptionNumber: 1
   location: uksouth
-
-  # DATABASE
-  postgreSqlName: $(environment)$(project)$(nc-role-database)$(nc-resource-database)$(subscriptionNumber)$(regionNumber)01
-  postgreSqlPrivateEndpointName: $(environment)$(project)$(nc-role-database)$(nc-resource-pe)$(subscriptionNumber)$(regionNumber)01
-  aadDbManagedIdentityName: $(environment)$(project)$(nc-function-infrastructure)$(nc-resource-managedidentity)$(subscriptionNumber)$(regionNumber)01-trp-db-aad-admin'
-
-  # LOG ANALYTICS
-  logAnalyicsName: $(environment)$(project)$(nc-function-infrastructure)$(nc-resource-loganalytics)$(subscriptionNumber)$(regionNumber)01
-
