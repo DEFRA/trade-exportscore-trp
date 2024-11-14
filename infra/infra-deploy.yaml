@@ -11,7 +11,7 @@ trigger:
   branches:
     include:
       - "*"
-  path:
+  paths:
     include: 
       - infra/*
 
@@ -19,7 +19,7 @@ pr:
   branches:
     include:
       - main
-  path:
+  paths:
     include:
       - infra/*
 
