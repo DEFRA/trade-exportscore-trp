@@ -23,6 +23,8 @@ trigger:
     include:
       - app/*
       - test/*
+    exclude:
+      - infra/*
 
 stages:
   - stage: Build
