@@ -16,3 +16,10 @@ variables:
   azureSubscription: AZR-EXP-DEV1
   subscriptionId: c90161c2-e11d-4a5e-9033-827da188b2ad
   tenantId: 770a2450-0227-4c62-90c7-4e38537f1102
+
+  # DATABASE
+  postgreSqlTier: "GeneralPurpose"
+  postgreSqlSkuName: "Standard_D4ds_v5"
+  postgreSqlStorageSizeGB: 128
+  postgreSqlHighAvailability: "Disabled"
+  postgreSqlAvailabilityZone: ""
