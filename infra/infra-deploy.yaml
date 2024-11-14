@@ -49,7 +49,7 @@ extends:
             type: 'bicep'
             resourceGroupName: '$(environment)$(project)$(nc-function-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
             scope: 'Resource Group'
-          - name: loganalytics
+          - name: log-analytics-workspace
             path: infra\operational-insights
             type: bicep
             scope: 'Resource Group'
@@ -59,7 +59,7 @@ extends:
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
-          - name: database 
+          - name: postgresql
             path: infra\postgresql
             type: bicep
             scope: 'Resource Group'
