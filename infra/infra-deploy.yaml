@@ -38,6 +38,11 @@ extends:
     groupedDeployments:
       - name: TRP
         deployments:
+          - name: network
+            path: infra\network
+            type: 'bicep'
+            resourceGroupName: '$(environment)$(project)$(nc-function-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+            scope: 'Resource Group'
           - name: key-vault
             path: infra\key-vault
             type: bicep
