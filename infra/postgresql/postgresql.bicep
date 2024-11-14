@@ -15,6 +15,7 @@ param miName string
 
 //database Params
 param server object
+param storage int = int(server.storageSizeGB)
 
 // param cmkVersion string
 param databases {
@@ -65,7 +66,7 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
     ]
     skuName: server.skuName
     tier: server.tier
-    storageSizeGB: server.storageSizeGB
+    storageSizeGB: storage
     highAvailability: server.highAvailability
     availabilityZone: server.availabilityZone
     version:'15'
