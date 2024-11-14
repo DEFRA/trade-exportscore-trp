@@ -59,20 +59,20 @@ module managedId 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.
   }
 }
 
-module kvRoleAssignment './rbac/kvRoleAssignment.bicep' = {
-  name: '${miName}-CryptoUser-${date}'
-  params: {
-    principalId: managedId.outputs.principalId
-    roleId: cryptoUser.id
-    targetResourceName: keyvault.name
-  }
-}
+// module kvRoleAssignment './rbac/kvRoleAssignment.bicep' = {
+//   name: '${miName}-CryptoUser-${date}'
+//   params: {
+//     principalId: managedId.outputs.principalId
+//     roleId: cryptoUser.id
+//     targetResourceName: keyvault.name
+//   }
+// }
 
 module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
   name: '${server.name}-${date}'
-  dependsOn: [
-    kvRoleAssignment
-  ]
+  // dependsOn: [
+  //   kvRoleAssignment
+  // ]
   params: {
     name: server.name
     tags: comFuncs.tagBuilder(server.name, date, tags)
