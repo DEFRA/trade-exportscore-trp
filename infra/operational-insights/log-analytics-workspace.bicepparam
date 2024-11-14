@@ -13,5 +13,3 @@ param tags = {
   ServiceType: '#{{ serviceTypeTag }}'
   Repo: '#{{ Build.Repository.Uri }}'
 }
-
-param resourceLockEnabled = '#{{ resourceLockEnabled }}' == 'true' ? true : false

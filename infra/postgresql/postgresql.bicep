@@ -15,7 +15,6 @@ param server object
 param adminLoginKeyvaultName string
 param adminLoginKevaultSecretName string
 param cmkName string
-param resourceLockEnabled bool
 
 // param cmkVersion string
 param databases {
@@ -96,9 +95,6 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
     highAvailability: server.highAvailability
     availabilityZone: server.availabilityZone
     version:'15'
-    lock: resourceLockEnabled ? {
-      kind: 'CanNotDelete'
-    } : null
     backupRetentionDays:14
     createMode: 'Default' 
     administratorLogin: 'adminuser'

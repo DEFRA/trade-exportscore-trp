@@ -20,8 +20,6 @@ param server = {
   skuName: '#{{ postgreSqlSkuName }}'
 }
 
-param resourceLockEnabled = '#{{ resourceLockEnabled }}' == 'true' ? true : false
-
 param miName = '#{{ environment }}#{{ project }}#{{ nc_infrastructure }}#{{ nc_identity }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param adminLoginKeyvaultName = '#{{ environment }}#{{ project }}#{{ nc_infrastructure }}#{{ nc_keyvault }}#{{ subscriptionNumber }}#{{ regionNumber }}02'
 param adminLoginKevaultSecretName = 'sqlAdminPassword'

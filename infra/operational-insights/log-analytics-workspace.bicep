@@ -9,8 +9,6 @@ param date string = utcNow('yyyyMMdd')
 
 param name string
 param skuName string
-param resourceLockEnabled bool
-
 
 module workspace 'br/public:avm/res/operational-insights/workspace:0.8.0' = {
   name: '${name}-${date}'
@@ -18,9 +16,6 @@ module workspace 'br/public:avm/res/operational-insights/workspace:0.8.0' = {
     name: name
     location: location
     skuName: skuName
-    lock: {
-      kind: resourceLockEnabled ? 'CanNotDelete' : null
-    }
     tags: comFuncs.tagBuilder(name, date, tags)
   }
 }
