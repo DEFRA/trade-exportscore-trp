@@ -24,7 +24,6 @@ param miName = '#{{ environment }}#{{ project }}#{{ nc_infrastructure }}#{{ nc_i
 param adminLoginKeyvaultName = '#{{ environment }}#{{ project }}#{{ nc_infrastructure }}#{{ nc_keyvault }}#{{ subscriptionNumber }}#{{ regionNumber }}02'
 param adminLoginKevaultSecretName = 'sqlAdminPassword'
 
-param cmkName = 'sqlCmk'
 param vnetResourceGroup = '#{{ environment }}#{{ projectName }}#{{ nc_network }}#{{ nc_resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param vnetName = '#{{ environment }}#{{ projectName }}#{{ nc_network }}#{{ nc_virtualnetwork }}#{{ subscriptionNumber }}#{{ regionNumber }}#{{ vnet01id }}'
 param peSubnetName = '#{{ environment }}#{{ projectName }}#{{ nc_network }}#{{ nc_subnet }}#{{ subscriptionNumber }}#{{ regionNumber }}#{{ subnet01id }}'

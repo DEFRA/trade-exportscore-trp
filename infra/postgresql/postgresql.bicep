@@ -14,7 +14,7 @@ param miName string
 param server object
 param adminLoginKeyvaultName string
 param adminLoginKevaultSecretName string
-param cmkName string
+
 
 // param cmkVersion string
 param databases {
@@ -43,11 +43,6 @@ resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existin
 
 resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
   name: adminLoginKeyvaultName
-}
-
-resource key 'Microsoft.KeyVault/vaults/keys@2023-07-01' existing = {
-  parent: keyvault
-  name: cmkName
 }
 
 resource cryptoUser 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
@@ -111,11 +106,6 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
       userAssignedResourceIds: [
         managedId.outputs.resourceId
       ]
-    }
-    customerManagedKey: {
-      keyName: '${keyvault.name}_${key.name}_${last(split(key.properties.keyUriWithVersion,'/'))}'
-      keyVaultResourceId: keyvault.id
-      userAssignedIdentityResourceId: managedId.outputs.resourceId
     }
     databases: [
       for db in databases: {
