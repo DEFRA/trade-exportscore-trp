@@ -23,3 +23,6 @@ variables:
   postgreSqlStorageSizeGB: 128
   postgreSqlHighAvailability: "Disabled"
   postgreSqlAvailabilityZone: ""
+
+  # LOG ANALYICS
+  logAnalyticsSku: 'PerGB2018'
