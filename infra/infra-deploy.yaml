@@ -44,7 +44,7 @@ extends:
             scope: "Resource Group"
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
     environments:
-      - name: DEV1
+      - name: dev1
         serviceConnection: AZR-EXP-DEV1
         deploymentBranches:
           - "refs/heads/main"
@@ -52,8 +52,8 @@ extends:
         privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
         azureRegions:
           primary: "UKSouth"
-      - name: SND1
-        dependsOn: DEV1
+      - name: snd1
+        dependsOn: dev1
         serviceConnection: AZR-EXP-SND1
         deploymentBranches:
           - "refs/heads/main"
