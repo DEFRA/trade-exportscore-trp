@@ -31,10 +31,10 @@ extends:
     deployFromFeature: ${{ parameters.deployFromFeature }}
     privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
     variableFiles:
-      - /infra/vars/common.yaml
-      - /infra/vars/{environment}.yaml
+      - /infra/vars/common.yaml@self
+      - /infra/vars/{environment}.yaml@self
     regionalVariableFiles:
-      - /infra/vars/regional/{environment}-{region}.yaml
+      - /infra/vars/regional/{environment}-{region}.yaml@self
     groupedDeployments:
       - name: TRP
         deployments:
