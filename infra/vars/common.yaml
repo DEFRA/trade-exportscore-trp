@@ -69,6 +69,7 @@ variables:
   nc_automationaccount: AA
   nc_frontDoor: FD
   nc_frontDoorPolicies: FDP
+  nc_managedenvironment: CE
 
 
 ## GLOBAL HubSpoke Naming Standards ##
@@ -129,6 +130,7 @@ variables:
   nc-resource-logicapp: LA
   nc-resource-apiconnection: AC
   nc-resource-log-analytics-workspace: LW
+  nc-resource-postgres: PS
 
 # RESOURCE NAMING CONVENTIONS LOWER
   nc-resource-webapp-lower: aw
