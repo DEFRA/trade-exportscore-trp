@@ -1,0 +1,73 @@
+name: $(BuildID)
+
+parameters:
+  - name: deployFromFeature
+    displayName: "Deploy from Feature Branch"
+    type: boolean
+    default: false
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+  path:
+    include: 
+      - infra/*
+
+pr:
+  branches:
+    include:
+      - main
+  path:
+    include:
+      - infra/*
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA/ado-pipeline-common
+      endpoint: DEFRA
+      type: github
+      ref: refs/tags/1.0.0-latest
+
+extends:
+  template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
+  parameters:
+    deployFromFeature: ${{ parameters.deployFromFeature }}
+    privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+    variableFiles:
+      - /infra/vars/common.yaml@self
+      - /infra/vars/{environment}.yaml@self
+    regionalVariableFiles:
+      - /infra/vars/regional/{environment}-{region}.yaml@self
+    groupedDeployments:
+      - name: TRP
+        deployments:
+          - name: network
+            path: infra\network
+            type: 'bicep'
+            resourceGroupName: '$(environment)$(project)$(nc-function-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+            scope: 'Resource Group'
+          - name: key-vault
+            path: infra\key-vault
+            type: bicep
+            scope: "Resource Group"
+            resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+    environments:
+      - name: dev1
+        serviceConnection: AZR-EXP-DEV1
+        deploymentBranches:
+          - "refs/heads/main"
+        developmentEnvironment: true
+        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+        azureRegions:
+          primary: "UKSouth"
+      - name: snd1
+        dependsOn: dev1
+        serviceConnection: AZR-EXP-SND1
+        deploymentBranches:
+          - "refs/heads/main"
+        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
+        azureRegions:
+          primary: "UKSouth"

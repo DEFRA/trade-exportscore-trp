@@ -1,0 +1,18 @@
+variables:
+  environment: DEV
+
+  # KEYVAULT
+  keyVaultSku: Standard
+  servicePrincipalObjectId: a4edf622-b4a6-4f58-80ea-44b05b0f05b0
+
+  # NETWORKING
+  vnet01AddressPrefix: 10.179.35.0/24
+  vnetPrefix: 10.179.35.0/24
+  vnet01Subnet1Address: 10.179.35.0/25
+  vnet01Subnet2Address : 10.179.35.128/25
+
+  # SERVICE CONNECTION
+  azureResourceManagerConnection: AZR-EXP-DEV1
+  azureSubscription: AZR-EXP-DEV1
+  subscriptionId: c90161c2-e11d-4a5e-9033-827da188b2ad
+  tenantId: 770a2450-0227-4c62-90c7-4e38537f1102

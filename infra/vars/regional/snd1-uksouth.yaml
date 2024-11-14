@@ -1,0 +1,5 @@
+variables:
+  regionNumber: 4
+  environment: SND
+  subscriptionNumber: 1
+  location: uksouth

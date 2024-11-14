@@ -1,0 +1,18 @@
+variables:
+  environment: SND
+
+  # KEYVAULT
+  keyVaultSku: Standard
+  servicePrincipalObjectId: 15f55f6e-a7ec-4efa-919b-673666a0a65b
+
+  # NETWORKING
+  vnet01AddressPrefix: 10.179.35.0/24
+  vnetPrefix: 10.179.35.0/24
+  vnet01Subnet1Address: 10.179.35.0/25
+  vnet01Subnet2Address : 10.179.35.128/25
+
+  # SERVICE CONNECTION
+  azureResourceManagerConnection: AZR-EXP-SND1
+  azureSubscription: AZR-EXP-SND1
+  subscriptionId: 9f93a159-97af-42db-9041-6426ae76c837
+  tenantId: 770a2450-0227-4c62-90c7-4e38537f1102

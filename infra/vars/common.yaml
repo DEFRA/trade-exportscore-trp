@@ -1,0 +1,162 @@
+variables:
+
+### PIPELINE SPECIFIC ###
+
+# ADO FEED
+  publishVstsFeedName: EA-DMS
+
+### PROJECT SPECIFIC ###
+
+# TAGS
+  serviceCodeTag: EXP
+  serviceNameTag: EXP
+  serviceTypeTag: EXP
+
+# MISC
+  project: EXP
+  parent-project: EXP
+  project-lower: EXP
+
+# NETWORK
+  nc-resource-pe: PE
+  nc-resource-synapse: AS
+  nc-resource-synapse-lower: as
+  nc-resource-sparkpool: SK
+  nc-resource-sqlpool: SP
+  nc-resource-sqlpool-lower: sp
+
+# Purview Specific
+  nc-function-application: PRV # Added this to ensure that the purview KV has different name then the Project KV
+# APIM
+  developmentEnvironment: "dev1"
+
+  # BICEP Work Variables
+  nc_database: DBS
+  nc_resourcegroup: RG
+  nc_infrastructure: INF
+  nc_network: NET
+  nc_virtualnetwork: VN
+  nc_subnet: SU
+  nc_nsg: NS
+  nc_appgateway: AGW
+  nc_apimanagement: AM
+  nc_trafficmanager: TM
+  nc_storageaccount: SA
+  nc_datalake: DL
+  nc_webapp: AW
+  nc_functionapp: AF
+  nc_appserviceplan: AS
+  nc_keyvault: KV
+  nc_servicebus: SB
+  nc_appinsights: AI
+  nc-sqlserver: SQ
+  nc-sql-failovergroup: FG
+  nc_publicip: PU
+  nc_loganalytics: LA
+  nc_privateendpoint: PE
+  nc_privatelinkservice: PL
+  nc_containerregistry: CR
+  nc_logicapps: LA
+  nc_synapse: AS
+  nc_azuresearch: SE
+  nc_appconfiguration: AC
+  nc_userassignedmi: ID
+  nc_workbook: WB
+  nc_dashboard: DB
+  nc_kubernetes: AK
+  nc_private_dns_zone: IDZ
+  nc_public_dns_zone: EDZ
+  nc_automationaccount: AA
+  nc_frontDoor: FD
+  nc_frontDoorPolicies: FDP
+
+
+## GLOBAL HubSpoke Naming Standards ##
+
+# FUNCTION NAMING CONVENTIONS
+  nc-function-web: WEB
+  nc-function-infrastructure: INF
+  nc-function-keyvault: KVT
+  nc-function-network: NET
+  nc-function-database: DBS
+  nc-function-recoveryservices: RSV
+  nc-function-datalake: DLK
+  nc-function-cognitive: COG
+  nc-function-automationaccount: AAC
+  nc-function-log: LOG
+  nc-resource-asp: AS
+  nc-resource-fa: FA
+
+# FUNCTION NAMING CONVENTIONS LOWER
+  nc-function-web-lower: web
+  nc-function-infrastructure-lower: inf
+  nc-function-keyvault-lower: kvt
+  nc-function-network-lower: net
+  nc-function-database-lower: dbs
+  nc-function-recoveryservices-lower: rsv
+  nc-function-datalake-lower: dlk
+  nc-function-cognitive-lower: cog
+  nc-function-automationaccount-lower: aac
+  nc-function-log-lower: log
+
+# RESOURCE NAMING CONVENTIONS
+  nc-resource-webapp: AW
+  nc-resource-functionapp: AF
+  nc-resource-apiapp: AA
+  nc-resource-appserviceplan: AS
+  nc-keyvault: KV
+  nc-resource-aks: AKS
+  nc-resource-servicebus: SB
+  nc-resource-subnet: SU
+  nc-resource-resourcegroup: RG
+  nc-resource-virtualnetwork: VN
+  nc-resource-appinsights: AI
+  nc-resource-nsg: NS
+  nc-resource-sqlserver: SQ
+  nc-resource-cosmosdb: CO
+  nc-resource-storageaccount: ST
+  nc-resource-appgateway: AG
+  nc-resource-publicip: PU
+  nc-resource-apimanagement: AM
+  nc-resource-sendgrid: SG
+  nc-resource-server: SR
+  nc-resource-availabilityset: AV
+  nc-resource-kubernetes: AK
+  nc-resource-backupvault: BU
+  nc-resource-cogservice: SV
+  nc-resource-cogsearch: SE
+  nc-resource-logicapp: LA
+  nc-resource-apiconnection: AC
+  nc-resource-log-analytics-workspace: LW
+
+# RESOURCE NAMING CONVENTIONS LOWER
+  nc-resource-webapp-lower: aw
+  nc-resource-functionapp-lower: af
+  nc-resource-apiapp-lower: aa
+  nc-resource-appserviceplan-lower: as
+  nc_keyvault-lower: kb
+  nc-resource-aks-lower: aks
+  nc-resource-servicebus-lower: sb
+  nc-resource-subnet-lower: su
+  nc-resource-resourcegroup-lower: rg
+  nc-resource-virtualnetwork-lower: vn
+  nc-resource-appinsights-lower: ai
+  nc-resource-nsg-lower: ns
+  nc-resource-sqlserver-lower: sq
+  nc-resource-cosmosdb-lower: co
+  nc-resource-storageaccount-lower: st
+  nc-resource-appgateway-lower: ag
+  nc-resource-publicip-lower: pu
+  nc-resource-apimanagement-lower: am
+  nc-resource-sendgrid-lower: sg
+  nc-resource-server-lower: sr
+  nc-resource-availabilityset-lower: av
+  nc-resource-kubernetes-lower: ak
+  nc-resource-backupvault-lower: bu
+  nc-resource-cogservice-lower: sv
+  nc-resource-cogsearch-lower: se
+  nc-resource-logicapp-lower: la
+  nc-resource-apiconnection-lower: ac
+  nc-resource-pe-lower: pe
+  nc-resource-log-analytics-workspace-lower: lw
+  pre-nc-resource-sqlserver-lower: dbssqa

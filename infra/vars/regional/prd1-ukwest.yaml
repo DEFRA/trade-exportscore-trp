@@ -1,0 +1,5 @@
+variables:
+  regionNumber: 6
+  environment: PRD
+  subscriptionNumber: 1
+  location: ukwest
