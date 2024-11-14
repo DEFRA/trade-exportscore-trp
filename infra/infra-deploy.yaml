@@ -11,11 +11,17 @@ trigger:
   branches:
     include:
       - "*"
+  path:
+    include: 
+      - infra/*
 
 pr:
   branches:
     include:
       - main
+  path:
+    include:
+      - infra/*
 
 resources:
   repositories:
