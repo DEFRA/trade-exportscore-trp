@@ -17,7 +17,6 @@ param peSubnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}
 param peArray = [
   {
     groupId: 'vault'
-    staticIpAddress: '#{{ lower(peStaticIp) }}' == 'true' ? '#{{ keyvaultPeStaticIp }}' : null // this is optional and the whole line can be removed if you don't require static IP
   }
 ]
 

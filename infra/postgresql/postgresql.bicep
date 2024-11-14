@@ -7,14 +7,14 @@ param location string
 param tags comTypes.tagsObject
 param date string = utcNow('yyyyMMdd')
 
+var administratorLoginPassword = uniqueString(resourceGroup().name)
+param keyVaultName string
+
 //Managed ID params
 param miName string
 
 //database Params
 param server object
-param adminLoginKeyvaultName string
-param adminLoginKevaultSecretName string
-
 
 // param cmkVersion string
 param databases {
@@ -41,15 +41,6 @@ resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existin
   name: peSubnetName
 }
 
-resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-  name: adminLoginKeyvaultName
-}
-
-resource cryptoUser 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
-  scope: subscription()
-  name: 'e147488a-f6f5-4113-8e2d-b22465e65bf6'
-}
-
 module managedId 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
   name: '${miName}-${date}'
   params: {
@@ -59,20 +50,8 @@ module managedId 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.
   }
 }
 
-// module kvRoleAssignment './rbac/kvRoleAssignment.bicep' = {
-//   name: '${miName}-CryptoUser-${date}'
-//   params: {
-//     principalId: managedId.outputs.principalId
-//     roleId: cryptoUser.id
-//     targetResourceName: keyvault.name
-//   }
-// }
-
 module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
   name: '${server.name}-${date}'
-  // dependsOn: [
-  //   kvRoleAssignment
-  // ]
   params: {
     name: server.name
     tags: comFuncs.tagBuilder(server.name, date, tags)
@@ -93,7 +72,7 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
     backupRetentionDays:14
     createMode: 'Default' 
     administratorLogin: 'adminuser'
-    administratorLoginPassword: keyvault.getSecret(adminLoginKevaultSecretName)
+    administratorLoginPassword: administratorLoginPassword
     privateEndpoints: comFuncs.buildPrivateEndpointArray(peArray, server.name, peSubnet.id)
     administrators: [
       {
@@ -115,5 +94,17 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
     diagnosticSettings: [{
       workspaceResourceId: resourceId('Microsoft.OperationalInsights/workspaces@2023-09-01', laWorkspaceName)
     }]
+  }
+}
+
+resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
+  name: keyVaultName
+}
+
+resource secretdbpassword 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
+  name: 'POSTGRES-PASSWORD'
+  parent: keyVault 
+  properties: {
+    value: administratorLoginPassword
   }
 }

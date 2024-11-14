@@ -21,8 +21,7 @@ param server = {
 }
 
 param miName = '#{{ environment }}#{{ project }}#{{ nc_infrastructure }}#{{ nc_identity }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
-param adminLoginKeyvaultName = '#{{ environment }}#{{ project }}#{{ nc_infrastructure }}#{{ nc_keyvault }}#{{ subscriptionNumber }}#{{ regionNumber }}02'
-param adminLoginKevaultSecretName = 'sqlAdminPassword'
+param keyVaultName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_keyvault }}#{{ subscriptionNumber }}#{{ regionNumber }}02'
 
 param vnetResourceGroup = '#{{ environment }}#{{ project }}#{{ nc_network }}#{{ nc_resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param vnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-virtualnetwork }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
