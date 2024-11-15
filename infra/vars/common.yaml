@@ -130,7 +130,7 @@ variables:
   nc-resource-logicapp: LA
   nc-resource-apiconnection: AC
   nc-resource-log-analytics-workspace: LW
-  nc-resource-postgres: PGS
+  nc-resource-postgres: PG
 
 # RESOURCE NAMING CONVENTIONS LOWER
   nc-resource-webapp-lower: aw
