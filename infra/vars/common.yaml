@@ -128,6 +128,7 @@ variables:
   nc-resource-logicapp: LA
   nc-resource-apiconnection: AC
   nc-resource-log-analytics-workspace: LW
+  nc_managedenvironment: CE
 
 # RESOURCE NAMING CONVENTIONS LOWER
   nc-resource-webapp-lower: aw
