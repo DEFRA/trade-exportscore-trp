@@ -42,6 +42,10 @@ resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existin
   name: peSubnetName
 }
 
+resource la 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+  name: laWorkspaceName
+}
+
 module managedId 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
   name: '${miName}-${date}'
   params: {
@@ -93,7 +97,7 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
       }
     ]
     diagnosticSettings: [{
-      workspaceResourceId: resourceId('Microsoft.OperationalInsights/workspaces@2023-09-01', laWorkspaceName)
+      workspaceResourceId: la.id
     }]
   }
 }
