@@ -1,6 +1,7 @@
 variables:
   environment: SND
   environmentTag: SND
+  environmentLower: snd
 
   # KEYVAULT
   keyVaultSku: Standard

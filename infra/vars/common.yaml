@@ -15,7 +15,7 @@ variables:
 # MISC
   project: EXP
   parent-project: EXP
-  project-lower: EXP
+  project-lower: exp
 
 # NETWORK
   nc-resource-pe: PE
@@ -130,7 +130,7 @@ variables:
   nc-resource-logicapp: LA
   nc-resource-apiconnection: AC
   nc-resource-log-analytics-workspace: LW
-  nc-resource-postgres: PG
+  nc-resource-postgres: pg
 
 # RESOURCE NAMING CONVENTIONS LOWER
   nc-resource-webapp-lower: aw

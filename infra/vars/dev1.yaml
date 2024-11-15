@@ -1,6 +1,7 @@
 variables:
   environment: DEV
   environmentTag: DEV
+  environmentLower: dev
 
   # KEYVAULT
   keyVaultSku: Standard

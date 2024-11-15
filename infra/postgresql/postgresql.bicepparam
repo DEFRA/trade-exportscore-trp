@@ -12,7 +12,7 @@ param tags = {
 }
 
 param server = {
-  name: '#{{ environment }}#{{ project }}#{{ nc-function-database }}#{{ nc-resource-postgres }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+  name: '#{{ environmentLower }}#{{ project-lower }}#{{ nc-function-database-lower }}#{{ nc-resource-postgres }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
   storageSizeGB: '#{{ postgreSqlStorageSizeGB }}'
   highAvailability: '#{{ postgreSqlHighAvailability }}' 
   availabilityZone: '#{{ postgreSqlAvailabilityZone }}'
