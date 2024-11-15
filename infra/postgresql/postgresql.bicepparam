@@ -28,7 +28,7 @@ param vnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ 
 param peSubnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-subnet }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param peArray = [
   {
-    groupId: 'sqlServer'
+    groupId: 'postgresqlServer'
   }
 ]
 
