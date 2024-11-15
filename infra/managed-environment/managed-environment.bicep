@@ -19,7 +19,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06
 var infrastructureSubnetId = resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, infrastructureSubnetName)
 
 module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
-  name: '$managedEnvironmentDeployment-${date}'
+  name: '${containerAppEnvName}-${date}'
   params: {
     name: containerAppEnvName
     logAnalyticsWorkspaceResourceId: logAnalyticsWorkspace.id
