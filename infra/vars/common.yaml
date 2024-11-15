@@ -15,7 +15,7 @@ variables:
 # MISC
   project: EXP
   parent-project: EXP
-  project-lower: EXP
+  project-lower: exp
 
 # NETWORK
   nc-resource-pe: PE
@@ -69,6 +69,7 @@ variables:
   nc_automationaccount: AA
   nc_frontDoor: FD
   nc_frontDoorPolicies: FDP
+  nc_managedenvironment: CE
 
 
 ## GLOBAL HubSpoke Naming Standards ##
@@ -100,6 +101,7 @@ variables:
   nc-function-log-lower: log
 
 # RESOURCE NAMING CONVENTIONS
+  nc_identity: MI
   nc-resource-webapp: AW
   nc-resource-functionapp: AF
   nc-resource-apiapp: AA
@@ -128,7 +130,7 @@ variables:
   nc-resource-logicapp: LA
   nc-resource-apiconnection: AC
   nc-resource-log-analytics-workspace: LW
-  nc_managedenvironment: CE
+  nc-resource-postgres: pg
 
 # RESOURCE NAMING CONVENTIONS LOWER
   nc-resource-webapp-lower: aw

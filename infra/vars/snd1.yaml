@@ -1,6 +1,7 @@
 variables:
   environment: SND
   environmentTag: SND
+  environmentLower: snd
 
   # KEYVAULT
   keyVaultSku: Standard
@@ -17,3 +18,13 @@ variables:
   azureSubscription: AZR-EXP-SND1
   subscriptionId: 9f93a159-97af-42db-9041-6426ae76c837
   tenantId: 770a2450-0227-4c62-90c7-4e38537f1102
+
+  # DATABASE
+  postgreSqlTier: "GeneralPurpose"
+  postgreSqlSkuName: "Standard_D4ds_v5"
+  postgreSqlStorageSizeGB: 128
+  postgreSqlHighAvailability: "Disabled"
+  postgreSqlAvailabilityZone: ""
+
+  # LOG ANALYICS
+  logAnalyticsSku: 'PerGB2018'
