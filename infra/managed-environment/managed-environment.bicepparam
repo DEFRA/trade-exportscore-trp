@@ -2,7 +2,7 @@ using './managed-environment.bicep'
 
 param containerAppEnvName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_managedenvironment }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param logAnalyticsName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_loganalytics }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
-param vnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-virtualnetwork }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+param vnetName = 'DEVEXPNETVN1401'
 param infrastructureSubnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-subnet }}#{{ subscriptionNumber }}#{{ regionNumber }}02'
 param infraResourceGroup = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc-resource-resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param location = '#{{ location }}'
