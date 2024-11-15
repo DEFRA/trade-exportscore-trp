@@ -2,7 +2,8 @@ param containerAppEnvName string
 param location string
 param logAnalyticsName string
 param vnetName string
-param infrastructureSubnetName string
+param vnetResourceGroup string
+param peSubnetName string
 param infraResourceGroup string
 
 param environmentTag string
@@ -16,7 +17,16 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06
   scope: resourceGroup()
 }
 
-var infrastructureSubnetId = resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, infrastructureSubnetName)
+//Existing Resource Data Sources
+resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
+  scope: resourceGroup(vnetResourceGroup)
+  name: vnetName
+}
+
+resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existing = {
+  parent: vnet
+  name: peSubnetName
+}
 
 module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
   name: '${containerAppEnvName}-${date}'
@@ -25,7 +35,7 @@ module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
     logAnalyticsWorkspaceResourceId: logAnalyticsWorkspace.id
     internal: true
     zoneRedundant: false
-    infrastructureSubnetId: infrastructureSubnetId
+    infrastructureSubnetId: peSubnet.id
     infrastructureResourceGroupName: infraResourceGroup
     tags: {
       Name: containerAppEnvName
