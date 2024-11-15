@@ -61,13 +61,6 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
     name: server.name
     tags: comFuncs.tagBuilder(server.name, date, tags)
     location: location
-    firewallRules: [
-      {
-        name: 'WokingAllow'
-        startIpAddress: '148.252.0.0'
-        endIpAddress: '148.253.255.255'
-      }
-    ]
     skuName: server.skuName
     tier: server.tier
     storageSizeGB: storage
