@@ -73,6 +73,7 @@ stages:
               customCommand: 'run --if-present test:unit'
 
       - job: BuildDockerImage
+        dependsOn: Build
         displayName: 'Build Docker Image'
         steps:
           - task: Docker@0
