@@ -9,9 +9,10 @@ variables:
 
   # NETWORKING
   vnet01AddressPrefix: 10.179.35.0/24
+  vnet02AddressPrefix: 10.179.40.0/23
   vnetPrefix: 10.179.35.0/24
-  vnet01Subnet1Address: 10.179.35.0/25
-  vnet01Subnet2Address : 10.179.35.128/25
+  vnet01Subnet1Address: 10.179.35.0/24
+  vnet01Subnet2Address : 10.179.40.0/23
 
   # SERVICE CONNECTION
   azureResourceManagerConnection: AZR-EXP-SND1

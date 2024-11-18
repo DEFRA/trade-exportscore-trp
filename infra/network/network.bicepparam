@@ -20,7 +20,7 @@ param routeTableName = 'UDR-Spoke-Route-From-#{{ environment }}#{{ project }}#{{
 
 param vnetObject = {
   name: '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-virtualnetwork }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
-  addressPrefixes: ['#{{ vnet01AddressPrefix }}']
+  addressPrefixes: ['#{{ vnet01AddressPrefix }}', '#{{ vnet02AddressPrefix }}']
   subnetsArray: [
     {
       name: '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-subnet }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
