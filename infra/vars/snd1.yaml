@@ -2,6 +2,7 @@ variables:
   environment: SND
   environmentTag: SND
   environmentLower: snd
+  containerName: 'trade-exportscore-trp'
 
   # KEYVAULT
   keyVaultSku: Standard

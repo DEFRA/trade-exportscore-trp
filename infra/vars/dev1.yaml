@@ -2,6 +2,7 @@ variables:
   environment: DEV
   environmentTag: DEV
   environmentLower: dev
+  containerName: 'trade-exportscore-trp'
 
   # KEYVAULT
   keyVaultSku: Standard
