@@ -71,3 +71,13 @@ stages:
               command: custom
               verbose: false
               customCommand: 'run --if-present test:unit'
+
+      - job: Build Docker Image
+        steps:
+          - task: Docker@0
+            displayName: 'Build an image'
+            inputs:
+              azureSubscription: 'AZR-EXP-DEV1'
+              azureContainerRegistry: 'DEVEXPINFCR1401'
+              dockerFile: './Dockerfile'
+              imageName: '$(Build.Repository.Name):$(Build.BuildId)'
