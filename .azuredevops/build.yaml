@@ -72,7 +72,8 @@ stages:
               verbose: false
               customCommand: 'run --if-present test:unit'
 
-      - job: Build Docker Image
+      - job: BuildDockerImage
+        displayName: 'Build Docker Image'
         steps:
           - task: Docker@0
             displayName: 'Build an image'
