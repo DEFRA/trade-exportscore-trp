@@ -28,3 +28,10 @@ variables:
 
   # LOG ANALYICS
   logAnalyticsSku: 'PerGB2018'
+
+  # CONTAINER REGISTRY
+  acrSku: Premium
+  azureADAuthenticationAsArmPolicyStatus: enabled
+  exportPolicyStatus: enabled
+  softDeletePolicyStatus: disabled
+  trustPolicyStatus: enabled
