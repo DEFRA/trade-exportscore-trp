@@ -4,6 +4,7 @@ param logAnalyticsName string
 param vnetName string
 param vnetResourceGroup string
 param peSubnetName string
+param infraResourceGroup string
 
 param environmentTag string
 param serviceCodeTag string
@@ -27,7 +28,7 @@ resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existin
   name: peSubnetName
 }
 
-module managedEnvironment 'br/SharedDefraRegistry:app.managed-environment:0.4.2' = {
+module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
   name: '${containerAppEnvName}-${date}'
   params: {
     name: containerAppEnvName
@@ -35,7 +36,7 @@ module managedEnvironment 'br/SharedDefraRegistry:app.managed-environment:0.4.2'
     internal: true
     zoneRedundant: false
     infrastructureSubnetId: peSubnet.id
-    enableDefaultTelemetry: true
+    infrastructureResourceGroupName: infraResourceGroup
     tags: {
       Name: containerAppEnvName
       Tier: 'Shared'
