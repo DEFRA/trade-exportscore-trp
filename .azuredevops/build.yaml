@@ -81,7 +81,5 @@ stages:
             inputs:
               containerRegistryType: 'Azure Container Registry'
               action: 'Build an image'
-              azureSubscription: 'AZR-EXP-DEV1'
-              azureContainerRegistry: 'DEVEXPINFCR1401'
               dockerFile: './Dockerfile'
               imageName: '$(Build.Repository.Name):$(Build.BuildId)'
