@@ -33,6 +33,9 @@ param vnetObject = {
       addressPrefix: '#{{ vnet01Subnet2Address }}' // Replace with actual address prefix
       privateEndpointNetworkPolicies: 'Enabled' // Set as needed
       privateLinkServiceNetworkPolicies: 'Enabled' // Set as needed
+      delegations: [
+        'Microsoft.App/environments'
+      ]
     }
   ]
 }
