@@ -4,7 +4,6 @@ param logAnalyticsName string
 param vnetName string
 param vnetResourceGroup string
 param peSubnetName string
-param infraResourceGroup string
 
 param environmentTag string
 param serviceCodeTag string
