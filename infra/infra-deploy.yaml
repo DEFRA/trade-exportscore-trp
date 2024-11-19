@@ -59,13 +59,18 @@ extends:
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+          - name: container-registry
+            path: infra\container-registry
+            type: bicep
+            scope: 'Resource Group'
+            resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
           - name: managed-environment
             path: infra\managed-environment
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
-          - name: container-registry
-            path: infra\container-registry
+          - name: container-app
+            path: infra\container-app
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
