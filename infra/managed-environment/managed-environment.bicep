@@ -28,7 +28,7 @@ resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existin
   name: peSubnetName
 }
 
-module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
+module managedEnvironment 'br/SharedDefraRegistry:app.managed-environment:0.4.2' = {
   name: '${containerAppEnvName}-${date}'
   params: {
     name: containerAppEnvName
@@ -36,7 +36,7 @@ module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
     internal: true
     zoneRedundant: false
     infrastructureSubnetId: peSubnet.id
-    infrastructureResourceGroupName: infraResourceGroup
+    enableDefaultTelemetry: true
     tags: {
       Name: containerAppEnvName
       Tier: 'Shared'
