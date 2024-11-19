@@ -79,6 +79,8 @@ stages:
           - task: Docker@0
             displayName: 'Build an image'
             inputs:
+              containerRegistryType: 'Azure Container Registry'
+              action: 'Build an image'
               azureSubscription: 'AZR-EXP-DEV1'
               azureContainerRegistry: 'DEVEXPINFCR1401'
               dockerFile: './Dockerfile'
