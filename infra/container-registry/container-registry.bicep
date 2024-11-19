@@ -12,7 +12,7 @@ param exportPolicyStatus string
 param softDeletePolicyDays int = 7
 param softDeletePolicyStatus string
 param trustPolicyStatus string
-param containerAppMiName string
+//param containerAppMiName string
 
 // Tags
 param environmentTag string
@@ -36,9 +36,9 @@ resource subNet 'Microsoft.Network/virtualNetworks/subnets@2023-04-01' existing 
   parent: vNet
 }
 
-resource containerAppMi 'Microsoft.ManagedIdentity/identities@2023-07-31-preview' existing = {
-  name: containerAppMiName
-}
+// resource containerAppMi 'Microsoft.ManagedIdentity/identities@2023-07-31-preview' existing = {
+//   name: containerAppMiName
+// }
 
 // Module definition
 module registry 'br/public:avm/res/container-registry/registry:0.6.0' = {
