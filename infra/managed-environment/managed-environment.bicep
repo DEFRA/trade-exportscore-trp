@@ -4,13 +4,14 @@ param logAnalyticsName string
 param vnetName string
 param vnetResourceGroup string
 param peSubnetName string
-param infraResourceGroup string
 
 param environmentTag string
 param serviceCodeTag string
 param serviceNameTag string
 param serviceTypeTag string
 param date string = utcNow('yyyyMMdd')
+
+var infrastructureResourceGroupName = take('${containerAppEnvName}_ME', 63)
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-06-01' existing = {
   name: logAnalyticsName
@@ -41,7 +42,7 @@ module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
         workloadProfileType: 'Consumption'
       }
     ]
-    infrastructureResourceGroupName: infraResourceGroup
+    infrastructureResourceGroupName: infrastructureResourceGroupName
     tags: {
       Name: containerAppEnvName
       Tier: 'Shared'
