@@ -36,6 +36,11 @@ module managedEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
     internal: true
     zoneRedundant: false
     infrastructureSubnetId: peSubnet.id
+    workloadProfiles: [
+      {
+        workloadProfileType: 'Consumption'
+      }
+    ]
     infrastructureResourceGroupName: infraResourceGroup
     tags: {
       Name: containerAppEnvName
