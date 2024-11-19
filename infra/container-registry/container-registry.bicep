@@ -49,12 +49,12 @@ module registry 'br/public:avm/res/container-registry/registry:0.6.0' = {
     publicNetworkAccess: publicNetworkAccess
     acrAdminUserEnabled: acrAdminUserEnabled
     acrSku: acrSku
-    roleAssignments: [
-      {
-        principalId: containerAppMi.id
-        roleDefinitionIdOrName: 'AcrPull'
-      }
-    ]
+    // roleAssignments: [
+    //   {
+    //     principalId: containerAppMi.id
+    //     roleDefinitionIdOrName: 'AcrPull'
+    //   }
+    // ]
     azureADAuthenticationAsArmPolicyStatus: azureADAuthenticationAsArmPolicyStatus
     enableTelemetry: true
     exportPolicyStatus: exportPolicyStatus
