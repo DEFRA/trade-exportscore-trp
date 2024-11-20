@@ -75,13 +75,6 @@ stages:
         steps:
           - checkout: self
 
-          # - task: Cache@2
-          #   displayName: Cache docker
-          #   inputs:
-          #     key: 'docker | "$(Build.Repository.Name):$(Build.BuildId)" | cache'
-          #     path: $(Pipeline.Workspace)/docker
-          #     cacheHitVar: CACHE_RESTORED
-
           - task: Docker@2
             displayName: 'Build an image'
             inputs:
@@ -95,11 +88,23 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/trade-exportscore-trp.tar
+                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/docker.tar
 
           - task: PublishPipelineArtifact@1
+            displayName: 'Publish artifact'
             inputs:
-              targetPath: '$(Pipeline.Workspace)/trade-exportscore-trp.tar'
+              targetPath: '$(Pipeline.Workspace)/docker.tar'
               artifact: 'dockerImage'
               publishLocation: 'pipeline'
 
+  - stage: DeployDev
+    pool:
+      name: DEFRA-COMMON-ubuntu2004-SSV3
+    jobs:
+     - job: Deploy
+       steps:
+        - task: DownloadPipelineArtifact@2
+          displayName: 'Download Docker image' 
+          inputs:
+            artifactName: 'docker'
+            targetPath: '$(Pipeline.Workspace)'
