@@ -13,13 +13,13 @@ parameters:
       - SND
       - PRE
       - PRD
-  - name: environments 
+  - name: environments
     type: object
-    values:
-     - DEV
-     - SND
-     - PRE
-     - PRD
+    default:
+      - 'dev'
+      - 'snd'
+      - 'pre'
+      - 'prd'
 
 
 trigger:
