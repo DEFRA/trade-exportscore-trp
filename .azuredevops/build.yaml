@@ -76,10 +76,9 @@ stages:
         dependsOn: Build
         displayName: 'Build Docker Image'
         steps:
-          - task: Docker@0
+          - task: Docker@2
             displayName: 'Build an image'
             inputs:
-              containerRegistryType: 'Azure Container Registry'
-              action: 'Build an image'
-              dockerFile: './Dockerfile'
-              imageName: '$(Build.Repository.Name):$(Build.BuildId)'
+              command: 'build'
+              Dockerfile: './Dockerfile'
+
