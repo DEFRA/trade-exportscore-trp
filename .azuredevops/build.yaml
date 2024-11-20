@@ -13,8 +13,6 @@ parameters:
       - SND
       - PRE
       - PRD
-
-variables:
   - name: environments 
     type: object
     values:
@@ -108,7 +106,7 @@ stages:
               publishLocation: 'pipeline'
 
 
-  - ${{ each env in variables.environments }}:
+  - ${{ each env in parameters.environments }}:
     - stage: ${{ upper(env) }}
       ${{ if eq(env, 'dev') }}:
         pool:
