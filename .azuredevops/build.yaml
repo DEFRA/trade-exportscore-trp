@@ -109,3 +109,11 @@ stages:
           inputs:
             artifactName: 'dockerImage'
             targetPath: '$(Pipeline.Workspace)'
+
+        - task: Bash@3
+          displayName: Load Docker Image
+          inputs:
+            targetType: 'inline'
+            script: |      
+              docker load --input $(Pipeline.Workspace)/trade-exportscore-trp.tar
+              docker tag trade-exportscore-trp:$(Build.BuildId)
