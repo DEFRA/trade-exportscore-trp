@@ -54,6 +54,11 @@ extends:
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+          - name: service-bus
+            path: infra\service-bus
+            type: bicep
+            scope: 'Resource Group'
+            resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
           - name: key-vault
             path: infra\key-vault
             type: bicep
