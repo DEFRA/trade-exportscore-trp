@@ -75,16 +75,23 @@ stages:
         steps:
           - checkout: self
 
-          - task: Cache@2
-            displayName: Cache docker
-            inputs:
-              key: 'docker | $(Build.Repository.Name):$(Build.BuildId) | cache'
-              path: $(Pipeline.Workspace)/docker
-              cacheHitVar: CACHE_RESTORED
-
-          # - task: Docker@2
-          #   displayName: 'Build an image'
+          # - task: Cache@2
+          #   displayName: Cache docker
           #   inputs:
-          #     command: 'build'
-          #     Dockerfile: './Dockerfile'
+          #     key: 'docker | "$(Build.Repository.Name):$(Build.BuildId)" | cache'
+          #     path: $(Pipeline.Workspace)/docker
+          #     cacheHitVar: CACHE_RESTORED
+
+          - task: Docker@2
+            displayName: 'Build an image'
+            inputs:
+              command: 'build'
+              Dockerfile: './Dockerfile'
+
+          - task: Bash@3
+            displayName: Save Docker Image
+            inputs:
+              targetType: 'inline'
+              script: |
+                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/trade-exportscore-trp.tar
 
