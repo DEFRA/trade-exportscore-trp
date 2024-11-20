@@ -20,9 +20,6 @@ trigger:
     include:
       - "main"
   paths:
-    include:
-      - app/*
-      - test/*
     exclude:
       - infra/*
 
@@ -77,11 +74,11 @@ stages:
         displayName: 'Build Docker Image'
         steps:
           - checkout: self
-          
+
           - task: Cache@2
             displayName: Cache docker
             inputs:
-              key: 'docker | "$(Build.Repository.Name):$(Build.BuildId) | cache'
+              key: 'docker | "$(Build.Repository.Name):$(Build.BuildId)" | cache'
               path: $(Pipeline.Workspace)/docker
               cacheHitVar: CACHE_RESTORED
 
