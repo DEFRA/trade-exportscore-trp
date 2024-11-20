@@ -97,7 +97,7 @@ stages:
               artifact: 'dockerImage'
               publishLocation: 'pipeline'
 
-  - stage: DeployDev
+  - stage: DEV1
     dependsOn: Build
     pool:
       name: DEFRA-COMMON-ubuntu2004-SSV3
@@ -107,5 +107,5 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Docker image' 
           inputs:
-            artifactName: 'trade-exportscore-trp'
+            artifactName: 'dockerImage'
             targetPath: '$(Pipeline.Workspace)'
