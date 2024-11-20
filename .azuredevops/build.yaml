@@ -111,7 +111,7 @@ stages:
       ${{ if eq(env, 'dev1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV3'
-        dependsOn: Validate
+        dependsOn: Build
         condition: and(succeeded(), or(eq(${{ parameters.deployFromFeature }}, true), in(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')))
       ${{ if eq(env, 'snd1') }}:
         pool:
