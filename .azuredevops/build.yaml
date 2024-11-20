@@ -88,12 +88,12 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/docker.tar
+                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/trade-exportscore-trp.tar
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish artifact'
             inputs:
-              targetPath: '$(Pipeline.Workspace)/docker.tar'
+              targetPath: '$(Pipeline.Workspace)/trade-exportscore-trp.tar'
               artifact: 'dockerImage'
               publishLocation: 'pipeline'
 
@@ -106,5 +106,5 @@ stages:
         - task: DownloadPipelineArtifact@2
           displayName: 'Download Docker image' 
           inputs:
-            artifactName: 'docker'
+            artifactName: 'trade-exportscore-trp'
             targetPath: '$(Pipeline.Workspace)'
