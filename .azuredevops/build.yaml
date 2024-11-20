@@ -98,6 +98,7 @@ stages:
               publishLocation: 'pipeline'
 
   - stage: DeployDev
+    dependsOn: Build
     pool:
       name: DEFRA-COMMON-ubuntu2004-SSV3
     jobs:
