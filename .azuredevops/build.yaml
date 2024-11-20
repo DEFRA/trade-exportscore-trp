@@ -14,6 +14,15 @@ parameters:
       - PRE
       - PRD
 
+variables:
+  - name: environments 
+    values:
+     - DEV
+     - SND
+     - PRE
+     - PRD
+
+
 trigger:
   batch: true
   branches:
@@ -97,24 +106,48 @@ stages:
               artifact: 'dockerImage'
               publishLocation: 'pipeline'
 
-  - ${{ if eq(parameters.deployFromFeature, true) }}:
-    - stage: DEV1
-      dependsOn: Build
-      pool:
-        name: DEFRA-COMMON-ubuntu2004-SSV3
-      jobs:
-      - job: Deploy
-        steps:
-          - task: DownloadPipelineArtifact@2
-            displayName: 'Download Docker image' 
-            inputs:
-              artifactName: 'dockerImage'
-              targetPath: '$(Pipeline.Workspace)'
 
-          - task: Bash@3
-            displayName: Load Docker Image
-            inputs:
-              targetType: 'inline'
-              script: |      
-                docker load --input $(Pipeline.Workspace)/trade-exportscore-trp.tar
-                docker tag trade-exportscore-trp:$(Build.BuildId) trade-exportscore-trp:$(Build.BuildId)
+  - ${{ each env in variables.environments }}:
+    - stage: ${{ upper(env) }}
+      ${{ if eq(env, 'dev') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV3'
+        dependsOn: Validate
+        condition: and(succeeded(), or(eq(${{ parameters.forceDevDeploy }}, true), in(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')))
+      ${{ if eq(env, 'snd') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV3'
+        dependsOn: DEV
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), or(in(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')))
+      ${{ if eq(env, 'pre') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV5'
+        dependsOn: SND
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
+      ${{ if eq(env, 'prd') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV5'
+        dependsOn: PRE
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
+      jobs:
+      - deployment: Deploy${{ upper(env) }}
+        workspace:
+          clean: all
+        environment: ${{ upper(env) }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - task: DownloadPipelineArtifact@2
+                displayName: 'Download Docker image' 
+                inputs:
+                  artifactName: 'dockerImage'
+                  targetPath: '$(Pipeline.Workspace)'
+
+              - task: Bash@3
+                displayName: Load Docker Image
+                inputs:
+                  targetType: 'inline'
+                  script: |      
+                    docker load --input $(Pipeline.Workspace)/trade-exportscore-trp.tar
+                    docker tag trade-exportscore-trp:$(Build.BuildId) trade-exportscore-trp:$(Build.BuildId)
