@@ -16,10 +16,10 @@ parameters:
   - name: environments
     type: object
     default:
-      - 'dev'
-      - 'snd'
-      - 'pre'
-      - 'prd'
+      - 'dev1'
+      - 'snd1'
+      - 'pre1'
+      - 'prd1'
 
 
 trigger:
@@ -108,28 +108,28 @@ stages:
 
   - ${{ each env in parameters.environments }}:
     - stage: ${{ upper(env) }}
-      ${{ if eq(env, 'dev') }}:
+      ${{ if eq(env, 'dev1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV3'
         dependsOn: Validate
         condition: and(succeeded(), or(eq(${{ parameters.deployFromFeature }}, true), in(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')))
-      ${{ if eq(env, 'snd') }}:
+      ${{ if eq(env, 'snd1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV3'
         dependsOn: DEV
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), or(in(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')))
-      ${{ if eq(env, 'pre') }}:
+      ${{ if eq(env, 'pre1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV5'
         dependsOn: SND
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
-      ${{ if eq(env, 'prd') }}:
+      ${{ if eq(env, 'prd1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV5'
         dependsOn: PRE
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
       jobs:
-      - deployment: Deploy${{ upper(env) }}
+      - deployment: ${{ upper(env) }}
         workspace:
           clean: all
         environment: ${{ upper(env) }}
