@@ -116,17 +116,17 @@ stages:
       ${{ if eq(env, 'snd1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV3'
-        dependsOn: DEV
+        dependsOn: DEV1
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), or(in(variables['Build.SourceBranch'], 'refs/heads/main'), startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')))
       ${{ if eq(env, 'pre1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV5'
-        dependsOn: SND
+        dependsOn: SND1
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
       ${{ if eq(env, 'prd1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV5'
-        dependsOn: PRE
+        dependsOn: PRE1
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
       jobs:
       - deployment: ${{ upper(env) }}
