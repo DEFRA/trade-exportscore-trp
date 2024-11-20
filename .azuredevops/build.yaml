@@ -21,6 +21,9 @@ parameters:
       - 'pre1'
       - 'prd1'
 
+variables:
+  - name: repositoryName
+    value: 'trade-exportscore-trp'
 
 trigger:
   batch: true
@@ -86,7 +89,7 @@ stages:
           - task: Docker@2
             displayName: 'Build an image'
             inputs:
-              repository: 'trade-exportscore-trp'
+              repository: $(variables.repositoryName)
               tag: $(Build.BuildId)
               command: 'build'
               Dockerfile: './Dockerfile'
@@ -96,12 +99,12 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/trade-exportscore-trp.tar
+                docker save $(variables.repositoryName):$(Build.BuildId) -o $(Pipeline.Workspace)/docker.tar
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish artifact'
             inputs:
-              targetPath: '$(Pipeline.Workspace)/trade-exportscore-trp.tar'
+              targetPath: '$(Pipeline.Workspace)/docker.tar'
               artifact: 'dockerImage'
               publishLocation: 'pipeline'
 
@@ -148,5 +151,5 @@ stages:
                 inputs:
                   targetType: 'inline'
                   script: |      
-                    docker load --input $(Pipeline.Workspace)/trade-exportscore-trp.tar
-                    docker tag trade-exportscore-trp:$(Build.BuildId) trade-exportscore-trp:$(Build.BuildId)
+                    docker load --input $(Pipeline.Workspace)/docker.tar
+                    docker tag $(variables.repositoryName):$(Build.BuildId) $(variables.repositoryName):$(Build.BuildId)
