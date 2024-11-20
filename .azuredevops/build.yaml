@@ -76,9 +76,17 @@ stages:
         dependsOn: Build
         displayName: 'Build Docker Image'
         steps:
-          - task: Docker@2
-            displayName: 'Build an image'
+
+          - task: Cache@2
+            displayName: Cache docker
             inputs:
-              command: 'build'
-              Dockerfile: './Dockerfile'
+              key: 'docker | "$(Build.Repository.Name):$(Build.BuildId) | cache'
+              path: $(Pipeline.Workspace)/docker
+              cacheHitVar: CACHE_RESTORED
+
+          # - task: Docker@2
+          #   displayName: 'Build an image'
+          #   inputs:
+          #     command: 'build'
+          #     Dockerfile: './Dockerfile'
 
