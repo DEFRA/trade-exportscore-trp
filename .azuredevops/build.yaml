@@ -1,6 +1,6 @@
 parameters:
-  - name: forceDevDeploy
-    displayName: "Force deployment to DEV"
+  - name: deployFromFeature
+    displayName: "Deploy from Feature Branch"
     type: boolean
     default: false
   - name: deployToSecondary
@@ -97,23 +97,24 @@ stages:
               artifact: 'dockerImage'
               publishLocation: 'pipeline'
 
-  - stage: DEV1
-    dependsOn: Build
-    pool:
-      name: DEFRA-COMMON-ubuntu2004-SSV3
-    jobs:
-     - job: Deploy
-       steps:
-        - task: DownloadPipelineArtifact@2
-          displayName: 'Download Docker image' 
-          inputs:
-            artifactName: 'dockerImage'
-            targetPath: '$(Pipeline.Workspace)'
+  - ${{ if eq(paramerters.deployFromFeature, true) }}:
+    - stage: DEV1
+      dependsOn: Build
+      pool:
+        name: DEFRA-COMMON-ubuntu2004-SSV3
+      jobs:
+      - job: Deploy
+        steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: 'Download Docker image' 
+            inputs:
+              artifactName: 'dockerImage'
+              targetPath: '$(Pipeline.Workspace)'
 
-        - task: Bash@3
-          displayName: Load Docker Image
-          inputs:
-            targetType: 'inline'
-            script: |      
-              docker load --input $(Pipeline.Workspace)/trade-exportscore-trp.tar
-              docker tag trade-exportscore-trp:$(Build.BuildId)
+          - task: Bash@3
+            displayName: Load Docker Image
+            inputs:
+              targetType: 'inline'
+              script: |      
+                docker load --input $(Pipeline.Workspace)/trade-exportscore-trp.tar
+                docker tag trade-exportscore-trp:$(Build.BuildId) trade-exportscore-trp:$(Build.BuildId)
