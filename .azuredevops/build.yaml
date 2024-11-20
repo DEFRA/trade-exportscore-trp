@@ -97,3 +97,9 @@ stages:
               script: |
                 docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/trade-exportscore-trp.tar
 
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(Pipeline.Workspace)/trade-exportscore-trp.tar'
+              artifact: 'dockerImage'
+              publishLocation: 'pipeline'
+
