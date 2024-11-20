@@ -1,6 +1,6 @@
 using './service-bus.bicep'
 
-param name = '#{{ containerName }}'
+param name = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_servicebus }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param location = '#{{ location }}'
 
 param skuName = 'Premium'
