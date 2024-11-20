@@ -120,7 +120,7 @@ stages:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV3'
         dependsOn: DEV1
-        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), or(in(variables['Build.SourceBranch'], 'refs/heads/main')))
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
       ${{ if eq(env, 'pre1') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV5'
