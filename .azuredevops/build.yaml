@@ -1,6 +1,6 @@
 parameters:
-  - name: forceDevDeploy
-    displayName: "Force deployment to DEV"
+  - name: deployFromFeature
+    displayName: "Deploy from Feature Branch"
     type: boolean
     default: false
   - name: deployToSecondary
@@ -13,16 +13,24 @@ parameters:
       - SND
       - PRE
       - PRD
+  - name: environments
+    type: object
+    default:
+      - 'dev1'
+      - 'snd1'
+      - 'pre1'
+      - 'prd1'
+
+variables:
+  - name: repositoryName
+    value: 'trade-exportscore-trp'
 
 trigger:
   batch: true
   branches:
     include:
-      - "main"
+      - "*"
   paths:
-    include:
-      - app/*
-      - test/*
     exclude:
       - infra/*
 
@@ -71,3 +79,77 @@ stages:
               command: custom
               verbose: false
               customCommand: 'run --if-present test:unit'
+
+      - job: BuildDockerImage
+        dependsOn: Build
+        displayName: 'Build Docker Image'
+        steps:
+          - checkout: self
+
+          - task: Docker@2
+            displayName: 'Build an image'
+            inputs:
+              repository: $(repositoryName)
+              tag: $(Build.BuildId)
+              command: 'build'
+              Dockerfile: './Dockerfile'
+
+          - task: Bash@3
+            displayName: Save Docker Image
+            inputs:
+              targetType: 'inline'
+              script: |
+                docker save $(repositoryName):$(Build.BuildId) -o $(Pipeline.Workspace)/docker.tar
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish artifact'
+            inputs:
+              targetPath: '$(Pipeline.Workspace)/docker.tar'
+              artifact: 'dockerImage'
+              publishLocation: 'pipeline'
+
+
+  - ${{ each env in parameters.environments }}:
+    - stage: ${{ upper(env) }}
+      ${{ if eq(env, 'dev1') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV3'
+        dependsOn: Build
+        condition: and(succeeded(), or(eq(${{ parameters.deployFromFeature }}, true), in(variables['Build.SourceBranch'], 'refs/heads/main')))
+      ${{ if eq(env, 'snd1') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV3'
+        dependsOn: DEV1
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
+      ${{ if eq(env, 'pre1') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV5'
+        dependsOn: SND1
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
+      ${{ if eq(env, 'prd1') }}:
+        pool:
+          name: 'DEFRA-COMMON-ubuntu2004-SSV5'
+        dependsOn: PRE1
+        condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
+      jobs:
+      - deployment: ${{ upper(env) }}
+        workspace:
+          clean: all
+        environment: ${{ upper(env) }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - task: DownloadPipelineArtifact@2
+                displayName: 'Download Docker image' 
+                inputs:
+                  artifactName: 'dockerImage'
+                  targetPath: '$(Pipeline.Workspace)'
+
+              - task: Bash@3
+                displayName: Load Docker Image
+                inputs:
+                  targetType: 'inline'
+                  script: |      
+                    docker load --input $(Pipeline.Workspace)/docker.tar
+                    docker tag $(repositoryName):$(Build.BuildId) $(repositoryName):$(Build.BuildId)
