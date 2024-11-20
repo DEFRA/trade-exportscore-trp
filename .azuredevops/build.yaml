@@ -95,5 +95,5 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/docker/trade-exportscore-trp.tar
+                docker save trade-exportscore-trp:$(Build.BuildId) -o $(Pipeline.Workspace)/trade-exportscore-trp.tar
 
