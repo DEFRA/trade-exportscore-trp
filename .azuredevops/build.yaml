@@ -78,7 +78,7 @@ stages:
           - task: Cache@2
             displayName: Cache docker
             inputs:
-              key: 'docker | "$(Build.Repository.Name):$(Build.BuildId)" | cache'
+              key: 'docker | $(Build.Repository.Name):$(Build.BuildId) | cache'
               path: $(Pipeline.Workspace)/docker
               cacheHitVar: CACHE_RESTORED
 
