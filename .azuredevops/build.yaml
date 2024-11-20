@@ -76,7 +76,8 @@ stages:
         dependsOn: Build
         displayName: 'Build Docker Image'
         steps:
-
+          - checkout: self
+          
           - task: Cache@2
             displayName: Cache docker
             inputs:
