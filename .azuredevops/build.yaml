@@ -97,7 +97,7 @@ stages:
               artifact: 'dockerImage'
               publishLocation: 'pipeline'
 
-  - ${{ if eq(paramerters.deployFromFeature, true) }}:
+  - ${{ if eq(parameters.deployFromFeature, true) }}:
     - stage: DEV1
       dependsOn: Build
       pool:
