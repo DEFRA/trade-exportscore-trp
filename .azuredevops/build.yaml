@@ -89,7 +89,7 @@ stages:
           - task: Docker@2
             displayName: 'Build an image'
             inputs:
-              repository: $(variables.repositoryName)
+              repository: $(repositoryName)
               tag: $(Build.BuildId)
               command: 'build'
               Dockerfile: './Dockerfile'
@@ -99,7 +99,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                docker save $(variables.repositoryName):$(Build.BuildId) -o $(Pipeline.Workspace)/docker.tar
+                docker save $(repositoryName):$(Build.BuildId) -o $(Pipeline.Workspace)/docker.tar
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish artifact'
@@ -152,4 +152,4 @@ stages:
                   targetType: 'inline'
                   script: |      
                     docker load --input $(Pipeline.Workspace)/docker.tar
-                    docker tag $(variables.repositoryName):$(Build.BuildId) $(variables.repositoryName):$(Build.BuildId)
+                    docker tag $(repositoryName):$(Build.BuildId) $(repositoryName):$(Build.BuildId)
