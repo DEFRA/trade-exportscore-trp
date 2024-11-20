@@ -8,6 +8,11 @@ param skuName = 'Premium'
 param vnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-virtualnetwork }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param subnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-subnet }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param vnetRg = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+param peArray = [
+  {
+    groupId: 'namespace'
+  }
+]
 
 param environmentTag = '#{{ environmentTag }}'
 param serviceCodeTag = '#{{ serviceCodeTag }}'
