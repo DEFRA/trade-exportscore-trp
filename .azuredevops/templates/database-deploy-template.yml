@@ -16,7 +16,9 @@ parameters:
   - name: poolName
     type: string
 
-steps:  
+steps:
+  - checkout: self
+
   # Download artifact from Build Stage
   - task: DownloadPipelineArtifact@2
     displayName: "Download Liquibase Artifact from Build"
