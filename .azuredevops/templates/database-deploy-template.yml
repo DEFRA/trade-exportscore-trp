@@ -16,10 +16,7 @@ parameters:
   - name: poolName
     type: string
 
-steps:
-  # Checkout repository 
-  - checkout: self
-  
+steps:  
   # Download artifact from Build Stage
   - task: DownloadPipelineArtifact@2
     displayName: "Download Liquibase Artifact from Build"
@@ -35,7 +32,7 @@ steps:
       ScriptType: "FilePath"
       azurePowerShellVersion: "latestVersion"
       pwsh: true
-      ScriptPath: "$(Build.SourcesDirectory)/scripts/grant-psqlserveraccess.ps1"
+      ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/grant-psqlserveraccess.ps1"
       ScriptArguments: |
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
         -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
@@ -68,7 +65,7 @@ steps:
       ScriptType: "FilePath"
       azurePowerShellVersion: "latestVersion"
       pwsh: true
-      ScriptPath: "$(Build.SourcesDirectory)/scripts/invoke-liquibase.ps1"
+      ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/invoke-liquibase.ps1"
       workingDirectory: "$(Pipeline.Workspace)/liquibase/extracted"
       ScriptArguments: |
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
@@ -84,7 +81,7 @@ steps:
       ScriptType: "FilePath"
       azurePowerShellVersion: "latestVersion"
       pwsh: true
-      ScriptPath: "$(Build.SourcesDirectory)/scripts/grant-psqldbaccess.ps1"
+      ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/grant-psqldbaccess.ps1"
       ScriptArguments: |
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
         -UserName '${{parameters.adminName}}@${{ parameters.databaseServer }}'
