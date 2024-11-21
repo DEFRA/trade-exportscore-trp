@@ -17,6 +17,9 @@ parameters:
     type: string
 
 steps:
+  # Checkout repository 
+  - checkout: self
+  
   # Download artifact from Build Stage
   - task: DownloadPipelineArtifact@2
     displayName: "Download Liquibase Artifact from Build"
