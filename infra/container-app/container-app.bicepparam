@@ -5,7 +5,7 @@ param location = '#{{ location }}'
 param managedEnvName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_managedenvironment }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param managedEnvResourceGroup = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc-resource-resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param containerRegistryName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_containerregistry }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
-param miName = '#{{ environment }}#{{ project }}#{{ nc-function-database }}#{{ nc_identity }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+param miName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_identity }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 
 param tags = {
   Tier: 'Storage'
