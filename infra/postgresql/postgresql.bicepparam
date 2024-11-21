@@ -21,7 +21,7 @@ param server = {
 }
 
 param miName = '#{{ environment }}#{{ project }}#{{ nc-function-database }}#{{ nc_identity }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
-param keyVaultName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_keyvault }}#{{ subscriptionNumber }}#{{ regionNumber }}02'
+param keyVaultName = '#{{ environment }}#{{ project }}#{{ nc-function-infrastructure }}#{{ nc_keyvault }}#{{ subscriptionNumber }}#{{ regionNumber }}03'
 
 param vnetResourceGroup = '#{{ environment }}#{{ project }}#{{ nc_network }}#{{ nc_resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 param vnetName = '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-virtualnetwork }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
