@@ -35,10 +35,10 @@ steps:
       azurePowerShellVersion: "latestVersion"
       pwsh: true
       ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/grant-psqlserveraccess.ps1"
-      ScriptArguments: |
+      ScriptArguments: 
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
         -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
-        -ManagedIdentityName '${{ parameters.subscription }}${{ parameters.managedIdentity }}'
+        -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -ResourceGroupName '${{ parameters.resourceGroup }}'
         -Subscription '${{ parameters.azureSubscription }}'
 
@@ -69,7 +69,7 @@ steps:
       pwsh: true
       ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/invoke-liquibase.ps1"
       workingDirectory: "$(Pipeline.Workspace)/liquibase/extracted"
-      ScriptArguments: |
+      ScriptArguments: 
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
         -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
         -DatabaseName '${{ parameters.databaseName }}'
@@ -84,8 +84,8 @@ steps:
       azurePowerShellVersion: "latestVersion"
       pwsh: true
       ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/grant-psqldbaccess.ps1"
-      ScriptArguments: |
+      ScriptArguments: 
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
         -UserName '${{parameters.adminName}}@${{ parameters.databaseServer }}'
-        -ManagedIdentityName '${{ parameters.subscription }}${{ parameters.managedIdentity }}'
+        -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -DatabaseName '${{ parameters.databaseName }}'
