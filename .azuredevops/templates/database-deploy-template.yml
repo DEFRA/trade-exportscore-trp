@@ -16,9 +16,6 @@ parameters:
   - name: poolName
     type: string
 
-job: Deploy
-pool:
-  name: ${{ parameters.poolName }}
 steps:
   # Download artifact from Build Stage
   - task: DownloadPipelineArtifact@2
