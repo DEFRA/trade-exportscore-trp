@@ -1,11 +1,17 @@
+//imports
+import * as comTypes from 'br/commonRegistry:commontypes:0-latest'
+import * as comFuncs from 'br/commonRegistry:commonfunctions:0-latest'
+
 // General parameters
 param name string
+param tags comTypes.tagsObject
 param location string
 param createdDate string = utcNow('yyyy-MM-dd')
 param roleAssignments array = []
 param managedEnvName string
 param managedEnvResourceGroup string
 param containerRegistryName string
+param miName string
 
 // Tags
 param environmentTag string
@@ -19,6 +25,15 @@ var containerRegistryNameLower = toLower(containerRegistryName)
 resource managedEnvExisting 'Microsoft.App/managedEnvironments@2022-10-01' existing = {
   name: managedEnvName
   scope: resourceGroup(managedEnvResourceGroup)
+}
+
+module managedId 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+  name: '${miName}-${createdDate}'
+  params: {
+    name: '${miName}-${name}'
+    location: location
+    tags: comFuncs.tagBuilder(miName, createdDate, tags)
+  }
 }
 
 // Module definition
@@ -50,7 +65,9 @@ module containerApp 'br/public:avm/res/app/container-app:0.11.0' = {
     ]
     environmentResourceId: managedEnvExisting.id
     managedIdentities: {
-      systemAssigned: true
+      userAssignedResourceIds: [
+        managedId.outputs.resourceId
+      ]
     }
   }
 }
