@@ -86,4 +86,4 @@ steps:
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
         -UserName '${{parameters.adminName}}@${{ parameters.databaseServer }}'
         -ManagedIdentityName '${{ parameters.subscription }}${{ parameters.managedIdentity }}'
-        -DatabaseName '${{ parameters.databaseName }}-${{ parameters.environment }}'
+        -DatabaseName '${{ parameters.databaseName }}'
