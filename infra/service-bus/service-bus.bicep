@@ -60,13 +60,6 @@ module serviceBus 'br/SharedDefraRegistry:service-bus.namespace:0.5.3' = {
           'Send'
         ]
       }
-      {
-        name: 'AnotherKey'
-        rights: [
-          'Listen'
-          'Send'
-        ]
-      }
     ]
     enableDefaultTelemetry: true
     queues: [
@@ -77,13 +70,6 @@ module serviceBus 'br/SharedDefraRegistry:service-bus.namespace:0.5.3' = {
             rights: [
               'Listen'
               'Manage'
-              'Send'
-            ]
-          }
-          {
-            name: 'AnotherKeyQueue'
-            rights: [
-              'Listen'
               'Send'
             ]
           }
