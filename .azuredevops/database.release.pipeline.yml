@@ -33,7 +33,7 @@ stages:
                     databaseServer: "devexpdbspg1401"
                     databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
                     adminName: "DEVEXPDBSMI1401"
-                    managedIdentity: "trade-exportscore-trp" # TBC
+                    managedIdentity: "DEVEXPINFMI1401-trade-exportscore-trp"
                     resourceGroup: "DEVEXPINFRG1401"
                     subscription: "AZR-EXP-DEV1"
                     poolName: "DEFRA-COMMON-ubuntu2004-SSV3"
@@ -56,7 +56,7 @@ stages:
                     databaseServer: "sndexpdbspg1401"
                     databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
                     adminName: "SNDEXPDBSMI1401"
-                    managedIdentity: "trade-exportscore-trp" # TBC
+                    managedIdentity: "SNDEXPINFMI1401-trade-exportscore-trp"
                     resourceGroup: "SNDEXPINFRG1401"
                     subscription: "AZR-EXP-SND1"
                     poolName: "DEFRA-COMMON-ubuntu2004-SSV3"
@@ -79,7 +79,7 @@ stages:
 #                    databaseServer: "preexpdbspg1401"
 #                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
 #                    adminName: "PREEXPDBSMI1401"
-#                    managedIdentity: "trade-exportscore-trp" # TBC
+#                    managedIdentity: ""PREEXPINFMI1401-trade-exportscore-trp"" # TBC
 #                    resourceGroup: "PREEXPINFRG1401"
 #                    subscription: "AZR-EXP-PRE1"
 #                    poolName: "DEFRA-COMMON-ubuntu2004-SSV5"
@@ -102,7 +102,7 @@ stages:
 #                    databaseServer: "prdexpdbspg1401"
 #                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
 #                    adminName: "PRDEXPDBSMI1401"
-#                    managedIdentity: "trade-exportscore-trp" # TBC
+#                    managedIdentity: ""PRDEXPINFMI1401-trade-exportscore-trp"" # TBC
 #                    resourceGroup: "PRDEXPINFRG1401"
 #                    subscription: "AZR-EXP-PRD1"
 #                    poolName: "DEFRA-COMMON-ubuntu2004-SSV5"
