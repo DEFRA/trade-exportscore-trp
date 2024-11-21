@@ -1,0 +1,51 @@
+jobs:
+  - job: BuildLiquibase
+    pool:
+      vmImage: "ubuntu-latest"
+    steps:
+      # Copy necessary files for Liquibase build process
+      - task: CopyFiles@2
+        displayName: "Copy pom file to working directory"
+        inputs:
+          sourceFolder: "$(Build.Repository.LocalPath)/templates/database/build/"
+          contents: "pom.xml"
+          targetFolder: "$(Pipeline.Workspace)/liquibase/"
+          cleanTargetFolder: false
+
+      - task: CopyFiles@2
+        displayName: "Copy Maven source files to working directory"
+        inputs:
+          sourceFolder: "$(Build.Repository.LocalPath)/templates/database/build/src/"
+          contents: "**"
+          targetFolder: "$(Pipeline.Workspace)/liquibase/src/"
+          cleanTargetFolder: false
+
+      - task: CopyFiles@2
+        displayName: "Copy changelog files to working directory"
+        inputs:
+          sourceFolder: "$(Build.Repository.LocalPath)/changelog"
+          contents: "**"
+          targetFolder: "$(Pipeline.Workspace)/liquibase/src/main/resources"
+          cleanTargetFolder: false
+
+      # Build Liquibase JAR using Maven
+      - task: Maven@3
+        displayName: "Build Liquibase JAR using Maven"
+        inputs:
+          mavenPomFile: "$(Pipeline.Workspace)/liquibase/pom.xml"
+          goals: "clean package"
+          publishJUnitResults: true
+          testResultsFiles: "**/surefire-reports/TEST-*.xml"
+          javaHomeOption: "JDKVersion"
+          mavenVersionOption: "Default"
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: false
+
+      # Publish the built artifact
+      - task: PublishPipelineArtifact@1
+        displayName: "Publish Liquibase changelog artifact"
+        inputs:
+          targetPath: "$(Pipeline.Workspace)/liquibase/target"
+          artifactType: "pipeline"
+          artifactName: "liquibase-build"

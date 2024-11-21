@@ -1,0 +1,84 @@
+#trigger:
+#  branches:
+#    include:
+#      - main
+#  paths:
+#    include:
+#      - changelog/**
+
+trigger: none
+
+stages:
+  # Build Stage: Use the build template
+  - stage: Build
+    displayName: "Build Liquibase Artifact"
+    jobs:
+      - template: templates/database-build-template.yml
+
+  # Deploy Stage to DEV1
+  - stage: DeployToDEV1
+    displayName: "Deploy to DEV1"
+    dependsOn: Build
+    environment: "DEV1"
+    jobs:
+      - template: templates/database-deploy-template.yml
+        parameters:
+          azureSubscription: "AZR-EXP-DEV1"
+          databaseServer: "devexpdbspg1401"
+          databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
+          adminName: "DEVEXPDBSMI1401"
+          managedIdentity: "trade-exportscore-trp" # TBC
+          resourceGroup: "DEVEXPINFRG1401"
+          subscription: "AZR-EXP-DEV1"
+          poolName: "DEFRA-COMMON-ubuntu2004-SSV3"
+
+  # Deploy Stage to SND1
+  - stage: DeployToSND1
+    displayName: "Deploy to SND1"
+    dependsOn: DeployToDEV1
+    environment: "SND1"
+    jobs:
+      - template: templates/database-deploy-template.yml
+        parameters:
+          azureSubscription: "AZR-EXP-SND1"
+          databaseServer: "sndexpdbspg1401"
+          databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
+          adminName: "SNDEXPDBSMI1401"
+          managedIdentity: "trade-exportscore-trp" # TBC
+          resourceGroup: "SNDEXPINFRG1401"
+          subscription: "AZR-EXP-SND1"
+          poolName: "DEFRA-COMMON-ubuntu2004-SSV3"
+
+  # Deploy Stage to PRE1
+  - stage: DeployToPRE1
+    displayName: "Deploy to PRE1"
+    dependsOn: DeployToSND1
+    environment: "PRE1"
+    jobs:
+      - template: templates/database-deploy-template.yml
+        parameters:
+          azureSubscription: "AZR-EXP-PRE1"
+          databaseServer: "preexpdbspg1401"
+          databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
+          adminName: "PREEXPDBSMI1401"
+          managedIdentity: "trade-exportscore-trp" # TBC
+          resourceGroup: "PREEXPINFRG1401"
+          subscription: "AZR-EXP-PRE1"
+          poolName: "DEFRA-COMMON-ubuntu2004-SSV5"
+
+  # Deploy Stage to PRD1
+  - stage: DeployToPRD1
+    displayName: "Deploy to PRD1"
+    dependsOn: DeployToPRE1
+    environment: "PRD1"
+    jobs:
+      - template: templates/database-deploy-template.yml
+        parameters:
+          azureSubscription: "AZR-EXP-PRD1"
+          databaseServer: "prdexpdbspg1401"
+          databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
+          adminName: "PRDEXPDBSMI1401"
+          managedIdentity: "trade-exportscore-trp" # TBC
+          resourceGroup: "PRDEXPINFRG1401"
+          subscription: "AZR-EXP-PRD1"
+          poolName: "DEFRA-COMMON-ubuntu2004-SSV5"
