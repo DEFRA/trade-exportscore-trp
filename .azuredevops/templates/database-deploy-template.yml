@@ -39,6 +39,7 @@ steps:
         -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -ResourceGroupName '${{ parameters.resourceGroup }}'
         -Subscription '${{ parameters.azureSubscription }}'
+        -Debug
 
   # Unzipping Liquibase artifact
   - task: ExtractFiles@1
@@ -72,6 +73,7 @@ steps:
         -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
         -DatabaseName '${{ parameters.databaseName }}'
         -PropertiesFilePath '$(Pipeline.Workspace)/liquibase/extracted/src/main/resources/liquibase.properties'
+        -Debug
 
   # Granting database privileges to managed identity
   - task: AzurePowerShell@5
@@ -87,3 +89,4 @@ steps:
         -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
         -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -DatabaseName '${{ parameters.databaseName }}'
+        -Debug
