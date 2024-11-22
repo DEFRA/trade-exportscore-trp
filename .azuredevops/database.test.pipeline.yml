@@ -14,6 +14,7 @@ stages:
               echo "Performing DNS lookup for the database hostname..."
               nslookup devexpdbspg1401.postgres.database.azure.com
             displayName: "DNS Lookup for Database Hostname"
+            continueOnError: true 
 
           # Login with Managed Identity
           - task: AzureCLI@2
