@@ -1,0 +1,36 @@
+trigger: none
+
+stages:
+  - stage: TestDatabaseConnection
+    displayName: "Test Database Connection with Managed Identity"
+    jobs:
+      - job: TestConnection
+        displayName: "Run PostgreSQL Connection Test with Managed Identity"
+        pool:
+          name: "DEFRA-COMMON-ubuntu2004-SSV3"
+        steps:
+          # Perform DNS lookup
+          - script: |
+              echo "Performing DNS lookup for the database hostname..."
+              nslookup devexpdbspg1401.postgres.database.azure.com
+            displayName: "DNS Lookup for Database Hostname"
+
+          # Login with Managed Identity
+          - task: AzureCLI@2
+            displayName: "Login with Managed Identity"
+            inputs:
+              azureSubscription: "AZR-EXP-DEV1"
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                # Retrieve an access token for Azure PostgreSQL
+                export PSQL_ACCESS_TOKEN=$(az account get-access-token --resource-type oss-rdbms --query accessToken -o tsv)
+
+                # Use psql to connect with the token
+                PGPASSWORD=$PSQL_ACCESS_TOKEN psql \
+                  -h 10.179.35.10 \
+                  -p 5432 \
+                  -U "DEVEXPINFMI1401-trade-exportscore-trp" \
+                  -d postgres \
+                  --set=sslmode=require \
+                  -c '\conninfo'
