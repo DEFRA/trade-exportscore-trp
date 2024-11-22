@@ -12,6 +12,7 @@ param managedEnvName string
 param managedEnvResourceGroup string
 param containerRegistryName string
 param miName string
+param serviceBusNamespace string
 
 // Tags
 param environmentTag string
@@ -71,3 +72,32 @@ module containerApp 'br/public:avm/res/app/container-app:0.11.0' = {
     }
   }
 }
+
+resource serviceBus 'Microsoft.ServiceBus/namespaces@2024-01-01' existing = {
+  name: serviceBusNamespace
+}
+
+resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
+  name: containerRegistryName
+}
+
+resource serviceBusRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: '${name}-serviceBusRole'
+  scope: serviceBus
+  properties: {
+    principalId: managedId.outputs.resourceId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: '090c5cfd-751d-490a-894a-3ce6f1109419' // service bus owner
+  }
+}
+
+resource registryRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: '${name}-registryRole'
+  scope: containerRegistry
+  properties: {
+    principalId: managedId.outputs.resourceId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: '7f951dda-4ed3-4680-a7ca-43fe172d538d' // acr pull
+  }
+}
+
