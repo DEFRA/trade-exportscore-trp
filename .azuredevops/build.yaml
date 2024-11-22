@@ -153,3 +153,10 @@ stages:
                   script: |      
                     docker load --input $(Pipeline.Workspace)/docker.tar
                     docker tag $(repositoryName):$(Build.BuildId) $(repositoryName):$(Build.BuildId)
+
+              - task: Docker@2
+                displayName: 'Push to registry'
+                inputs:
+                  containerRegistry: 'AZR-EXP-DEV1'
+                  repository: 'trade-exportscore-trp'
+                  command: 'push'
