@@ -1,7 +1,7 @@
 jobs:
   - job: BuildLiquibase
     pool:
-      vmImage: "ubuntu-latest"
+      name: "DEFRA-COMMON-ubuntu2004-SSV3"
     steps:
       # Copy necessary files for Liquibase build process
       - task: CopyFiles@2
