@@ -13,8 +13,6 @@ parameters:
     type: string
   - name: subscription
     type: string
-  - name: poolName
-    type: string
 
 steps:
   - checkout: self
@@ -86,6 +84,6 @@ steps:
       ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/grant-psqldbaccess.ps1"
       ScriptArguments: 
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
-        -UserName '${{parameters.adminName}}@${{ parameters.databaseServer }}'
+        -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
         -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -DatabaseName '${{ parameters.databaseName }}'

@@ -23,6 +23,8 @@ stages:
       - deployment: DeployToDEV1Job
         displayName: "Deploy to DEV1"
         environment: "DEV1"
+        pool:
+          name: "DEFRA-COMMON-ubuntu2004-SSV3"
         strategy:
           runOnce:
             deploy:
@@ -36,7 +38,6 @@ stages:
                     managedIdentity: "DEVEXPINFMI1401-trade-exportscore-trp"
                     resourceGroup: "DEVEXPINFRG1401"
                     subscription: "AZR-EXP-DEV1"
-                    poolName: "DEFRA-COMMON-ubuntu2004-SSV3"
 
   # Deploy Stage to SND1
   - stage: DeployToSND1
@@ -46,6 +47,8 @@ stages:
       - deployment: DeployToSND1Job
         displayName: "Deploy to SND1"
         environment: "SND1"
+        pool:
+          name: "DEFRA-COMMON-ubuntu2004-SSV3"
         strategy:
           runOnce:
             deploy:
@@ -59,7 +62,6 @@ stages:
                     managedIdentity: "SNDEXPINFMI1401-trade-exportscore-trp"
                     resourceGroup: "SNDEXPINFRG1401"
                     subscription: "AZR-EXP-SND1"
-                    poolName: "DEFRA-COMMON-ubuntu2004-SSV3"
 
 #  # Deploy Stage to PRE1
 #  - stage: DeployToPRE1
@@ -68,7 +70,9 @@ stages:
 #    jobs:
 #      - deployment: DeployToPRE1Job
 #        displayName: "Deploy to PRE1"
-#        environment: "PRE1" 
+#        environment: "PRE1"
+#        pool:
+#          name: "DEFRA-COMMON-ubuntu2004-SSV5"
 #        strategy:
 #          runOnce:
 #            deploy:
@@ -79,10 +83,9 @@ stages:
 #                    databaseServer: "preexpdbspg1401"
 #                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
 #                    adminName: "PREEXPDBSMI1401"
-#                    managedIdentity: ""PREEXPINFMI1401-trade-exportscore-trp"" # TBC
+#                    managedIdentity: "PREEXPINFMI1401-trade-exportscore-trp"
 #                    resourceGroup: "PREEXPINFRG1401"
 #                    subscription: "AZR-EXP-PRE1"
-#                    poolName: "DEFRA-COMMON-ubuntu2004-SSV5"
 #
 #  # Deploy Stage to PRD1
 #  - stage: DeployToPRD1
@@ -91,7 +94,9 @@ stages:
 #    jobs:
 #      - deployment: DeployToPRD1Job
 #        displayName: "Deploy to PRD1"
-#        environment: "PRD1" 
+#        environment: "PRD1"
+#        pool:
+#          name: "DEFRA-COMMON-ubuntu2004-SSV5"
 #        strategy:
 #          runOnce:
 #            deploy:
@@ -102,7 +107,6 @@ stages:
 #                    databaseServer: "prdexpdbspg1401"
 #                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
 #                    adminName: "PRDEXPDBSMI1401"
-#                    managedIdentity: ""PRDEXPINFMI1401-trade-exportscore-trp"" # TBC
+#                    managedIdentity: "PRDEXPINFMI1401-trade-exportscore-trp"
 #                    resourceGroup: "PRDEXPINFRG1401"
 #                    subscription: "AZR-EXP-PRD1"
-#                    poolName: "DEFRA-COMMON-ubuntu2004-SSV5"
