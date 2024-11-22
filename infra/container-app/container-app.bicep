@@ -82,7 +82,7 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-07-01' e
 }
 
 resource serviceBusRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: '${name}-serviceBusRole'
+  name: guid('090c5cfd-751d-490a-894a-3ce6f1109419', serviceBus.id)
   scope: serviceBus
   properties: {
     principalId: managedId.outputs.resourceId
@@ -92,7 +92,7 @@ resource serviceBusRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 }
 
 resource registryRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: '${name}-registryRole'
+  name: guid('7f951dda-4ed3-4680-a7ca-43fe172d538d', containerRegistry.id)
   scope: containerRegistry
   properties: {
     principalId: managedId.outputs.resourceId
