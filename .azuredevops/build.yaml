@@ -154,8 +154,11 @@ stages:
                     docker load --input $(Pipeline.Workspace)/docker.tar
                     docker tag $(repositoryName):$(Build.BuildId) $(repositoryName):$(Build.BuildId)
 
-              - task: Docker@2
+              - task: Powershell@2
                 displayName: 'Push to registry'
                 inputs:
-                  repository: 'trade-exportscore-trp'
-                  command: 'push'
+                  targetPath: 'inline'
+                  script: |
+                    Invoke-CommandLine -Command "az acr login --name DEVEXPINFCR1401"
+                    Invoke-CommandLine -Command "docker tag trade-exportscore-trp:$(Build.BuildId)"          
+                    Invoke-CommandLine -Command "docker push trade-exportscore-trp"  
