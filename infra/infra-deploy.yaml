@@ -99,6 +99,11 @@ extends:
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+          - name: flexible-server-zone
+            path: infra\private-dns-zone
+            type: 'bicep'
+            resourceGroupName: '$(environment)$(project)$(nc-function-network)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+            scope: 'Resource Group'
           - name: postgresql
             path: infra\postgresql
             type: bicep

@@ -131,6 +131,7 @@ variables:
   nc-resource-apiconnection: AC
   nc-resource-log-analytics-workspace: LW
   nc-resource-postgres: pg
+  nc_resource_dnszone: DZ
 
 # RESOURCE NAMING CONVENTIONS LOWER
   nc-resource-webapp-lower: aw
