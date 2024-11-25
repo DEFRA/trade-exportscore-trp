@@ -24,6 +24,8 @@ parameters:
 variables:
   - name: repositoryName
     value: 'trade-exportscore-trp'
+  - name: acrName
+    value: EXPINFCR1401
 
 trigger:
   batch: true
@@ -157,10 +159,19 @@ stages:
               - task: AzurePowershell@5
                 displayName: 'Push to registry'
                 inputs:
+                  azureSubscription: 'AZR-EXP-DEV1'
+                  scriptType: 'InlineScript'
+                  azurePowerShellVersion: 'latestVersion'
+                  Inline: |
+                    Invoke-Expression -Command "az acr login --name ${{ upper(env) }}$(acrName)"
+                    Invoke-Expression -Command "docker tag $(repositoryName):$(Build.BuildId)"          
+                    Invoke-Expression -Command "docker push $(repositoryName)"  
+
+              - task: AzurePowershell@5
+                displayName: 'Update container app'
+                inputs:
                   azureSubscription: 'AZR-EXP-${{ upper(env) }}1'
                   scriptType: 'InlineScript'
                   azurePowerShellVersion: 'latestVersion'
                   Inline: |
-                    Invoke-Expression -Command "az acr login --name ${{ upper(env) }}EXPINFCR1401"
-                    Invoke-Expression -Command "docker tag trade-exportscore-trp:$(Build.BuildId)"          
-                    Invoke-Expression -Command "docker push trade-exportscore-trp"  
+                    Invoke-Expression -Command "az containerapp update --name $(repositoryName) --resource-group DEVEXPINFRG1401 --image $(repositoryName):$(Build.BuildId)" 
