@@ -164,3 +164,6 @@ variables:
   nc-resource-pe-lower: pe
   nc-resource-log-analytics-workspace-lower: lw
   pre-nc-resource-sqlserver-lower: dbssqa
+
+# Private Endpoint variables
+  region_to_dns_resourcegroup_mapping_table: '{"northeurope": "mstinfdnsrgp001","westeurope": "mstinfdnsrgp201","uksouth": "mstinfdnsrgp401","ukwest": "mstinfdnsrgp601"}'
