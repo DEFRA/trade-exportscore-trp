@@ -161,6 +161,6 @@ stages:
                   scriptType: 'InlineScript'
                   azurePowerShellVersion: 'latestVersion'
                   Inline: |
-                    Invoke-CommandLine -Command "az acr login --name DEVEXPINFCR1401"
-                    Invoke-CommandLine -Command "docker tag trade-exportscore-trp:$(Build.BuildId)"          
-                    Invoke-CommandLine -Command "docker push trade-exportscore-trp"  
+                    Invoke-Expression -Command "az acr login --name DEVEXPINFCR1401"
+                    Invoke-Expression -Command "docker tag trade-exportscore-trp:$(Build.BuildId)"          
+                    Invoke-Expression -Command "docker push trade-exportscore-trp"  
