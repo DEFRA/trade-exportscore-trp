@@ -1,102 +1,104 @@
 //imports
 import * as comTypes from 'br/commonRegistry:commontypes:0-latest'
 import * as comFuncs from 'br/commonRegistry:commonfunctions:0-latest'
-
-//Generic Params
-param location string
 param tags comTypes.tagsObject
-param date string = utcNow('yyyyMMdd')
 
-var administratorLoginPassword = uniqueString(resourceGroup().name)
-param keyVaultName string
-
-//Managed ID params
-param miName string
-
-//database Params
+@description('Required. The object of the PostgreSQL Flexible Server. The object must contain name,storageSizeGB and highAvailability properties.')
 param server object
-param storage int = int(server.storageSizeGB)
 
-// param cmkVersion string
-param databases {
-  name: string
-}[]
+@description('Required. The parameter object for the virtual network. The object must contain the name,skuName,resourceGroup and subnetPostgreSql values.')
+param vnet object
 
-// Private Endpoint params
-param vnetResourceGroup string
-param vnetName string
-param peSubnetName string
-param peArray comTypes.privateEndpointArrayType
+@description('Required. The name of the AAD admin managed identity.')
+param managedIdentityName string
 
-// Log Analytics params
-param laWorkspaceName string
+@description('Required. The diagnostic object. The object must contain diagnosticLogCategoriesToEnable and diagnosticMetricsToEnable properties.')
+param diagnostics object
 
-//Existing Resource Data Sources
-resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
-  scope: resourceGroup(vnetResourceGroup)
-  name: vnetName
-}
+@description('Required. The Azure region where the resources will be deployed.')
+param location string
+@description('Optional. Date in the format yyyyMMdd-HHmmss.')
+param deploymentDate string = utcNow('yyyyMMdd-HHmmss')
 
-resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existing = {
-  parent: vnet
-  name: peSubnetName
-}
+@description('Required. The name of the key vault where the secrets will be stored.')
+param keyvaultName string 
 
-resource la 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
-  name: laWorkspaceName
-}
+@description('Optional. The administrator login name of a server. Can only be specified when the PostgreSQL server is being created.')
+param administratorLogin string = 'solemnapple5'
 
-module managedId 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
-  name: '${miName}-${date}'
-  params: {
-    name: miName
-    location: location
-    tags: comFuncs.tagBuilder(miName, date, tags)
+param guidValue string = guid(deploymentDate)
+var administratorLoginPassword  = substring(replace(replace(guidValue, '.', '-'), '-', ''), 0, 20)
+
+resource virtual_network 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
+  name: vnet.name
+  scope: resourceGroup(vnet.resourceGroup)
+  resource subnet 'subnets@2023-05-01' existing = {
+    name: vnet.subnetPostgreSql
   }
 }
 
-module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
-  name: '${server.name}-${date}'
+module aadAdminUserMi 'br/SharedDefraRegistry:managed-identity.user-assigned-identity:0.4.3' = {
+  name: 'managed-identity-${deploymentDate}'
   params: {
-    name: server.name
-    tags: comFuncs.tagBuilder(server.name, date, tags)
-    location: location
-    skuName: server.skuName
-    tier: server.tier
-    storageSizeGB: storage
+    name: toLower(managedIdentityName)
+    tags: comFuncs.tagBuilder(managedIdentityName, deploymentDate, tags)
+  }
+}
+
+module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexible-server:0.4.4' = {
+  name: 'postgre-sql-flexible-server-${deploymentDate}'
+  params: {
+    name: toLower(server.name)
+    administratorLogin: administratorLogin
+    administratorLoginPassword : administratorLoginPassword
+    storageSizeGB: server.storageSizeGB
     highAvailability: server.highAvailability
     availabilityZone: server.availabilityZone
     version:'15'
+    location: location
+    tags: comFuncs.tagBuilder(server.name, deploymentDate, tags)
+    tier: server.tier
+    skuName: server.skuName
+    activeDirectoryAuth:'Enabled'
+    passwordAuth: 'Enabled'
+    enableDefaultTelemetry:false
+    lock: 'CanNotDelete'
     backupRetentionDays:14
     createMode: 'Default' 
-    administratorLogin: 'adminuser'
-    administratorLoginPassword: administratorLoginPassword
-    privateEndpoints: comFuncs.buildPrivateEndpointArray(peArray, server.name, peSubnet.id)
+    diagnosticLogCategoriesToEnable: diagnostics.diagnosticLogCategoriesToEnable
+    diagnosticMetricsToEnable: diagnostics.diagnosticMetricsToEnable
+    diagnosticSettingsName:''
     administrators: [
       {
-        objectId: managedId.outputs.clientId
-        principalName: managedId.outputs.name
+        objectId: aadAdminUserMi.outputs.clientId
+        principalName: aadAdminUserMi.outputs.name
         principalType: 'ServicePrincipal'
       }
     ]
-    managedIdentities: {
-      userAssignedResourceIds: [
-        managedId.outputs.resourceId
-      ]
-    }
-    databases: [
-      for db in databases: {
-        name: db.name
-      }
-    ]
-    diagnosticSettings: [{
-      workspaceResourceId: la.id
-    }]
+    configurations:[]
+    delegatedSubnetResourceId : virtual_network::subnet.id
+    diagnosticWorkspaceId: ''
   }
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
-  name: keyVaultName
+  name: keyvaultName
+}
+
+resource secretdbhost 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
+  name: 'POSTGRES-HOST'
+  parent: keyVault 
+  properties: {
+    value: '${flexibleServerDeployment.outputs.name}.postgres.database.azure.com'
+  }
+}
+
+resource secretdbuser 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
+  name: 'POSTGRES-USER'
+  parent: keyVault 
+  properties: {
+    value: administratorLogin
+  }
 }
 
 resource secretdbpassword 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
