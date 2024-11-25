@@ -66,7 +66,7 @@ extends:
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
-            postDeployScripsList:
+            postDeployScriptsList:
               - displayName: Resolve Private Endpoint IP for Service Bus
                 scriptRepo: PipelineCommonScripts
                 scriptPath: "PowerShellLibrary/Get-ResourcePrivateEndPointsDnsRecordsAsJson.ps1"
@@ -76,6 +76,7 @@ extends:
               - displayName: Set DNS record for Service Bus
                 scriptPath: "PowerShellLibrary/Set-PrivateDnsRecordSet.ps1"
                 scriptRepo: PipelineCommonScripts
+                serviceConnectionVariableName: AZR-MST-PrivateLinkDNS
                 ScriptArguments: >
                   -Ttl 120
           - name: key-vault
