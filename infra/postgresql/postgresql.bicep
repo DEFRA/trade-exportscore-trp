@@ -5,6 +5,7 @@ param tags comTypes.tagsObject
 
 @description('Required. The object of the PostgreSQL Flexible Server. The object must contain name,storageSizeGB and highAvailability properties.')
 param server object
+param intStorageSize int = int(server.storageSizeGB)
 
 @description('Required. The parameter object for the virtual network. The object must contain the name,skuName,resourceGroup and subnetPostgreSql values.')
 param vnet object
@@ -51,7 +52,7 @@ module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexi
     name: toLower(server.name)
     administratorLogin: administratorLogin
     administratorLoginPassword : administratorLoginPassword
-    storageSizeGB: server.storageSizeGB
+    storageSizeGB: intStorageSize
     highAvailability: server.highAvailability
     availabilityZone: server.availabilityZone
     version:'15'
