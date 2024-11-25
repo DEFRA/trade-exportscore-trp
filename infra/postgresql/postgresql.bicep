@@ -63,7 +63,6 @@ module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexi
     activeDirectoryAuth:'Enabled'
     passwordAuth: 'Enabled'
     enableDefaultTelemetry:false
-    lock: 'CanNotDelete'
     backupRetentionDays:14
     createMode: 'Default' 
     diagnosticLogCategoriesToEnable: diagnostics.diagnosticLogCategoriesToEnable
