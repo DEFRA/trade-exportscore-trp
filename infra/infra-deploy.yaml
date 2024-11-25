@@ -30,11 +30,18 @@ resources:
       endpoint: DEFRA
       type: github
       ref: refs/tags/1.0.0-latest
+    - repository: PipelineCommonScripts
+      name: DEFRA/adp-common-scripts
+      endpoint: DEFRA
+      type: github
+      ref: main
 
 extends:
   template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
   parameters:
     deployFromFeature: ${{ parameters.deployFromFeature }}
+    additionalRepositories: 
+      - PipelineCommonScripts
     privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
     variableFiles:
       - /infra/vars/common.yaml@self
@@ -61,7 +68,8 @@ extends:
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
             postDeployScripsList:
               - displayName: Resolve Private Endpoint IP for Service Bus
-                scriptPath: "/infra/scripts/Get-ResourcePrivateEndPointsDnsRecordsAsJson.ps1"
+                scriptRepo: PipelineCommonScripts
+                scriptPath: "PowerShellLibrary/Get-ResourcePrivateEndPointsDnsRecordsAsJson.ps1"
                 ScriptArguments: >
                   -ResourceGroupName '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
                   -ResourceName '$(environment)$(project)$(nc-function-infrastructure)$(nc_servicebus)$(subscriptionNumber)$(regionNumber)01'
