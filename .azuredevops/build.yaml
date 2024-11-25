@@ -170,7 +170,7 @@ stages:
               - task: AzurePowershell@5
                 displayName: 'Update container app'
                 inputs:
-                  azureSubscription: 'AZR-EXP-${{ upper(env) }}1'
+                  azureSubscription: 'AZR-EXP-DEV1'
                   scriptType: 'InlineScript'
                   azurePowerShellVersion: 'latestVersion'
                   Inline: |
