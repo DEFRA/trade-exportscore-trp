@@ -44,6 +44,7 @@ Function Get-RecordForPrivateDnsZone {
 
     $foundResourceDomain = $null
     foreach ($resourceDomain in $DomainPrivateDnsZoneMappingTable.Keys) {
+        Write-Output ("resource domain: " + $resourceDomain)
         if ($Fqdn.EndsWith('scm.azurewebsites.net')) {
             $foundResourceDomain = 'scm.azurewebsites.net'
             break
@@ -79,7 +80,6 @@ try {
     $domainPrivateDnsZoneMappingTable = Get-PrivateDnsZoneMappingTable
 
     foreach ( $privateEndpointDnsRecord in $privateEndpointDnsRecordObject ) {
-        Write-Output ("mapping table: " + $domainPrivateDnsZoneMappingTable)
         $privateDnsRecord = Get-RecordForPrivateDnsZone -Fqdn $privateEndpointDnsRecord.Fqdn -DomainPrivateDnsZoneMappingTable $domainPrivateDnsZoneMappingTable
     
         foreach ($ipAddress in $privateEndpointDnsRecord.IpAddress) {
