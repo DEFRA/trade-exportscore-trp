@@ -70,7 +70,7 @@ try {
 
     Write-Output ("Setting Private DNS record")
     Write-Output ("PrivateEndpointDnsRecordsJson > $($env:PRIVATEENDPOINTDNSRECORDSJSON)")
-
+    Write-Output ("sub: " + Get-AzContext)
     $privateEndpointDnsRecordObject = $env:PRIVATEENDPOINTDNSRECORDSJSON | ConvertFrom-Json
 
     $regionToResourceGroupMappingTable = @{}
