@@ -24,6 +24,9 @@ param location string
 @description('Optional. Date in the format yyyyMMdd-HHmmss.')
 param deploymentDate string = utcNow('yyyyMMdd-HHmmss')
 
+param servicePrincipalObjectId string
+param servicePrincipalName string
+
 resource virtual_network 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
   name: vnet.name
   scope: resourceGroup(vnet.resourceGroup)
@@ -70,6 +73,11 @@ module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexi
       {
         objectId: aadAdminUserMi.outputs.clientId
         principalName: aadAdminUserMi.outputs.name
+        principalType: 'ServicePrincipal'
+      }
+      {
+        objectId: servicePrincipalObjectId
+        principalName: servicePrincipalName
         principalType: 'ServicePrincipal'
       }
     ]

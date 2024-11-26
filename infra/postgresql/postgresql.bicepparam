@@ -40,5 +40,6 @@ param diagnostics = {
 }
 
 param location = '#{{ location }}'
-
 param managedIdentityName = '#{{ environment }}#{{ project }}#{{ nc-function-database }}#{{ nc_identity }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+param servicePrincipalName = 'ADO-DefraGovUK-#{{ azureResourceManagerConnection }}'
+param servicePrincipalObjectId = '#{{ servicePrincipalObjectId }}'
