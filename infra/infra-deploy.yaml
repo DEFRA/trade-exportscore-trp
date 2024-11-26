@@ -74,8 +74,8 @@ extends:
                   -ResourceGroupName '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
                   -ResourceName '$(environment)$(project)$(nc-function-infrastructure)$(nc_servicebus)$(subscriptionNumber)$(regionNumber)01'
               - displayName: Set DNS record for Service Bus
-                scriptPath: "PowerShellLibrary/Set-PrivateDnsRecordSet.ps1"
-                scriptRepo: PipelineCommonScripts
+                scriptPath: "infra/scripts/Set-PrivateDnsRecordSet.ps1"
+                scriptRepo: self
                 serviceConnectionVariableName: AZR-MST-PrivateLinkDNS
                 ScriptArguments: >
                   -Ttl 120
