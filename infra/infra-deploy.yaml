@@ -76,7 +76,7 @@ extends:
               - displayName: Set DNS record for Service Bus
                 scriptPath: "infra/scripts/Set-PrivateDnsRecordSet.ps1"
                 scriptRepo: self
-                serviceConnectionVariableName: AZR-MST-PrivateLinkDNS
+                serviceConnectionVariableName: "AZR-MST-PrivateLinkDNS"
                 ScriptArguments: >
                   -Ttl 120
           - name: key-vault
