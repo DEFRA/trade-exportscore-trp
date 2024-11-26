@@ -11,8 +11,6 @@ parameters:
     type: string
   - name: resourceGroup
     type: string
-  - name: subscription
-    type: string
 
 steps:
   - checkout: self
@@ -33,13 +31,12 @@ steps:
       azurePowerShellVersion: "latestVersion"
       pwsh: true
       ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/grant-psqlserveraccess.ps1"
-      ScriptArguments: 
+      ScriptArguments:
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
-        -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
+        -UserName '"${{ parameters.adminName }}"'
         -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -ResourceGroupName '${{ parameters.resourceGroup }}'
         -Subscription '${{ parameters.azureSubscription }}'
-        -Debug
 
   # Unzipping Liquibase artifact
   - task: ExtractFiles@1
@@ -53,9 +50,9 @@ steps:
   - task: CopyFiles@2
     displayName: "Stage changelogs"
     inputs:
-      SourceFolder: "$(Pipeline.Workspace)/liquibase/extracted/src/main/resources/${{ parameters.databaseName }}"
+      SourceFolder: "$(Pipeline.Workspace)/liquibase/extracted/src/main/resources"
       Contents: "*.xml"
-      TargetFolder: "$(Pipeline.Workspace)/liquibase/changelog"
+      TargetFolder: "$(Pipeline.Workspace)/liquibase/extracted/changelog"
       CleanTargetFolder: true
 
   # Deploy Liquibase changes to PostgreSQL
@@ -68,12 +65,12 @@ steps:
       pwsh: true
       ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/invoke-liquibase.ps1"
       workingDirectory: "$(Pipeline.Workspace)/liquibase/extracted"
-      ScriptArguments: 
+      ScriptArguments:
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
-        -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
+        -UserName '${{ parameters.adminName }}'
         -DatabaseName '${{ parameters.databaseName }}'
+        -JarFilePath '$(Pipeline.Workspace)/liquibase/extracted/lib/liquibase-core-3.3.0.jar'
         -PropertiesFilePath '$(Pipeline.Workspace)/liquibase/extracted/src/main/resources/liquibase.properties'
-        -Debug
 
   # Granting database privileges to managed identity
   - task: AzurePowerShell@5
@@ -84,9 +81,8 @@ steps:
       azurePowerShellVersion: "latestVersion"
       pwsh: true
       ScriptPath: "$(Build.SourcesDirectory)/.azuredevops/scripts/grant-psqldbaccess.ps1"
-      ScriptArguments: 
+      ScriptArguments:
         -Server '${{ parameters.databaseServer }}.postgres.database.azure.com'
-        -UserName '${{ parameters.adminName }}@${{ parameters.databaseServer }}'
+        -UserName '"${{ parameters.adminName }}"'
         -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -DatabaseName '${{ parameters.databaseName }}'
-        -Debug

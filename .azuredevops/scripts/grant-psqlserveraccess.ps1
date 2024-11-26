@@ -59,13 +59,12 @@ try {
     }
 
     [System.Text.StringBuilder]$builder = [System.Text.StringBuilder]::new()
-    [void]$builder.Append(' SET aad_validate_oids_in_tenant = off; ')
     [void]$builder.Append(' DO $$ ')
     [void]$builder.Append(' BEGIN ')
-    [void]$builder.Append("   IF EXISTS (select 1 from pg_roles WHERE rolname='$ManagedIdentityName') THEN ")
+    [void]$builder.Append("   IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$ManagedIdentityName') THEN ")
     [void]$builder.Append("     ALTER ROLE `"$ManagedIdentityName`" WITH LOGIN PASSWORD '$clientId'; ")
     [void]$builder.Append('   ELSE ')
-    [void]$builder.Append("     CREATE ROLE `"$ManagedIdentityName`" WITH LOGIN PASSWORD '$clientId' IN ROLE azure_ad_user; ")
+    [void]$builder.Append("     CREATE ROLE `"$ManagedIdentityName`" WITH LOGIN PASSWORD '$clientId'; ")
     [void]$builder.Append('   END IF; ')
     [void]$builder.Append(' END $$; ')
     [string]$command = $builder.ToString()

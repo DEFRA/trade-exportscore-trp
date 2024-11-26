@@ -34,35 +34,31 @@ stages:
                     azureSubscription: "AZR-EXP-DEV1"
                     databaseServer: "devexpdbspg1401"
                     databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
-                    adminName: "DEVEXPDBSMI1401"
+                    adminName: "ADO-DefraGovUK-AZR-EXP-DEV1"
                     managedIdentity: "DEVEXPINFMI1401-trade-exportscore-trp"
                     resourceGroup: "DEVEXPINFRG1401"
-                    subscription: "AZR-EXP-DEV1"
-
-  # Deploy Stage to SND1
-  - stage: DeployToSND1
-    displayName: "Deploy to SND1"
-    dependsOn: DeployToDEV1
-    jobs:
-      - deployment: DeployToSND1Job
-        displayName: "Deploy to SND1"
-        environment: "SND1"
-        pool:
-          name: "DEFRA-COMMON-ubuntu2004-SSV3"
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - template: templates/database-deploy-template.yml
-                  parameters:
-                    azureSubscription: "AZR-EXP-SND1"
-                    databaseServer: "sndexpdbspg1401"
-                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
-                    adminName: "SNDEXPDBSMI1401"
-                    managedIdentity: "SNDEXPINFMI1401-trade-exportscore-trp"
-                    resourceGroup: "SNDEXPINFRG1401"
-                    subscription: "AZR-EXP-SND1"
-
+#  # Deploy Stage to SND1
+#  - stage: DeployToSND1
+#    displayName: "Deploy to SND1"
+#    dependsOn: DeployToDEV1
+#    jobs:
+#      - deployment: DeployToSND1Job
+#        displayName: "Deploy to SND1"
+#        environment: "SND1"
+#        pool:
+#          name: "DEFRA-COMMON-ubuntu2004-SSV3"
+#        strategy:
+#          runOnce:
+#            deploy:
+#              steps:
+#                - template: templates/database-deploy-template.yml
+#                  parameters:
+#                    azureSubscription: "AZR-EXP-SND1"
+#                    databaseServer: "sndexpdbspg1401"
+#                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
+#                    adminName: "ADO-DefraGovUK-AZR-EXP-SND1"
+#                    managedIdentity: "SNDEXPINFMI1401-trade-exportscore-trp"
+#                    resourceGroup: "SNDEXPINFRG1401"
 #  # Deploy Stage to PRE1
 #  - stage: DeployToPRE1
 #    displayName: "Deploy to PRE1"
@@ -82,10 +78,9 @@ stages:
 #                    azureSubscription: "AZR-EXP-PRE1"
 #                    databaseServer: "preexpdbspg1401"
 #                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
-#                    adminName: "PREEXPDBSMI1401"
+#                    adminName: "ADO-DefraGovUK-AZR-EXP-PRE1"
 #                    managedIdentity: "PREEXPINFMI1401-trade-exportscore-trp"
 #                    resourceGroup: "PREEXPINFRG1401"
-#                    subscription: "AZR-EXP-PRE1"
 #
 #  # Deploy Stage to PRD1
 #  - stage: DeployToPRD1
@@ -106,7 +101,6 @@ stages:
 #                    azureSubscription: "AZR-EXP-PRD1"
 #                    databaseServer: "prdexpdbspg1401"
 #                    databaseName: "eutd-trade-exports-core-trade-exportscore-trp"
-#                    adminName: "PRDEXPDBSMI1401"
+#                    adminName: "ADO-DefraGovUK-AZR-EXP-PRD1"
 #                    managedIdentity: "PRDEXPINFMI1401-trade-exportscore-trp"
 #                    resourceGroup: "PRDEXPINFRG1401"
-#                    subscription: "AZR-EXP-PRD1"
