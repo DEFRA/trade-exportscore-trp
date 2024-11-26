@@ -37,6 +37,7 @@ steps:
         -ManagedIdentityName '${{ parameters.managedIdentity }}'
         -ResourceGroupName '${{ parameters.resourceGroup }}'
         -Subscription '${{ parameters.azureSubscription }}'
+        -DatabaseName '${{ parameters.databaseName }}'
 
   # Unzipping Liquibase artifact
   - task: ExtractFiles@1

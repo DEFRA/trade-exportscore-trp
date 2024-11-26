@@ -8,7 +8,9 @@ param(
     [Parameter(Mandatory)]
     [string]$ResourceGroupName,
     [Parameter(Mandatory)]
-    [string]$Subscription
+    [string]$Subscription,
+    [Parameter(Mandatory)]
+    [string]$DatabaseName
 )
 
 Set-StrictMode -Version 3.0
@@ -33,6 +35,7 @@ Write-Debug "${functionName}:UserName=$UserName"
 Write-Debug "${functionName}:ManagedIdentityName=$ManagedIdentityName"
 Write-Debug "${functionName}:ResourceGroupName=$ResourceGroupName"
 Write-Debug "${functionName}:Subscription=$Subscription"
+Write-Debug "${functionName}:DatabaseName=$DatabaseName"
 
 [System.IO.DirectoryInfo]$scriptDir = $PSCommandPath | Split-Path -Parent
 Write-Debug "${functionName}:scriptDir.FullName=$scriptDir.FullName"
@@ -61,11 +64,14 @@ try {
     [System.Text.StringBuilder]$builder = [System.Text.StringBuilder]::new()
     [void]$builder.Append(' DO $$ ')
     [void]$builder.Append(' BEGIN ')
-    [void]$builder.Append("   IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$ManagedIdentityName') THEN ")
-    [void]$builder.Append("     ALTER ROLE `"$ManagedIdentityName`" WITH LOGIN PASSWORD '$clientId'; ")
+    [void]$builder.Append("   IF NOT EXISTS (SELECT 1 FROM pgaadauth_list_principals(false) WHERE rolname='$ManagedIdentityName') THEN ")
+    [void]$builder.Append("     RAISE NOTICE 'CREATING PRINCIPAL FOR MANAGED IDENTITY:$ManagedIdentityName';")
+    [void]$builder.Append("     PERFORM pgaadauth_create_principal('$ManagedIdentityName', false, false); ");
+    [void]$builder.Append("     RAISE NOTICE 'PRINCIPAL FOR MANAGED IDENTITY CREATED:$ManagedIdentityName';")
     [void]$builder.Append('   ELSE ')
-    [void]$builder.Append("     CREATE ROLE `"$ManagedIdentityName`" WITH LOGIN PASSWORD '$clientId'; ")
+    [void]$builder.Append("     RAISE NOTICE 'PRINCIPAL FOR MANAGED IDENTITY ALREADY EXISTS:$ManagedIdentityName';")
     [void]$builder.Append('   END IF; ')
+    [void]$builder.Append("   EXECUTE ( 'GRANT CONNECT ON DATABASE `"$DatabaseName`" TO `"$ManagedIdentityName`"' );")
     [void]$builder.Append(' END $$; ')
     [string]$command = $builder.ToString()
     Write-Debug "${functionName}:command=$command"
