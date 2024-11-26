@@ -79,7 +79,7 @@ try {
     $domainPrivateDnsZoneMappingTable = Get-PrivateDnsZoneMappingTable
 
     foreach ( $privateEndpointDnsRecord in $privateEndpointDnsRecordObject ) {
-        Write-Output ($domainPrivateDnsZoneMappingTable)
+        Write-Output ("mapping table: " + $domainPrivateDnsZoneMappingTable)
         $privateDnsRecord = Get-RecordForPrivateDnsZone -Fqdn $privateEndpointDnsRecord.Fqdn -DomainPrivateDnsZoneMappingTable $domainPrivateDnsZoneMappingTable
     
         foreach ($ipAddress in $privateEndpointDnsRecord.IpAddress) {
