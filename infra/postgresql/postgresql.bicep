@@ -13,12 +13,6 @@ param vnet object
 @description('Required. The name of the AAD admin managed identity.')
 param managedIdentityName string
 
-@description('Required. The parameter object for the private Dns zone. The object must contain the name and resourceGroup values')
-param privateDnsZone object
-
-@description('Required. The diagnostic object. The object must contain diagnosticLogCategoriesToEnable and diagnosticMetricsToEnable properties.')
-param diagnostics object
-
 @description('Required. The Azure region where the resources will be deployed.')
 param location string
 @description('Optional. Date in the format yyyyMMdd-HHmmss.')
@@ -26,18 +20,25 @@ param deploymentDate string = utcNow('yyyyMMdd-HHmmss')
 
 param servicePrincipalObjectId string
 param servicePrincipalName string
+param peArray comTypes.privateEndpointArrayType
+param laWorkspaceName string
+
+param databases {
+  name: string
+}[]
 
 resource virtual_network 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
   name: vnet.name
   scope: resourceGroup(vnet.resourceGroup)
-  resource subnet 'subnets@2023-05-01' existing = {
-    name: vnet.subnetPostgreSql
-  }
 }
 
-resource private_dns_zone 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: privateDnsZone.name
-  scope: resourceGroup(privateDnsZone.resourceGroup)
+resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existing = {
+  parent: virtual_network
+  name: vnet.subnetPostreSql
+}
+
+resource la 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
+  name: laWorkspaceName
 }
 
 module aadAdminUserMi 'br/SharedDefraRegistry:managed-identity.user-assigned-identity:0.4.3' = {
@@ -48,7 +49,7 @@ module aadAdminUserMi 'br/SharedDefraRegistry:managed-identity.user-assigned-ide
   }
 }
 
-module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexible-server:0.4.4' = {
+module flexibleServerDeployment 'br/public:avm/res/db-for-postgre-sql/flexible-server:0.6.0' = {
   name: 'postgre-sql-flexible-server-${deploymentDate}'
   params: {
     name: toLower(server.name)
@@ -60,15 +61,10 @@ module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexi
     tags: comFuncs.tagBuilder(server.name, deploymentDate, tags)
     tier: server.tier
     skuName: server.skuName
-    activeDirectoryAuth:'Enabled'
-    passwordAuth: 'Disabled'
-    enableDefaultTelemetry:false
-    privateDnsZoneArmResourceId: private_dns_zone.id
+    enableTelemetry: true
+    privateEndpoints: comFuncs.buildPrivateEndpointArray(peArray, server.name, peSubnet.id)
     backupRetentionDays:14
     createMode: 'Default' 
-    diagnosticLogCategoriesToEnable: diagnostics.diagnosticLogCategoriesToEnable
-    diagnosticMetricsToEnable: diagnostics.diagnosticMetricsToEnable
-    diagnosticSettingsName:''
     administrators: [
       {
         objectId: aadAdminUserMi.outputs.clientId
@@ -81,8 +77,18 @@ module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexi
         principalType: 'ServicePrincipal'
       }
     ]
-    configurations:[]
-    delegatedSubnetResourceId : virtual_network::subnet.id
-    diagnosticWorkspaceId: ''
+    diagnosticSettings: [{
+      workspaceResourceId: la.id
+    }]
+    managedIdentities: {
+      userAssignedResourceIds: [
+        aadAdminUserMi.outputs.resourceId
+      ]
+    }
+    databases: [
+      for db in databases: {
+        name: db.name
+      }
+    ]
   }
 }
