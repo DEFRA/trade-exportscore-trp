@@ -74,8 +74,8 @@ extends:
                   -ResourceGroupName '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
                   -ResourceName '$(environment)$(project)$(nc-function-infrastructure)$(nc_servicebus)$(subscriptionNumber)$(regionNumber)01'
               - displayName: Set DNS record for Service Bus
-                scriptPath: "infra/scripts/Set-PrivateDnsRecordSet.ps1"
-                scriptRepo: self
+                scriptPath: "PowerShellLibrary/Set-PrivateDnsRecordSet.ps1"
+                scriptRepo: PipelineCommonScripts
                 serviceConnectionVariableName: msServiceConnectionName
                 ScriptArguments: >
                   -Ttl 120
@@ -83,17 +83,56 @@ extends:
             path: infra\key-vault
             type: bicep
             scope: 'Resource Group'
+            postDeployScriptsList:
+              - displayName: Resolve Private Endpoint IP for Key Vault
+                scriptRepo: PipelineCommonScripts
+                scriptPath: "PowerShellLibrary/Get-ResourcePrivateEndPointsDnsRecordsAsJson.ps1"
+                ScriptArguments: >
+                  -ResourceGroupName '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+                  -ResourceName '$(environment)$(project)$(nc-function-infrastructure)$(nc_keyvault)$(subscriptionNumber)$(regionNumber)03'
+              - displayName: Set DNS record for Key Vault
+                scriptPath: "PowerShellLibrary/Set-PrivateDnsRecordSet.ps1"
+                scriptRepo: PipelineCommonScripts
+                serviceConnectionVariableName: msServiceConnectionName
+                ScriptArguments: >
+                  -Ttl 120
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
           - name: container-registry
             path: infra\container-registry
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+            postDeployScriptsList:
+              - displayName: Resolve Private Endpoint IP for Container Registry
+                scriptRepo: PipelineCommonScripts
+                scriptPath: "PowerShellLibrary/Get-ResourcePrivateEndPointsDnsRecordsAsJson.ps1"
+                ScriptArguments: >
+                  -ResourceGroupName '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+                  -ResourceName '$(environment)$(project)$(nc-function-infrastructure)$(nc_containerregistry)$(subscriptionNumber)$(regionNumber)01'
+              - displayName: Set DNS record for Container Registry
+                scriptPath: "PowerShellLibrary/Set-PrivateDnsRecordSet.ps1"
+                scriptRepo: PipelineCommonScripts
+                serviceConnectionVariableName: msServiceConnectionName
+                ScriptArguments: >
+                  -Ttl 120
           - name: managed-environment
             path: infra\managed-environment
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+            postDeployScriptsList:
+              - displayName: Resolve Private Endpoint IP for Container App Env
+                scriptRepo: PipelineCommonScripts
+                scriptPath: "PowerShellLibrary/Get-ResourcePrivateEndPointsDnsRecordsAsJson.ps1"
+                ScriptArguments: >
+                  -ResourceGroupName '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+                  -ResourceName '$(environment)$(project)$(nc-function-infrastructure)$(nc_managedenvironment)$(subscriptionNumber)$(regionNumber)01'
+              - displayName: Set DNS record for Container App Env
+                scriptPath: "PowerShellLibrary/Set-PrivateDnsRecordSet.ps1"
+                scriptRepo: PipelineCommonScripts
+                serviceConnectionVariableName: msServiceConnectionName
+                ScriptArguments: >
+                  -Ttl 120
           - name: container-app
             path: infra\container-app
             type: bicep
@@ -109,6 +148,19 @@ extends:
             type: bicep
             scope: 'Resource Group'
             resourceGroupName: '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+            postDeployScriptsList:
+              - displayName: Resolve Private Endpoint IP for Postgres
+                scriptRepo: PipelineCommonScripts
+                scriptPath: "PowerShellLibrary/Get-ResourcePrivateEndPointsDnsRecordsAsJson.ps1"
+                ScriptArguments: >
+                  -ResourceGroupName '$(environment)$(project)$(nc-function-infrastructure)$(nc-resource-resourcegroup)$(subscriptionNumber)$(regionNumber)01'
+                  -ResourceName '$(environmentLower)$(project-lower)$(nc-function-database-lower)$(nc-resource-postgres)$(subscriptionNumber)$(regionNumber)01'
+              - displayName: Set DNS record for Postgres
+                scriptPath: "PowerShellLibrary/Set-PrivateDnsRecordSet.ps1"
+                scriptRepo: PipelineCommonScripts
+                serviceConnectionVariableName: msServiceConnectionName
+                ScriptArguments: >
+                  -Ttl 120  
 
     environments:
       - name: dev1
