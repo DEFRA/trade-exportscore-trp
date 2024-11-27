@@ -16,14 +16,16 @@ parameters:
   - name: environments
     type: object
     default:
-      - 'dev1'
-      - 'snd1'
-      - 'pre1'
-      - 'prd1'
+      - 'dev'
+      - 'snd'
+      - 'pre'
+      - 'prd'
 
 variables:
   - name: repositoryName
     value: 'trade-exportscore-trp'
+  - name: acrName
+    value: EXPINFCR1401
 
 trigger:
   batch: true
@@ -110,32 +112,32 @@ stages:
 
 
   - ${{ each env in parameters.environments }}:
-    - stage: ${{ upper(env) }}
-      ${{ if eq(env, 'dev1') }}:
+    - stage: '${{ upper(env) }}1'
+      ${{ if eq(env, 'dev') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV3'
         dependsOn: Build
         condition: and(succeeded(), or(eq(${{ parameters.deployFromFeature }}, true), in(variables['Build.SourceBranch'], 'refs/heads/main')))
-      ${{ if eq(env, 'snd1') }}:
+      ${{ if eq(env, 'snd') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV3'
         dependsOn: DEV1
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
-      ${{ if eq(env, 'pre1') }}:
+      ${{ if eq(env, 'pre') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV5'
         dependsOn: SND1
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
-      ${{ if eq(env, 'prd1') }}:
+      ${{ if eq(env, 'prd') }}:
         pool:
           name: 'DEFRA-COMMON-ubuntu2004-SSV5'
         dependsOn: PRE1
         condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'), in(variables['Build.SourceBranch'], 'refs/heads/main'))
       jobs:
-      - deployment: ${{ upper(env) }}
+      - deployment: '${{ upper(env) }}1'
         workspace:
           clean: all
-        environment: ${{ upper(env) }}
+        environment: '${{ upper(env) }}1'
         strategy:
           runOnce:
             deploy:
@@ -153,3 +155,23 @@ stages:
                   script: |      
                     docker load --input $(Pipeline.Workspace)/docker.tar
                     docker tag $(repositoryName):$(Build.BuildId) $(repositoryName):$(Build.BuildId)
+
+              - task: AzurePowershell@5
+                displayName: 'Push to registry'
+                inputs:
+                  azureSubscription: 'AZR-EXP-${{ upper(env) }}1'
+                  scriptType: 'InlineScript'
+                  azurePowerShellVersion: 'latestVersion'
+                  Inline: |
+                    Invoke-Expression -Command "az acr login --name ${{ upper(env) }}$(acrName)"
+                    Invoke-Expression -Command "docker tag $(repositoryName):$(Build.BuildId)"          
+                    Invoke-Expression -Command "docker push $(repositoryName)"  
+
+              - task: AzurePowershell@5
+                displayName: 'Update container app'
+                inputs:
+                  azureSubscription: 'AZR-EXP-${{ upper(env) }}1'
+                  scriptType: 'InlineScript'
+                  azurePowerShellVersion: 'latestVersion'
+                  Inline: |
+                    Invoke-Expression -Command "az containerapp update --name $(repositoryName) --resource-group DEVEXPINFRG1401 --image $(repositoryName):$(Build.BuildId)" 
