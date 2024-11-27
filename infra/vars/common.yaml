@@ -167,3 +167,4 @@ variables:
 
 # Private Endpoint variables
   region_to_dns_resourcegroup_mapping_table: '{"northeurope": "mstinfdnsrgp001","westeurope": "mstinfdnsrgp201","uksouth": "mstinfdnsrgp401","ukwest": "mstinfdnsrgp601"}'
+  msServiceConnectionName: AZR-MST-PrivateLinkDNS
