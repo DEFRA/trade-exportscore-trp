@@ -1,87 +1,88 @@
 //imports
 import * as comTypes from 'br/commonRegistry:commontypes:0-latest'
 import * as comFuncs from 'br/commonRegistry:commonfunctions:0-latest'
-
-//Generic Params
-param location string
 param tags comTypes.tagsObject
-param date string = utcNow('yyyyMMdd')
 
-var administratorLoginPassword = uniqueString(resourceGroup().name)
-param keyVaultName string
-
-//Managed ID params
-param miName string
-
-//database Params
+@description('Required. The object of the PostgreSQL Flexible Server. The object must contain name,storageSizeGB and highAvailability properties.')
 param server object
-param storage int = int(server.storageSizeGB)
+param intStorageSize int = int(server.storageSizeGB)
 
-// param cmkVersion string
+@description('Required. The parameter object for the virtual network. The object must contain the name,skuName,resourceGroup and subnetPostgreSql values.')
+param vnet object
+
+@description('Required. The name of the AAD admin managed identity.')
+param managedIdentityName string
+
+@description('Required. The Azure region where the resources will be deployed.')
+param location string
+@description('Optional. Date in the format yyyyMMdd-HHmmss.')
+param deploymentDate string = utcNow('yyyyMMdd-HHmmss')
+
+param servicePrincipalObjectId string
+param servicePrincipalName string
+param peArray comTypes.privateEndpointArrayType
+param laWorkspaceName string
+
 param databases {
   name: string
 }[]
 
-// Private Endpoint params
-param vnetResourceGroup string
-param vnetName string
-param peSubnetName string
-param peArray comTypes.privateEndpointArrayType
-
-// Log Analytics params
-param laWorkspaceName string
-
-//Existing Resource Data Sources
-resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
-  scope: resourceGroup(vnetResourceGroup)
-  name: vnetName
+resource virtual_network 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
+  name: vnet.name
+  scope: resourceGroup(vnet.resourceGroup)
 }
 
 resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existing = {
-  parent: vnet
-  name: peSubnetName
+  parent: virtual_network
+  name: vnet.subnetPostgreSql
 }
 
 resource la 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
   name: laWorkspaceName
 }
 
-module managedId 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
-  name: '${miName}-${date}'
+module aadAdminUserMi 'br/SharedDefraRegistry:managed-identity.user-assigned-identity:0.4.3' = {
+  name: 'managed-identity-${deploymentDate}'
   params: {
-    name: miName
-    location: location
-    tags: comFuncs.tagBuilder(miName, date, tags)
+    name: toLower(managedIdentityName)
+    tags: comFuncs.tagBuilder(managedIdentityName, deploymentDate, tags)
   }
 }
 
-module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
-  name: '${server.name}-${date}'
+module flexibleServerDeployment 'br/public:avm/res/db-for-postgre-sql/flexible-server:0.6.0' = {
+  name: 'postgre-sql-flexible-server-${deploymentDate}'
   params: {
-    name: server.name
-    tags: comFuncs.tagBuilder(server.name, date, tags)
-    location: location
-    skuName: server.skuName
-    tier: server.tier
-    storageSizeGB: storage
+    name: toLower(server.name)
+    storageSizeGB: intStorageSize
     highAvailability: server.highAvailability
     availabilityZone: server.availabilityZone
     version:'15'
+    location: location
+    tags: comFuncs.tagBuilder(server.name, deploymentDate, tags)
+    tier: server.tier
+    skuName: server.skuName
+    enableTelemetry: true
+    privateEndpoints: comFuncs.buildPrivateEndpointArray(peArray, server.name, peSubnet.id)
     backupRetentionDays:14
     createMode: 'Default' 
-    administratorLogin: 'adminuser'
-    administratorLoginPassword: administratorLoginPassword
-    privateEndpoints: comFuncs.buildPrivateEndpointArray(peArray, server.name, peSubnet.id)
     administrators: [
       {
-        objectId: managedId.outputs.clientId
-        principalName: managedId.outputs.name
+        objectId: aadAdminUserMi.outputs.clientId
+        principalName: aadAdminUserMi.outputs.name
+        principalType: 'ServicePrincipal'
+      }
+      {
+        objectId: servicePrincipalObjectId
+        principalName: servicePrincipalName
         principalType: 'ServicePrincipal'
       }
     ]
+    diagnosticSettings: [{
+      workspaceResourceId: la.id
+    }]
     managedIdentities: {
       userAssignedResourceIds: [
-        managedId.outputs.resourceId
+        aadAdminUserMi.outputs.resourceId
       ]
     }
     databases: [
@@ -89,20 +90,5 @@ module database 'br/avm:db-for-postgre-sql/flexible-server:0.5.0' = {
         name: db.name
       }
     ]
-    diagnosticSettings: [{
-      workspaceResourceId: la.id
-    }]
-  }
-}
-
-resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
-  name: keyVaultName
-}
-
-resource secretdbpassword 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
-  name: 'POSTGRES-PASSWORD'
-  parent: keyVault 
-  properties: {
-    value: administratorLoginPassword
   }
 }
