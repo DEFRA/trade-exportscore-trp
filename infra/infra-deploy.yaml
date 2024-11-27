@@ -174,3 +174,19 @@ extends:
         privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV3"
         azureRegions:
           primary: "UKSouth"
+      - name: pre1
+        dependsOn: snd1
+        serviceConnection: AZR-EXP-PRE1
+        deploymentBranches:
+          - "refs/heads/main"
+        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV5"
+        azureRegions:
+          primary: "UKSouth"
+      - name: prd1
+        dependsOn: pre1
+        serviceConnection: AZR-EXP-PRD1
+        deploymentBranches:
+          - "refs/heads/main"
+        privateAgentName: "DEFRA-COMMON-ubuntu2004-SSV5"
+        azureRegions:
+          primary: "UKSouth"
