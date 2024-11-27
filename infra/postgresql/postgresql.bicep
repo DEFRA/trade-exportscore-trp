@@ -34,7 +34,7 @@ resource virtual_network 'Microsoft.Network/virtualNetworks@2023-05-01' existing
 
 resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existing = {
   parent: virtual_network
-  name: vnet.subnetPostreSql
+  name: vnet.subnetPostgreSql
 }
 
 resource la 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
