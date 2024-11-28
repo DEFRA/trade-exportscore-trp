@@ -31,7 +31,7 @@ stages:
                 PGPASSWORD=$PSQL_ACCESS_TOKEN psql \
                   -h 10.179.35.10 \
                   -p 5432 \
-                  -U "DEVEXPINFMI1401-trade-exportscore-trp" \
+                  -U "ADO-DefraGovUK-AZR-EXP-DEV1" \
                   -d postgres \
                   --set=sslmode=require \
                   -c '\conninfo'
