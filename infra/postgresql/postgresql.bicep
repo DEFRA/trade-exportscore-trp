@@ -20,9 +20,8 @@ param deploymentDate string = utcNow('yyyyMMdd-HHmmss')
 
 param servicePrincipalObjectId string
 param servicePrincipalName string
-param peArray comTypes.privateEndpointArrayType
 param laWorkspaceName string
-
+param privateDnsZone object
 param databases {
   name: string
 }[]
@@ -30,11 +29,14 @@ param databases {
 resource virtual_network 'Microsoft.Network/virtualNetworks@2023-05-01' existing = {
   name: vnet.name
   scope: resourceGroup(vnet.resourceGroup)
+  resource subnet 'subnets@2023-05-01' existing = {
+    name: vnet.subnetPostgreSql
+  }
 }
 
-resource peSubnet 'Microsoft.Network/virtualNetworks/subnets@2023-05-01' existing = {
-  parent: virtual_network
-  name: vnet.subnetPostgreSql
+resource private_dns_zone 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
+  name: privateDnsZone.name
+  scope: resourceGroup(privateDnsZone.resourceGroup)
 }
 
 resource la 'Microsoft.OperationalInsights/workspaces@2023-09-01' existing = {
@@ -49,7 +51,7 @@ module aadAdminUserMi 'br/SharedDefraRegistry:managed-identity.user-assigned-ide
   }
 }
 
-module flexibleServerDeployment 'br/public:avm/res/db-for-postgre-sql/flexible-server:0.6.0' = {
+module flexibleServerDeployment 'br/SharedDefraRegistry:db-for-postgre-sql.flexible-server:0.4.4' = {
   name: 'postgre-sql-flexible-server-${deploymentDate}'
   params: {
     name: toLower(server.name)
@@ -61,8 +63,7 @@ module flexibleServerDeployment 'br/public:avm/res/db-for-postgre-sql/flexible-s
     tags: comFuncs.tagBuilder(server.name, deploymentDate, tags)
     tier: server.tier
     skuName: server.skuName
-    enableTelemetry: true
-    privateEndpoints: comFuncs.buildPrivateEndpointArray(peArray, server.name, peSubnet.id)
+    enableDefaultTelemetry: true
     backupRetentionDays:14
     createMode: 'Default' 
     administrators: [
@@ -77,13 +78,11 @@ module flexibleServerDeployment 'br/public:avm/res/db-for-postgre-sql/flexible-s
         principalType: 'ServicePrincipal'
       }
     ]
-    diagnosticSettings: [{
-      workspaceResourceId: la.id
-    }]
-    managedIdentities: {
-      userAssignedResourceIds: [
-        aadAdminUserMi.outputs.resourceId
-      ]
+    diagnosticWorkspaceId: la.id
+    delegatedSubnetResourceId : virtual_network::subnet.id
+    privateDnsZoneArmResourceId: private_dns_zone.id
+    userAssignedIdentities: {
+      managedIdentityResourceId: aadAdminUserMi.outputs.resourceId
     }
     databases: [
       for db in databases: {

@@ -27,11 +27,10 @@ param vnet = {
   subnetPostgreSql: '#{{ environment }}#{{ project }}#{{ nc-function-network }}#{{ nc-resource-subnet }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
 }
 
-param peArray = [
-  {
-    groupId: 'postgresqlServer'
-  }
-]
+param privateDnsZone = {
+  name: '#{{ environment }}#{{ project }}#{{ nc_private_dns_zone }}#{{ nc_resource_dnszone }}#{{ subscriptionNumber }}#{{ regionNumber }}01.private.postgres.database.azure.com'
+  resourceGroup: '#{{ environment }}#{{ project }}#{{ nc_network }}#{{ nc_resourcegroup }}#{{ subscriptionNumber }}#{{ regionNumber }}01'
+}
 
 param databases = [
   {
